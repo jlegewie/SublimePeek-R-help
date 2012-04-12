@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Estimate Spectral Density of a Time Series from AR Fit</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for spec.ar"><tr><td>spec.ar</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Estimate Spectral Density of a Time Series from AR Fit</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Fits an AR model to <code>x</code> (or uses the existing fit) and computes
+ (and by default plots) the spectral density of the fitted model.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ spec.ar(x, n.freq, order = NULL, plot = TRUE, na.action = na.fail,
+         method = "yule-walker", ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>A univariate (not yet:or multivariate) time series or the
+ result of a fit by <code>ar</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>n.freq</code></td>
+ <td>
+ <p>The number of points at which to plot.</p>
+ </td></tr>
+ <tr valign="top"><td><code>order</code></td>
+ <td>
+ <p>The order of the AR model to be fitted.  If omitted,
+ the order is chosen by AIC.</p>
+ </td></tr>
+ <tr valign="top"><td><code>plot</code></td>
+ <td>
+ <p>Plot the periodogram?</p>
+ </td></tr>
+ <tr valign="top"><td><code>na.action</code></td>
+ <td>
+ <p><code>NA</code> action function.</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p><code>method</code> for <code>ar</code> fit.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Graphical arguments passed to <code>plot.spec</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>An object of class <code>"spec"</code>.
+ The result is returned invisibly if <code>plot</code> is true.
+ </p>
+ 
+ 
+ <h3>Warning</h3>
+ 
+ 
+ <p>Some authors, for example Thomson (1990), warn strongly
+ that AR spectra can be misleading.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ <p>The multivariate case is not yet implemented.</p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Thompson, D.J. (1990) Time series analysis of Holocene climate data.
+ <EM>Phil. Trans. Roy. Soc. A</EM> <B>330</B>, 601&ndash;616.
+ </p>
+ <p>Venables, W.N. and Ripley, B.D. (2002) <EM>Modern Applied
+ Statistics with S.</EM> Fourth edition. Springer. (Especially
+ page 402.)
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>ar</code>, <code>spectrum</code>.</p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ require(graphics)
+ 
+ spec.ar(lh)
+ 
+ spec.ar(ldeaths)
+ spec.ar(ldeaths, method="burg")
+ 
+ spec.ar(log(lynx))
+ spec.ar(log(lynx), method="burg", add=TRUE, col="purple")
+ spec.ar(log(lynx), method="mle", add=TRUE, col="forest green")
+ spec.ar(log(lynx), method="ols", add=TRUE, col="blue")
+ </pre>
+ 
+ 
+ </body></html>

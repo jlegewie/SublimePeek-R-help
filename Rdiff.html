@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Difference R Output Files</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Rdiff"><tr><td>Rdiff</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Difference R Output Files</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Given two <font face="Courier New,Courier" color="#666666"><b>R</b></font> output files, compute differences ignoring headers,
+ footers and some other differences.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ Rdiff(from, to, useDiff = FALSE, forEx = FALSE, nullPointers = TRUE,
+       Log = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>from, to</code></td>
+ <td>
+ <p>filepaths to be compared</p>
+ </td></tr>
+ <tr valign="top"><td><code>useDiff</code></td>
+ <td>
+ <p>should <CODE>diff</CODE> always be used to compare
+ results?</p>
+ </td></tr>
+ <tr valign="top"><td><code>forEx</code></td>
+ <td>
+ <p>logical: extra pruning for &lsquo;<span class="file">-Ex.Rout</span>&rsquo; files to
+ exclude the header.</p>
+ </td></tr>
+ <tr valign="top"><td><code>nullPointers</code></td>
+ <td>
+ <p>logical: should the displayed addresses of
+ pointers be set to <code>0x00000000</code> before comparison?</p>
+ </td></tr> 
+ <tr valign="top"><td><code>Log</code></td>
+ <td>
+ <p>logical: should the returned value include a log of
+ differences found?</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The <font face="Courier New,Courier" color="#666666"><b>R</b></font> startup banner and any timing information from <CODE>R CMD
+     BATCH</CODE> are removed from both files, together with lines about loading
+ packages.  UTF-8 fancy quotes (see <code>sQuote</code>) and on
+ Windows, Windows' so-called &lsquo;smart quotes&rsquo; are mapped to a
+ simple quote.  Addresses of environments, compiled bytecode and other
+ exotic types expressed as hex addresses (e.g. <code>&lt;environment:
+     0x12345678&gt;</code>) are mapped to <code>0x00000000</code>.  The files are then
+ compared line-by-line.  If there are the same number of lines and
+ <code>useDiff</code> is false, a simple <CODE>diff</CODE>-like display of
+ differences is printed, otherwise <CODE>diff -bw</CODE> is called on the
+ edited files.
+ </p>
+ <p>As from <font face="Courier New,Courier" color="#666666"><b>R</b></font> 2.14.0 this can compare uncompressed PDF files, ignoring
+ differences in creation and modification dates.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>If <code>Log</code> is true, a list with components <code>status</code> (see
+ below) and <code>out</code>, a character vector of descriptions of
+ differences, possibly of zero length.
+ </p>
+ <p>Otherwise, a status indicator, <code>0L</code> if and only if no differences
+ were found.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>The shell script run as <CODE>R CMD Rdiff</CODE>.
+ </p>
+ 
+ 
+ </body></html>

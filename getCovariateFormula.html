@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Extract Covariates Formula</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for getCovariateFormula"><tr><td>getCovariateFormula</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Extract Covariates Formula</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The right hand side of <code>formula(object)</code>, without any
+ conditioning expressions (i.e. any expressions after a <code>|</code>
+ operator) is returned as a one-sided formula.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ getCovariateFormula(object)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p>any object from which a formula can be extracted.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>a one-sided formula describing the covariates associated with
+ <code>formula(object)</code>. 
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Jose Pinheiro and Douglas Bates <a href="mailto:bates@stat.wisc.edu">bates@stat.wisc.edu</a></p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>getCovariate</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ getCovariateFormula(y ~ x | g)
+ getCovariateFormula(y ~ x)
+ </pre>
+ 
+ 
+ </body></html>

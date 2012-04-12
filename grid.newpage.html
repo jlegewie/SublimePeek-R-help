@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Move to a New Page on a Grid Device</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for grid.newpage"><tr><td>grid.newpage</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Move to a New Page on a Grid Device</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This function erases the current device or moves to a new page.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ grid.newpage(recording = TRUE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>recording</code></td>
+ <td>
+ <p>A logical value to indicate whether the new-page
+ operation should be saved onto the Grid display list.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The new page is painted with the fill colour
+ (<code>gpar("fill")</code>), which is often transparent.  For devices
+ with a <EM>canvas</EM> colour (the on-screen devices <code>X11</code>,
+ <code>windows</code> and <code>quartz</code>), the page is first painted with the
+ canvas colour and then the background colour.
+ </p>
+ <p>There are two hooks called <code>"before.grid.newpage"</code> and
+ <code>"grid.newpage"</code> (see <code>setHook</code>).  The latter
+ is used in the testing code to annotate the new page.  The hook
+ function(s) are called with no argument.  (If the value is a character
+ string, <code>get</code> is called on it from within the <span class="pkg">grid</span>
+ namespace.)
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>None.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Paul Murrell</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Grid
+ </p>
+ 
+ 
+ </body></html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Create your own discrete scale.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for scale_colour_manual"><tr><td>scale_colour_manual</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Create your own discrete scale.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Create your own discrete scale.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   scale_colour_manual(..., values)
+ 
+   scale_fill_manual(..., values)
+ 
+   scale_size_manual(..., values)
+ 
+   scale_shape_manual(..., values)
+ 
+   scale_linetype_manual(..., values)
+ 
+   scale_alpha_manual(..., values)
+ 
+   scale_color_manual(..., values)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>values</code></td>
+ <td>
+ <p>a set of aesthetic values to map data
+ values to.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>common discrete scale parameters: <code>name</code>,
+ <code>breaks</code>, <code>labels</code>, <code>na.value</code>,
+ <code>limits</code> and <code>guide</code>.  See
+ <code>discrete_scale</code> for more details</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ p &lt;- qplot(mpg, wt, data = mtcars, colour = factor(cyl))
+ 
+ p + scale_colour_manual(values = c("red","blue", "green"))
+ p + scale_colour_manual(
+   values = c("8" = "red","4" = "blue","6" = "green"))
+ # With rgb hex values
+ p + scale_colour_manual(values = c("#FF0000", "#0000FF", "#00FF00"))
+ 
+ # As with other scales you can use breaks to control the appearance
+ # of the legend
+ cols &lt;- c("8" = "red","4" = "blue","6" = "darkgreen", "10" = "orange")
+ p + scale_colour_manual(values = cols)
+ p + scale_colour_manual(values = cols, breaks = c("4", "6", "8"))
+ p + scale_colour_manual(values = cols, breaks = c("8", "6", "4"))
+ p + scale_colour_manual(values = cols, breaks = c("4", "6", "8"),
+   labels = c("four", "six", "eight"))
+ 
+ # And limits to control the possible values of the scale
+ p + scale_colour_manual(values = cols, limits = c("4", "8"))
+ p + scale_colour_manual(values = cols, limits = c("4", "6", "8", "10"))
+ 
+ </pre>
+ 
+ 
+ </body></html>

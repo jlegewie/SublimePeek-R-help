@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Debug a Function</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for debug"><tr><td>debug</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Debug a Function</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Set, unset or query the debugging flag on a function.
+ The <code>text</code> and <code>condition</code> arguments are the same as those
+ that can be supplied via a call to <code>browser</code>. They can be retrieved
+ by the user once the browser has been entered, and provide a mechanism to
+ allow users to identify which breakpoint has been activated.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ debug(fun, text="", condition=NULL)
+ debugonce(fun, text="", condition=NULL)
+ undebug(fun)
+ isdebugged(fun)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>fun</code></td>
+ <td>
+ <p>any interpreted <font face="Courier New,Courier" color="#666666"><b>R</b></font> function.</p>
+ </td></tr>
+ <tr valign="top"><td><code>text</code></td>
+ <td>
+ <p>a text string that can be retrieved when the browser is entered.</p>
+ </td></tr>
+ <tr valign="top"><td><code>condition</code></td>
+ <td>
+ <p>a condition that can be retrieved when the browser is entered.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>When a function flagged for debugging is entered, normal execution
+ is suspended and the body of function is executed one statement at a
+ time.  A new browser context is initiated for each step (and the
+ previous one destroyed).
+ </p>
+ <p>At the debug prompt the user can enter commands or <font face="Courier New,Courier" color="#666666"><b>R</b></font> expressions,
+ followed by a newline.  The commands are
+ </p>
+ 
+ <dl>
+ <dt><code>n</code></dt><dd><p>(or just an empty line, by default).
+ Advance to the next step.</p>
+ </dd>
+ <dt><code>c</code></dt><dd><p>continue to the end of the current context: e.g. to the
+ end of the loop if within a loop or to the end of the function.</p>
+ </dd>
+ <dt><code>cont</code></dt><dd><p>synonym for <code>c</code>.</p>
+ </dd>
+ <dt><code>where</code></dt><dd><p>print a stack trace of all active function calls.</p>
+ </dd>
+ <dt><code>Q</code></dt><dd><p>exit the browser and the current evaluation and
+ return to the top-level prompt.</p>
+ </dd>
+ </dl>
+ 
+ <p>(Leading and trailing whitespace is ignored, except for an empty line).
+ </p>
+ <p>Anything else entered at the debug prompt is interpreted as an
+ <font face="Courier New,Courier" color="#666666"><b>R</b></font> expression to be evaluated in the calling environment: in
+ particular typing an object name will cause the object to be printed,
+ and <code>ls()</code> lists the objects in the calling frame.  (If you want
+ to look at an object with a name such as <code>n</code>, print it explicitly.)
+ </p>
+ <p>Setting option <code>"browserNLdisabled"</code> to <code>TRUE</code>
+ disables the use of an empty line as a synonym for <code>n</code>.  If this
+ is done, the user will be re-prompted for input until a valid command
+ or an expression is entered.
+ </p>
+ <p>To debug a function is defined inside a function, single-step though
+ to the end of its definition, and then call <code>debug</code> on its name.
+ </p>
+ <p>If you want to debug a function not starting at the very beginning,
+ use <code>trace(..., at = *)</code> or <code>setBreakpoint</code>.
+ </p>
+ <p>Using <code>debug</code> is persistent, and unless debugging is turned off
+ the debugger will be entered on every invocation (note that if the
+ function is removed and replaced the debug state is not preserved).
+ Use <code>debugonce</code> to enter the debugger only the next time the
+ function is invoked.
+ </p>
+ <p>In order to debug S4 methods (see <code>Methods</code>), you
+ need to use <code>trace</code>, typically calling <code>browser</code>,
+ e.g., as <br>
+ <code>trace("plot", browser, exit=browser, signature = c("track", "missing"))</code>
+ </p>
+ <p>The number of lines printed for the deparsed call when a function is
+ entered for debugging can be limited by setting
+ <code>options(deparse.max.lines)</code>.
+ </p>
+ <p>When debugging is enabled on a byte compiled function then the
+ interpreted version of the function will be used until debugging is
+ disabled.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>browser</code>, <code>trace</code>;
+ <code>traceback</code> to see the stack after an <code>Error: ...</code>
+ message; <code>recover</code> for another debugging approach.
+ </p>
+ 
+ 
+ </body></html>

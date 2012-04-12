@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Annotation: maps.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for annotation_map"><tr><td>annotation_map</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Annotation: maps.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Annotation: maps.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   annotation_map(map, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>map</code></td>
+ <td>
+ <p>data frame representing a map.  Most map
+ objects can be converted into the right format by using
+ <code>fortify</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments used to modify aesthetics</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ library(maps)
+ usamap &lt;- map_data("state")
+ 
+ seal.sub &lt;- subset(seals, long &gt; -130 &amp; lat &lt; 45 &amp; lat &gt; 40)
+ ggplot(seal.sub, aes(x = long, y = lat)) +
+   annotation_map(usamap, fill = "NA", colour = "grey50") +
+   geom_segment(aes(xend = long + delta_long, yend = lat + delta_lat))
+ 
+ seal2 &lt;- transform(seal.sub,
+   latr = cut(lat, 2),
+   longr = cut(long, 2))
+ 
+ ggplot(seal2,  aes(x = long, y = lat)) +
+   annotation_map(usamap, fill = "NA", colour = "grey50") +
+   geom_segment(aes(xend = long + delta_long, yend = lat + delta_lat)) +
+   facet_grid(latr ~ longr, scales = "free", space = "free")
+ </pre>
+ 
+ 
+ </body></html>

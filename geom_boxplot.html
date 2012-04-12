@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Box and whiskers plot.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for geom_boxplot"><tr><td>geom_boxplot</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Box and whiskers plot.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The upper and lower &quot;hinges&quot; correspond to the first and
+ third quartiles (the 25th and 7th percentiles). This
+ differs slightly from the method used by the
+ <code>boxplot</code> function, and may be apparent with small
+ samples. See <code>boxplot.stats</code> for for more
+ information on how hinge positions are calculated for
+ <code>boxplot</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   geom_boxplot(mapping = NULL, data = NULL,
+     stat = "boxplot", position = "dodge",
+     outlier.colour = "black", outlier.shape = 16,
+     outlier.size = 2, notch = FALSE, notchwidth = 0.5, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>outlier.colour</code></td>
+ <td>
+ <p>colour for outlying points</p>
+ </td></tr>
+ <tr valign="top"><td><code>outlier.shape</code></td>
+ <td>
+ <p>shape of outlying points</p>
+ </td></tr>
+ <tr valign="top"><td><code>outlier.size</code></td>
+ <td>
+ <p>size of outlying points</p>
+ </td></tr>
+ <tr valign="top"><td><code>notch</code></td>
+ <td>
+ <p>if <code>FALSE</code> (default) make a standard
+ box plot. If <code>TRUE</code>, make a notched box plot.
+ Notches are used to compare groups; if the notches of two
+ boxes do not overlap, this is strong evidence that the
+ medians differ.</p>
+ </td></tr>
+ <tr valign="top"><td><code>notchwidth</code></td>
+ <td>
+ <p>for a notched box plot, width of the
+ notch relative to the body (default 0.5)</p>
+ </td></tr>
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>The statistical transformation to use on the
+ data for this layer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The upper whisker extends from the hinge to the highest
+ value that is within 1.5 * IQR of the hinge, where IQR is
+ the inter-quartile range, or distance between the first
+ and third quartiles. The lower whisker extends from the
+ hinge to the lowest value within 1.5 * IQR of the hinge.
+ Data beyond the end of the whiskers are outliers and
+ plotted as points (as specified by Tukey).
+ </p>
+ <p>In a notched box plot, the notches extend <code>1.58 *
+   IQR / sqrt(n)</code>. This gives a roughly 95
+ interval for comparing medians. See McGill et al. (1978)
+ for more details.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>McGill, R., Tukey, J. W. and Larsen, W. A. (1978)
+ Variations of box plots. The American Statistician 32,
+ 12-16.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>stat_quantile</code> to view quantiles conditioned
+ on a continuous variable, <code>geom_jitter</code> for
+ another way to look at conditional distributions&quot;
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ p &lt;- ggplot(mtcars, aes(factor(cyl), mpg))
+ 
+ p + geom_boxplot()
+ qplot(factor(cyl), mpg, data = mtcars, geom = "boxplot")
+ 
+ p + geom_boxplot() + geom_jitter()
+ p + geom_boxplot() + coord_flip()
+ qplot(factor(cyl), mpg, data = mtcars, geom = "boxplot") +
+   coord_flip()
+ 
+ p + geom_boxplot(notch = TRUE)
+ p + geom_boxplot(notch = TRUE, notchwidth = .3)
+ 
+ p + geom_boxplot(outlier.colour = "green", outlier.size = 3)
+ 
+ # Add aesthetic mappings
+ # Note that boxplots are automatically dodged when any aesthetic is
+ # a factor
+ p + geom_boxplot(aes(fill = cyl))
+ p + geom_boxplot(aes(fill = factor(cyl)))
+ p + geom_boxplot(aes(fill = factor(vs)))
+ p + geom_boxplot(aes(fill = factor(am)))
+ 
+ # Set aesthetics to fixed value
+ p + geom_boxplot(fill = "grey80", colour = "#3366FF")
+ qplot(factor(cyl), mpg, data = mtcars, geom = "boxplot",
+   colour = I("#3366FF"))
+ 
+ # Scales vs. coordinate transforms -------
+ # Scale transformations occur before the boxplot statistics are computed.
+ # Coordinate transformations occur afterwards.  Observe the effect on the
+ # number of outliers.
+ library(plyr) # to access round_any
+ m &lt;- ggplot(movies, aes(y = votes, x = rating,
+    group = round_any(rating, 0.5)))
+ m + geom_boxplot()
+ m + geom_boxplot() + scale_y_log10()
+ m + geom_boxplot() + coord_trans(y = "log10")
+ m + geom_boxplot() + scale_y_log10() + coord_trans(y = "log10")
+ 
+ # Boxplots with continuous x:
+ # Use the group aesthetic to group observations in boxplots
+ qplot(year, budget, data = movies, geom = "boxplot")
+ qplot(year, budget, data = movies, geom = "boxplot",
+   group = round_any(year, 10, floor))
+ 
+ # Using precomputed statistics
+ # generate sample data
+ abc &lt;- adply(matrix(rnorm(100), ncol = 5), 2, quantile, c(0, .25, .5, .75, 1))
+ b &lt;- ggplot(abc, aes(x = X1, ymin = `0%`, lower = `25%`, middle = `50%`, upper = `75%`, ymax = `100%`))
+ b + geom_boxplot(stat = "identity")
+ b + geom_boxplot(stat = "identity") + coord_flip()
+ b + geom_boxplot(aes(fill = X1), stat = "identity")
+ 
+ </pre>
+ 
+ 
+ </body></html>

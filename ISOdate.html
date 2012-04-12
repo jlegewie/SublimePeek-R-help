@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Date-time Conversion Functions from Numeric Representations</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for ISOdatetime"><tr><td>ISOdatetime</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Date-time Conversion Functions from Numeric Representations</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Convenience wrappers to create date-times from numeric representations.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ISOdatetime(year, month, day, hour, min, sec, tz = "")
+ ISOdate(year, month, day, hour = 12, min = 0, sec = 0, tz = "GMT")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>year, month, day</code></td>
+ <td>
+ <p>numerical values to specify a day.</p>
+ </td></tr>
+ <tr valign="top"><td><code>hour, min, sec</code></td>
+ <td>
+ <p>numerical values for a time within a day.
+ Fractional seconds are allowed.</p>
+ </td></tr>
+ <tr valign="top"><td><code>tz</code></td>
+ <td>
+ <p>A timezone specification to be used for the conversion.
+ <code>""</code> is the current time zone and <code>"GMT"</code> is UTC.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>ISOdatetime</code> and <code>ISOdate</code> are convenience wrappers for
+ <code>strptime</code> that differ only in their defaults and that
+ <code>ISOdate</code> sets UTC as the timezone.  For dates without times it
+ would normally be better to use the <code>"Date"</code> class.
+ </p>
+ <p>The main arguments will be recycled using the usual recycling rules.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>An object of class <code>"POSIXct"</code>.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>DateTimeClasses for details of the date-time classes;
+ <code>strptime</code> for conversions from character strings.
+ </p>
+ 
+ 
+ </body></html>

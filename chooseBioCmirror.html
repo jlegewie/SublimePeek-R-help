@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Select a Bioconductor Mirror</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for chooseBioCmirror"><tr><td>chooseBioCmirror</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Select a Bioconductor Mirror</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Interact with the user to choose a Bioconductor mirror.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ chooseBioCmirror(graphics = getOption("menu.graphics"))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>graphics</code></td>
+ <td>
+ <p>logical.  If true, use a graphical list: on Windows or
+ Mac OS X GUI use a list box, and on a Unix-alike if package
+ <span class="pkg">tcltk</span> and an X server are available, use a Tk
+ widget.  Otherwise use a text <code>menu</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This sets the option <code>"BioC_mirror"</code>: it needs to be used before
+ a call to <code>setRepositories</code>.
+ </p>
+ <p>In addition to the Bioconductor master site (in Seattle, USA), there
+ currently are mirrors in Bethesda (USA), Dortmund (Germany), Bergen
+ (Norway) and Cambridge (UK).
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>None: this function is invoked for its
+ side effect of updating <code>options("BioC_mirror")</code>.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>setRepositories</code>, <code>chooseCRANmirror</code>.
+ </p>
+ 
+ 
+ </body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Coerce to an Environment Object</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for as.environment"><tr><td>as.environment</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2> Coerce to an Environment Object </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>A generic function coercing an <font face="Courier New,Courier" color="#666666"><b>R</b></font> object to an
+ <code>environment</code>.  A number or a character string is
+ converted to the corresponding environment on the search path.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ as.environment(x)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>an <font face="Courier New,Courier" color="#666666"><b>R</b></font> object to convert.  If it is already an
+ environment, just return it.  If it is a number, return the
+ environment corresponding to that position on the search list.  If
+ it is a character string, match the string to the names on the
+ search list.
+ </p>
+ <p>If it is a list, the equivalent of <code>list2env(x,
+       parent=emptyenv())</code> is returned.
+ </p>
+ <p>If <code>is.object(x)</code> is true and it has a <code>class</code>
+ for which an <code>as.environment</code> method is found, that is used.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>The corresponding environment object.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>This is a primitive function.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p> John Chambers </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>environment</code> for creation and manipulation,
+ <code>search</code>; <code>list2env</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ as.environment(1) ## the global environment
+ identical(globalenv(), as.environment(1)) ## is TRUE
+ try( ## &lt;&lt;- stats need not be attached
+     as.environment("package:stats"))
+ ee &lt;- as.environment(list(a = "A", b = pi, ch = letters[1:8]))
+ ls(ee) # names of objects in ee
+ utils::ls.str(ee)
+ </pre>
+ 
+ 
+ </body></html>

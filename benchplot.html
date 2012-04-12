@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Benchmark plot creation time. Broken down into construct,...</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for benchplot"><tr><td>benchplot</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Benchmark plot creation time.
+ Broken down into construct, build, render and draw times.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Benchmark plot creation time. Broken down into construct,
+ build, render and draw times.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   benchplot(x)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>code to create ggplot2 plot</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ benchplot(qplot(mpg, wt, data = mtcars))
+ benchplot(qplot(mpg, wt, data = mtcars) + facet_grid(.~ cyl))
+ </pre>
+ 
+ 
+ </body></html>

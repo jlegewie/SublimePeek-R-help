@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Select Package Repositories</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for setRepositories"><tr><td>setRepositories</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Select Package Repositories</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Interact with the user to choose the package repositories to be used.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ setRepositories(graphics = getOption("menu.graphics"),
+                 ind = NULL, addURLs = character())
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>graphics</code></td>
+ <td>
+ <p>Logical. If true, use a graphical list: on Windows or
+ Mac OS X GUI use a list box, and on a Unix-alike if <span class="pkg">tcltk</span> and an X
+ server are available, use Tk widget. Otherwise use a text
+ <code>menu</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>ind</code></td>
+ <td>
+ <p><code>NULL</code> or a vector of integer indices, which have the
+ same effect as if they were entered at the prompt for
+ <code>graphics = FALSE</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>addURLs</code></td>
+ <td>
+ <p>A character vector of additional URLs: it is often
+ helpful to use a named vector.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The default list of known repositories is stored in the file
+ &lsquo;<span class="file"><VAR>R_HOME</VAR>/etc/repositories</span>&rsquo;.
+ That file can be edited for a site, or a user can have a personal copy
+ in &lsquo;<span class="file"><VAR>HOME</VAR>/.R/repositories</span>&rsquo; which will take precedence.
+ </p>
+ <p>A Bioconductor mirror can be selected by setting
+ <code>options("BioC_mirror")</code>: the default value is
+ <span class="samp">"http://www.bioconductor.org"</span>.
+ </p>
+ <p>The items that are preselected are those that are currently in
+ <code>options("repos")</code> plus those marked as default in the
+ list of known repositories.
+ </p>
+ <p>The list of repositories offered depends on the setting of option
+ <code>"pkgType"</code> as some repositories only offer a subset of types
+ (e.g. only source packages or not Mac OS X binary packages).
+ Further, for binary packages some repositories (notably R-Forge) only
+ offer packages for the current or recent versions of <font face="Courier New,Courier" color="#666666"><b>R</b></font>.
+ </p>
+ <p>Repository <span class="samp">CRAN</span> is treated specially: the value is taken from
+ the current setting of <code>getOption("repos")</code> if this has an
+ element <code>"CRAN"</code>: this ensures mirror selection is sticky.
+ </p>
+ <p>This function requires the <font face="Courier New,Courier" color="#666666"><b>R</b></font> session to be interactive unless
+ <code>ind</code> is supplied.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>This function is invoked mainly for its side effect of updating
+ <code>options("repos")</code>.  It returns (invisibly) the previous
+ <code>repos</code> options setting (as a <code>list</code> with component
+ <code>repos</code>) or <code>NULL</code> if no changes were applied.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>This does <STRONG>not</STRONG> set the list of repositories at startup: to do
+ so set <code>options(repos=)</code> in a start up file (see help topic
+ Startup).
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>chooseCRANmirror</code>, <code>install.packages</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>## Not run: 
+ setRepositories(addURLs =
+                 c(CRANxtras = "http://www.stats.ox.ac.uk/pub/RWin"))
+ 
+ ## End(Not run)</pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Date-Time Classes</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for DateTimeClasses"><tr><td>DateTimeClasses</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Date-Time Classes</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Description of the classes <code>"POSIXlt"</code> and <code>"POSIXct"</code>
+ representing calendar dates and times (to the nearest second).
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ ## S3 method for class 'POSIXct'
+ print(x, ...)
+ 
+ ## S3 method for class 'POSIXct'
+ summary(object, digits = 15, ...)
+ 
+ time + z
+ z + time
+ time - z
+ time1 lop time2
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x, object</code></td>
+ <td>
+ <p>An object to be printed or summarized from one of the
+ date-time classes.</p>
+ </td></tr>
+ <tr valign="top"><td><code>digits</code></td>
+ <td>
+ <p>Number of significant digits for the computations:
+ should be high enough to represent the least important time unit
+ exactly.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Further arguments to be passed from or to other methods.</p>
+ </td></tr>
+ <tr valign="top"><td><code>time</code></td>
+ <td>
+ <p>date-time objects</p>
+ </td></tr>
+ <tr valign="top"><td><code>time1, time2</code></td>
+ <td>
+ <p>date-time objects or character vectors.  (Character
+ vectors are converted by <code>as.POSIXct</code>.)</p>
+ </td></tr>
+ <tr valign="top"><td><code>z</code></td>
+ <td>
+ <p>a numeric vector (in seconds)</p>
+ </td></tr>
+ <tr valign="top"><td><code>lop</code></td>
+ <td>
+ <p>One of <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>
+ or <code>&gt;=</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>There are two basic classes of date/times.  Class <code>"POSIXct"</code>
+ represents the (signed) number of seconds since the beginning of 1970
+ (in the UTC timezone) as a numeric vector.  Class <code>"POSIXlt"</code> is
+ a named list of vectors representing
+ </p>
+ 
+ <dl>
+ <dt><code>sec</code></dt><dd><p>0&ndash;61: seconds</p>
+ </dd>
+ <dt><code>min</code></dt><dd><p>0&ndash;59: minutes</p>
+ </dd>
+ <dt><code>hour</code></dt><dd><p>0&ndash;23: hours</p>
+ </dd>
+ <dt><code>mday</code></dt><dd><p>1&ndash;31: day of the month</p>
+ </dd>
+ <dt><code>mon</code></dt><dd><p>0&ndash;11: months after the first of the year.</p>
+ </dd>
+ <dt><code>year</code></dt><dd><p>years since 1900.</p>
+ </dd>
+ <dt><code>wday</code></dt><dd><p>0&ndash;6 day of the week, starting on Sunday.</p>
+ </dd>
+ <dt><code>yday</code></dt><dd><p>0&ndash;365: day of the year.</p>
+ </dd>
+ <dt><code>isdst</code></dt><dd><p>Daylight Savings Time flag.  Positive if in
+ force, zero if not, negative if unknown.</p>
+ </dd>
+ </dl>
+ 
+ <p>Note that the internal list structure is somewhat hidden, as many
+ methods, including <code>print()</code> or <code>str</code>, apply
+ to the abstract date-time vector, as for <code>"POSIXct"</code>.
+ The classes correspond to the POSIX/C99 constructs of &lsquo;calendar
+ time&rsquo; (the <code>time_t</code> data type) and &lsquo;local time&rsquo; (or
+ broken-down time, the <code>struct tm</code> data type), from which they
+ also inherit their names.  The components of <code>"POSIXlt"</code> are
+ integer vectors, except <code>sec</code>.
+ </p>
+ <p><code>"POSIXct"</code> is more convenient for including in data frames, and
+ <code>"POSIXlt"</code> is closer to human-readable forms.  A virtual class
+ <code>"POSIXt"</code> exists from which both of the classes inherit: it is
+ used to allow operations such as subtraction to mix the two classes.
+ Note that <code>length(x)</code> is the length of the corresponding
+ (abstract) date/time vector, also in the <code>"POSIXlt"</code> case.
+ </p>
+ <p>Components <code>wday</code> and <code>yday</code> of <code>"POSIXlt"</code> are for
+ information, and are not used in the conversion to calendar time.
+ However, <code>isdst</code> is needed to distinguish times at the end of
+ DST: typically 1am to 2am occurs twice, first in DST and then in
+ standard time.  At all other times <code>isdst</code> can be deduced from
+ the first six values, but the behaviour if it is set incorrectly is
+ platform-dependent.
+ 
+ 
+ </p>
+ <p>Logical comparisons and limited arithmetic are available for both
+ classes.  One can add or subtract a number of seconds from a date-time
+ object, but not add two date-time objects.  Subtraction of two
+ date-time objects is equivalent to using <code>difftime</code>.  Be
+ aware that <code>"POSIXlt"</code> objects will be interpreted as being in
+ the current timezone for these operations, unless a timezone has been
+ specified.
+ </p>
+ <p><code>"POSIXlt"</code> objects will often have an attribute <code>"tzone"</code>,
+ a character vector of length 3 giving the timezone name from the
+ <span class="env">TZ</span> environment variable and the names of the base timezone
+ and the alternate (daylight-saving) timezone.  Sometimes this may
+ just be of length one, giving the timezone name.
+ </p>
+ <p><code>"POSIXct"</code> objects may also have an attribute <code>"tzone"</code>, a
+ character vector of length one.  If set to a non-empty value, it will
+ determine how the object is converted to class <code>"POSIXlt"</code> and in
+ particular how it is printed.  This is usually desirable, but if you
+ want to specify an object in a particular timezone but to be printed
+ in the current timezone you may want to remove the <code>"tzone"</code>
+ attribute (e.g. by <code>c(x)</code>).
+ </p>
+ <p>Unfortunately, the conversion is complicated by the operation of time
+ zones and leap seconds (24 days have been 86401 seconds long so far:
+ the times of the extra seconds are in the object <code>.leap.seconds</code>).
+ The details of this are entrusted to the OS services where possible.
+ This always covers the period 1970&ndash;2037, and on most machines
+ back to 1902 (when time zones were in their infancy).  Outside
+ the platform limits we use our own C code.  This uses the offset from
+ GMT in use either for 1902 (when there was no DST) or that predicted
+ for one of 2030 to 2037 (chosen so that the likely DST transition days
+ are Sundays), and uses the alternate (daylight-saving) timezone only
+ if <code>isdst</code> is positive or (if <code>-1</code>) if DST was predicted to
+ be in operation in the 2030s on that day.  (There is no reason to
+ suppose that the DST rules will remain the same in the future, and
+ indeed the US legislated in 2005 to change its rules as from 2007,
+ with a possible future reversion.)
+ </p>
+ <p>It seems that some rare systems use leap seconds, but most ignore
+ them (as required by POSIX).  This is detected and corrected for at
+ build time, so all <code>"POSIXct"</code> times used by <font face="Courier New,Courier" color="#666666"><b>R</b></font> do not include
+ leap seconds. (Conceivably this could be wrong if the system has
+ changed since build time, just possibly by changing locales or the
+ &lsquo;<span class="file">zoneinfo</span>&rsquo; database.)
+ </p>
+ <p>Using <code>c</code> on <code>"POSIXlt"</code> objects converts them to the
+ current time zone, and on <code>"POSIXct"</code> objects drops any
+ <code>"tzone"</code> attributes (even if they are all marked with the same
+ time zone).
+ </p>
+ <p>A few times have specific issues.  First, the leap seconds are ignored,
+ and real times such as <code>"2005-12-31 23:59:60"</code> are (probably)
+ treated as the next second.  However, they will never be generated by
+ <font face="Courier New,Courier" color="#666666"><b>R</b></font>, and are unlikely to arise as input.  Second, on some OSes there is
+ a problem in the POSIX/C99 standard with <code>"1969-12-31 23:59:59 UTC"</code>,
+ which is <code>-1</code> in calendar time and that value is on those OSes
+ also used as an error code.  Thus <code>as.POSIXct("1969-12-31
+   23:59:59", format = "%Y-%m-%d %H:%M:%S", tz = "UTC")</code> may give
+ <code>NA</code>, and hence <code>as.POSIXct("1969-12-31 23:59:59",
+   tz = "UTC")</code> will give <code>"1969-12-31 23:59:00"</code>.  Other OSes
+ (including the code used by <font face="Courier New,Courier" color="#666666"><b>R</b></font> on Windows) report errors separately
+ and so are able to handle that time as valid.
+ </p>
+ <p>The print methods respect <code>options("max.print")</code>.
+ </p>
+ 
+ 
+ <h3>Sub-second Accuracy</h3>
+ 
+ 
+ <p>Classes <code>"POSIXct"</code> and  <code>"POSIXlt"</code> are able to express
+ fractions of a second.  (Conversion of fractions between the two forms
+ may not be exact, but will have better than microsecond accuracy.)
+ </p>
+ <p>Fractional seconds are printed only if
+ <code>options("digits.secs")</code> is set: see <code>strftime</code>.
+ </p>
+ 
+ 
+ <h3>Warning</h3>
+ 
+ 
+ <p>Some Unix-like systems (especially Linux ones) do not have environment
+ variable <span class="env">TZ</span>
+ set, yet have internal code that expects it (as does POSIX).  We have
+ tried to work around this, but if you get unexpected results try
+ setting <span class="env">TZ</span>.  See <code>Sys.timezone</code> for valid settings.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Ripley, B. D. and Hornik, K. (2001) Date-time classes. <EM>R News</EM>,
+ <B>1/2</B>, 8&ndash;11.
+ <a href="http://www.r-project.org/doc/Rnews/Rnews_2001-2.pdf">http://www.r-project.org/doc/Rnews/Rnews_2001-2.pdf</a>
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Dates for dates without times.
+ </p>
+ <p><code>as.POSIXct</code> and <code>as.POSIXlt</code> for conversion
+ between the classes.
+ </p>
+ <p><code>strptime</code> for conversion to and from character
+ representations.
+ </p>
+ <p><code>Sys.time</code> for clock time as a <code>"POSIXct"</code> object.
+ </p>
+ <p><code>difftime</code> for time intervals.
+ </p>
+ <p><code>cut.POSIXt</code>, <code>seq.POSIXt</code>,
+ <code>round.POSIXt</code> and <code>trunc.POSIXt</code> for methods
+ for these classes.
+ </p>
+ <p><code>weekdays</code> for convenience extraction functions.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ (z &lt;- Sys.time())             # the current date, as class "POSIXct"
+ 
+ Sys.time() - 3600             # an hour ago
+ 
+ as.POSIXlt(Sys.time(), "GMT") # the current time in GMT
+ format(.leap.seconds)         # all 24 leap seconds in your timezone
+ print(.leap.seconds, tz="PST8PDT")  # and in Seattle's
+ 
+ ## look at *internal* representation of "POSIXlt" :
+ leapS &lt;- as.POSIXlt(.leap.seconds)
+ names(leapS) ; is.list(leapS)
+ utils::str(unclass(leapS), vec.len = 7)
+ </pre>
+ 
+ 
+ </body></html>

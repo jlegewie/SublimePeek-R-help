@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Load or Save or Display the Commands History</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for savehistory"><tr><td>savehistory</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Load or Save or Display the Commands History</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Load or save or display the commands history.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ loadhistory(file = ".Rhistory")
+ savehistory(file = ".Rhistory")
+ 
+ history(max.show = 25, reverse = FALSE, pattern, ...)
+ 
+ timestamp(stamp = date(),
+           prefix = "##------ ", suffix = " ------##",
+           quiet = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ <p>The name of the file in which to save the history, or
+ from which to load it. The path is relative to the current
+ working directory.</p>
+ </td></tr>
+ <tr valign="top"><td><code>max.show</code></td>
+ <td>
+ <p>The maximum number of lines to show. <code>Inf</code> will
+ give all of the currently available history.</p>
+ </td></tr>
+ <tr valign="top"><td><code>reverse</code></td>
+ <td>
+ <p>logical. If true, the lines are shown in reverse
+ order. Note: this is not useful when there are continuation lines.</p>
+ </td></tr>
+ <tr valign="top"><td><code>pattern</code></td>
+ <td>
+ <p>A character string to be matched against the lines of
+ the history</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Arguments to be passed to <code>grep</code> when doing
+ the matching.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stamp</code></td>
+ <td>
+ <p>A value or vector of values to be written into the history.</p>
+ </td></tr>
+ <tr valign="top"><td><code>prefix</code></td>
+ <td>
+ <p>A prefix to apply to each line.</p>
+ </td></tr>
+ <tr valign="top"><td><code>suffix</code></td>
+ <td>
+ <p>A suffix to apply to each line.</p>
+ </td></tr>
+ <tr valign="top"><td><code>quiet</code></td>
+ <td>
+ <p>If <code>TRUE</code>, suppress printing timestamp to the console.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>There are several history mechanisms available for the different <font face="Courier New,Courier" color="#666666"><b>R</b></font>
+ consoles, which work in similar but not identical ways.  Other uses of
+ <font face="Courier New,Courier" color="#666666"><b>R</b></font>, in particular embedded uses, may have no history.
+ The functions described here work under the <code>readline</code>
+ command-line interface but may not otherwise (for example, in batch
+ use or in an embedded application).
+ </p>
+ <p>The <code>readline</code> history mechanism is controlled by two environment
+ variables: <span class="env">R_HISTSIZE</span> controls the number of lines that are
+ saved (default 512), and <span class="env">R_HISTFILE</span> sets the filename used for
+ the loading/saving of history if requested at the beginning/end of a
+ session (but not the default for these functions).  There is no limit
+ on the number of lines of history retained during a session, so
+ setting <span class="env">R_HISTSIZE</span> to a large value has no penalty unless a
+ large file is actually generated.
+ </p>
+ <p>These variables are read at the time of saving, so can be altered
+ within a session by the use of <code>Sys.setenv</code>.
+ </p>
+ <p>Note that <code>readline</code> history library saves files with permission
+ <code>0600</code>, that is with read/write permission for the user and not
+ even read permission for any other account.
+ </p>
+ <p><code>history</code> shows only unique matching lines if <code>pattern</code> is
+ supplied.
+ </p>
+ <p>The <code>timestamp</code> function writes a timestamp (or other message)
+ into the history and echos it to the console.  On platforms that do not
+ support a history mechanism (where the mechanism does not support
+ timestamps) only the console message is printed.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>If you want to save the history at the end of (almost) every
+ interactive session (even those in which you do not save the
+ workspace), you can put a call to <code>savehistory()</code> in
+ <code>.Last</code>.  See the examples.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>## Not run: 
+ ## save the history in the home directory: note that it is not
+ ## (by default) read from there.
+ .Last &lt;- function()
+     if(interactive()) try(savehistory("~/.Rhistory"))
+ 
+ ## End(Not run)</pre>
+ 
+ 
+ </body></html>

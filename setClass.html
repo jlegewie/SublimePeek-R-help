@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Create a Class Definition</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for setClass"><tr><td>setClass</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Create a Class Definition</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Create  a class definition, specifying the representation (the
+ slots) and/or the classes contained in this one (the superclasses),
+ plus other optional details.  As a side effect, the class definition
+ is stored in the specified environment.  A generator function
+ is returned as the value of <code>setClass()</code>, suitable for creating
+ objects from the class if the class is not virtual.  Of the many
+ arguments to the function only <code>Class</code>,
+ <code>representation</code> and <code>contains</code> are usually needed.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ setClass(Class, representation, prototype, contains=character(),
+          validity, access, where, version, sealed, package,
+          S3methods = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>Class</code></td>
+ <td>
+ <p>character string name for the class.</p>
+ </td></tr>
+ <tr valign="top"><td><code>representation</code></td>
+ <td>
+ <p> a named list of the slots that the new class should have, the names giving the names of the slots and the corresponding elements being the character string names of  the corresponding classes.
+ Usually a call to
+ the <code>representation</code> function.
+ </p>
+ <p>Backward compatibility and compatibility with S-Plus allows unnamed
+ elements for superclasses, but the recommended style is to use the
+ <code>contains=</code> argument instead.</p>
+ </td></tr>
+ <tr valign="top"><td><code>prototype</code></td>
+ <td>
+ <p> an object providing the default
+ data for the slots in this class.  By default, each will be the
+ prototype object for the superclass.  If provided, using a call to
+ <code>prototype</code> will carry out some checks. </p>
+ </td></tr>
+ <tr valign="top"><td><code>contains</code></td>
+ <td>
+ <p> the names (and optionally package slots) for the <EM>superclasses</EM> of this class.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>where</code></td>
+ <td>
+ <p> the
+ environment in which to store the
+ definition.  Should not be supplied in standard use.  For calls to <code>setClass()</code> appearing in the
+ source code for a package, will default to the namespace of
+ the package.  For calls typed or sourced at the top level in a
+ session, will default to the global environment.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>validity</code></td>
+ <td>
+ <p> if supplied, should be a validity-checking method
+ for objects from this class (a function that returns <code>TRUE</code> if
+ its argument is a valid object of this class and one or more strings
+ describing the failures otherwise).  See <code>validObject</code>
+ for details.</p>
+ </td></tr>
+ <tr valign="top"><td><code>access, version</code></td>
+ <td>
+ <p>access and version, included for
+ historical compatibility with S-Plus, but ignored.</p>
+ </td></tr>
+ <tr valign="top"><td><code>sealed</code></td>
+ <td>
+ <p> if <code>TRUE</code>, the class definition will be sealed,
+ so that another call to <code>setClass</code> will fail on this class name.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>package</code></td>
+ <td>
+ <p> an optional package name for the class.  Should very
+ rarely be used. By default
+ the name of the package in which the class definition is assigned.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>S3methods</code></td>
+ <td>
+ <p>if <code>TRUE</code>, S3 methods may be written for this
+ class.  S3 generic functions and primitives will
+ dispatch an S3 method defined for this class, given an S4 object
+ from the class or from a subclass of it, provided no S4
+ method and no more
+ direct S3 method is found.  This argument should rarely be used:
+ It is not needed for
+ classes that are defined via <code>setOldClass</code> or for
+ classes that extend such classes, which will nearly always be
+ the case when S3 methods are relevant.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A generator function suitable for creating objects from the class is
+ returned, invisibly.  A call to this function generates a call to
+ <code>new</code> for the class.  The call takes any number of arguments,
+ which will be passed on to the initialize method.  If no
+ <code>initialize</code> method is defined for the class or one of its
+ superclasses, the default method expects named arguments with the
+ name of one of the slots.
+ </p>
+ <p>Typically the generator function is assigned the name of the class,
+ for programming clarity.  This is not a requirement and objects
+ from the class can also be generated directly from
+ <code>new</code>.  The advantages of the generator function are a
+ slightly simpler and clearer call, and that the call will contain
+ the package name of the class (eliminating any ambiguity if two
+ classes from different packages have the same name).
+ </p>
+ <p>If the class is virtual, an attempt to generate an object  from
+ either the generator or <code>new()</code>
+ will result in an error.
+ </p>
+ 
+ 
+ <h3>Basic Use: Slots and Inheritance</h3>
+ 
+ 
+ <p>The two essential arguments other than the class name are
+ <code>representation</code> and <code>contains</code>, defining the explicit slots
+ and the inheritance (superclasses). Together, these arguments define
+ all the information in an object from this class; that is, the names
+ of all the slots and the classes required for each of them.
+ </p>
+ <p>The name of the class determines
+ which methods apply directly to objects from this class.  The
+ inheritance information specifies which methods apply indirectly,
+ through inheritance.  See Methods.
+ </p>
+ <p>The slots in a class definition will be the union of all the slots
+ specified directly by <code>representation</code> and all the slots in all
+ the contained classes.
+ There can only be one slot with a given name; specifically, the
+ direct and inherited slot names must be unique.
+ That does not, however, prevent the same class from being inherited
+ via more than one path.
+ </p>
+ <p>One kind of element in the <code>contains=</code> argument is special, specifying one of the <font face="Courier New,Courier" color="#666666"><b>R</b></font>
+ object types or one of a few other special <font face="Courier New,Courier" color="#666666"><b>R</b></font> types (<code>matrix</code> and
+ <code>array</code>).
+ See the section on inheriting from object types, below.
+ </p>
+ <p>Slot name <code>"class"</code> is not allowed in the current implementation but
+ reserved. <code>"Class"</code> is valid, but undesirable, as it cannot be
+ used in <code>new(&lt;cl&gt;, Class = &lt;slot-value&gt;)</code> (because of
+ argument name matching).
+ There are other slot names with a special meaning; these names start with
+ the <code>"."</code> character.  To be safe, you should define all of
+ your own slots with names starting with an alphabetic character.
+ </p>
+ 
+ 
+ <h3>Inheriting from Object Types</h3>
+ 
+ 
+ <p>In addition to containing other S4 classes, a class definition can
+ contain either an S3 class (see the next section) or a built-in R pseudo-class&mdash;one
+ of the <font face="Courier New,Courier" color="#666666"><b>R</b></font>
+ object types or one of the special <font face="Courier New,Courier" color="#666666"><b>R</b></font> pseudo-classes <code>"matrix"</code> and
+ <code>"array"</code>.
+ A class can contain at most one of the object types, directly or indirectly.
+ When it does, that contained class determines the &ldquo;data part&rdquo;
+ of the class.
+ </p>
+ <p>Objects from the new class try to inherit the built in
+ behavior of the contained type.
+ In the case of normal <font face="Courier New,Courier" color="#666666"><b>R</b></font> data types, including vectors, functions and
+ expressions, the implementation is relatively straightforward.
+ For any object <code>x</code> from the class,
+ <code>typeof(x)</code> will be the contained basic type; and a special
+ pseudo-slot, <code>.Data</code>, will be shown with the corresponding class.
+ See the <code>"numWithId"</code> example below.
+ </p>
+ <p>Classes may also inherit from <code>"vector"</code>, <code>"matrix"</code> or
+ <code>"array"</code>.
+ The data part of these objects can be any vector data type.
+ </p>
+ <p>For an object from any class that does <EM>not</EM> contain one of these
+ types or classes,
+ <code>typeof(x)</code> will be <code>"S4"</code>.
+ </p>
+ <p>Some <font face="Courier New,Courier" color="#666666"><b>R</b></font> data types do not behave normally, in the sense that they are
+ non-local references or other objects that are not duplicated.
+ Examples include those corresponding to classes <code>"environment"</code>, <code>"externalptr"</code>, and <code>"name"</code>.
+ These can not be the types for objects with user-defined
+ classes (either S4 or S3) because setting an attribute overwrites the
+ object in all contexts.
+ It is possible to define a class that inherits from such types,
+ through an indirect mechanism that stores the inherited object in a
+ reserved slot.
+ See the
+ example for class <code>"stampedEnv"</code> below.
+ S3 method dispatch and the relevant <code>as.</code><EM>type</EM><code>()</code>
+ functions should behave correctly, but code that uses the type of the
+ object directly will not.
+ </p>
+ <p>Also, keep in mind that the object passed to low-level computations
+ will be the underlying object type, <EM>without</EM> any of the slots
+ defined in the class.
+ To return the full information, you will usually have to define a
+ method that sets the data part.
+ </p>
+ 
+ 
+ <h3>Inheriting from S3 Classes</h3>
+ 
+ 
+ <p>Old-style S3 classes have no formal definition.  Objects are
+ &ldquo;from&rdquo; the class when their class attribute contains the
+ character string considered to be the class name.
+ </p>
+ <p>Using such classes with formal classes and methods is necessarily a
+ risky business, since there are no guarantees about the content of the
+ objects or about consistency of inherited methods.
+ Given that, it is still possible to define a class that inherits from
+ an S3 class, providing that class has been registered as an old class
+ (see <code>setOldClass</code>).
+ </p>
+ <p>Broadly speaking, both S3 and S4 method dispatch try to behave
+ sensibly with respect to inheritance in either system.
+ Given an S4 object, S3 method dispatch and the <code>inherits</code>
+ function should use the S4 inheritance information.
+ Given an S3 object, an S4 generic function will dispatch S4 methods
+ using the S3 inheritance, provided that inheritance has been declared via
+ <code>setOldClass</code>.
+ </p>
+ 
+ 
+ <h3>Classes and Packages</h3>
+ 
+ 
+ <p>Class definitions normally belong to packages (but can be defined in
+ the  global environment as well, by evaluating the expression on the
+ command line or in a file sourced from the command line).
+ The corresponding package name is part of the class definition; that
+ is, part of the <code>classRepresentation</code> object holding that
+ definition.  Thus, two classes with the same name can exist in
+ different packages, for most purposes.
+ </p>
+ <p>When a class name is supplied for a slot or a superclass in a call to
+ <code>setClass</code>, a
+ corresponding class definition will be found, looking from the
+ namespace of the current package, assuming the call in question appears directly in the source for the
+ package, as it should to avoid ambiguity.
+ The  class definition
+ must be found in the namespace of the current package, in the imports for that
+ namespace or in the basic classes defined by the methods package.
+ (The methods package must be included in the <code>Depends</code> directive
+ of the package's <code>"DESCRIPTION"</code> file in order for the
+ <code>"CMD check"</code> utility to find these classes.)
+ </p>
+ <p>When this rule does not identify a class uniquely (because it appears
+ in more than one imported package) then the <code>packageSlot</code>
+ of the character string name needs to be supplied with the name.
+ This should be a rare occurrence.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Chambers, John M. (2008)
+ <EM>Software for Data Analysis: Programming with R</EM>
+ Springer.  (For the R version.)
+ </p>
+ <p>Chambers, John M. (1998)
+ <EM>Programming with Data</EM>
+ Springer (For the original S4 version.)
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>Classes</code> for a general discussion of classes,
+ <code>Methods</code> for an analogous discussion of methods,
+ <code>makeClassRepresentation</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ ## A simple class with two slots
+ track &lt;- setClass("track",
+          representation(x="numeric", y="numeric"))
+ ## an object from the class
+ t1 &lt;- track(x = 1:10, y = 1:10 + rnorm(10))
+ 
+ ## A class extending the previous, adding one more slot
+ trackCurve &lt;- setClass("trackCurve",
+     representation(smooth = "numeric"),
+     contains = "track")
+ 
+ ## an object containing a superclass object
+ t1s &lt;- trackCurve(t1, smooth = 1:10)
+ 
+ ## A class similar to "trackCurve", but with different structure
+ ## allowing matrices for the "y" and "smooth" slots
+ setClass("trackMultiCurve",
+          representation(x="numeric", y="matrix", smooth="matrix"),
+          prototype = list(x=numeric(), y=matrix(0,0,0),
+                           smooth= matrix(0,0,0)))
+ ## See ?setIs for further examples using these classes
+ 
+ ## A class that extends the built-in data type "numeric"
+ 
+ numWithId &lt;- setClass("numWithId", representation(id = "character"),
+          contains = "numeric")
+ 
+ numWithId(1:3, id = "An Example")
+ 
+ ## inherit from reference object of type "environment"
+ stampedEnv &lt;-setClass("stampedEnv", contains = "environment",
+       representation(update = "POSIXct"))
+ setMethod("[[&lt;-", c("stampedEnv", "character", "missing"),
+    function(x, i, j, ..., value) {
+        ev &lt;- as(x, "environment")
+        ev[[i]] &lt;- value  #update the object in the environment
+        x@update &lt;- Sys.time() # and the update time
+        x})
+ 
+ 
+ e1 &lt;- stampedEnv(update = Sys.time())
+ 
+ e1[["noise"]] &lt;- rnorm(10)
+ 
+ 
+ </pre>
+ 
+ 
+ </body></html>

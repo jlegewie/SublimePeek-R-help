@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Convenience function to set the limits of the y axis.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for ylim"><tr><td>ylim</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Convenience function to set the limits of the y axis.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Convenience function to set the limits of the y axis.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   ylim(...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>if numeric, will create a continuous scale, if
+ factor or character, will create a discrete scale.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ylim(15, 20)
+ ylim(c(10, 20))
+ ylim("a", "b", "c")
+ qplot(mpg, wt, data=mtcars) + ylim(15, 20)
+ </pre>
+ 
+ 
+ </body></html>

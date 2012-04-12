@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Collect Information About the Current R Session</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for sessionInfo"><tr><td>sessionInfo</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Collect Information About the Current R Session</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Print version information about <font face="Courier New,Courier" color="#666666"><b>R</b></font> and attached or loaded packages.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ sessionInfo(package = NULL)
+ ## S3 method for class 'sessionInfo'
+ print(x, locale = TRUE, ...)
+ ## S3 method for class 'sessionInfo'
+ toLatex(object, locale = TRUE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>package</code></td>
+ <td>
+ <p>a character vector naming installed packages, or <code>NULL</code>
+ (the default) meaning all attached packages.</p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>an object of class <code>"sessionInfo"</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p>an object of class <code>"sessionInfo"</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>locale</code></td>
+ <td>
+ <p>show locale information?</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>currently not used.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>An object of class <code>"sessionInfo"</code>, which has a <code>print</code>
+ method. This is a list with components
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>R.version</code></td>
+ <td>
+ <p>a list, the result of calling <code>R.Version()</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>platform</code></td>
+ <td>
+ <p>a character string describing the platform.  For recent
+ versions where sub-architectures are in use this is of the form
+ <span class="samp">platform/sub-arch (nn-bit)</span>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>locale</code></td>
+ <td>
+ <p>a character string, the result of calling
+ <code>Sys.getlocale()</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>basePkgs</code></td>
+ <td>
+ <p>a character vector of base packages which are attached.</p>
+ </td></tr>
+ <tr valign="top"><td><code>otherPkgs</code></td>
+ <td>
+ <p>(not always present): a character vector of other
+ attached packages.</p>
+ </td></tr>
+ <tr valign="top"><td><code>loadedOnly</code></td>
+ <td>
+ <p>(not always present): a named list of the results of
+ calling <code>packageDescription</code> on packages whose
+ namespaces are loaded but are not attached.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>The information on &lsquo;loaded&rsquo; packages and namespaces is the
+ <EM>current</EM> version installed at the location the package was
+ loaded from: it can be wrong if another process has been changing
+ packages during the session.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>R.version</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ sessionInfo()
+ toLatex(sessionInfo(), locale=FALSE)
+ </pre>
+ 
+ 
+ </body></html>

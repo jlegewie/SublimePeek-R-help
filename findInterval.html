@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Find Interval Numbers or Indices</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for findInterval"><tr><td>findInterval</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Find Interval Numbers or Indices</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Find the indices of <code>x</code> in <code>vec</code>, where <code>vec</code> must be
+ sorted (non-decreasingly); i.e., if <code>i &lt;- findInterval(x,v)</code>,
+ we have <i>v[i[j]] &le; x[j] &lt; v[i[j] + 1]</i>
+ where <i>v[0] := - Inf</i>,
+ <i>v[N+1] := + Inf</i>, and <code>N &lt;- length(vec)</code>.
+ At the two boundaries, the returned index may differ by 1, depending
+ on the optional arguments <code>rightmost.closed</code> and <code>all.inside</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ findInterval(x, vec, rightmost.closed = FALSE, all.inside = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>numeric.</p>
+ </td></tr>
+ <tr valign="top"><td><code>vec</code></td>
+ <td>
+ <p>numeric, sorted (weakly) increasingly, of length <code>N</code>,
+ say.</p>
+ </td></tr>
+ <tr valign="top"><td><code>rightmost.closed</code></td>
+ <td>
+ <p>logical; if true, the rightmost interval,
+ <code>vec[N-1] .. vec[N]</code> is treated as <EM>closed</EM>, see below.</p>
+ </td></tr>
+ <tr valign="top"><td><code>all.inside</code></td>
+ <td>
+ <p>logical; if true, the returned indices are coerced
+ into <code>1,...,N-1</code>, i.e., <code>0</code> is mapped to <code>1</code>
+ and <code>N</code> to <code>N-1</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The function <code>findInterval</code> finds the index of one vector <code>x</code> in
+ another, <code>vec</code>, where the latter must be non-decreasing.  Where
+ this is trivial, equivalent to <code>apply( outer(x, vec, "&gt;="), 1, sum)</code>,
+ as a matter of fact, the internal algorithm uses interval search
+ ensuring <i>O(n * log(N))</i> complexity where
+ <code>n &lt;- length(x)</code> (and <code>N &lt;- length(vec)</code>).  For (almost)
+ sorted <code>x</code>, it will be even faster, basically <i>O(n)</i>.
+ </p>
+ <p>This is the same computation as for the empirical distribution
+ function, and indeed, <code>findInterval(t, sort(X))</code> is
+ <EM>identical</EM> to <i>n * Fn(t;
+     X[1],..,X[n])</i> where <i>Fn</i> is the empirical distribution
+ function of <i>X[1],..,X[n]</i>.
+ </p>
+ <p>When <code>rightmost.closed = TRUE</code>, the result for <code>x[j] = vec[N]</code>
+ (<i> = max(vec)</i>), is <code>N - 1</code> as for all other
+ values in the last interval.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>vector of length <code>length(x)</code> with values in <code>0:N</code> (and
+ <code>NA</code>) where <code>N &lt;- length(vec)</code>, or values coerced to
+ <code>1:(N-1)</code> if and only if <code>all.inside = TRUE</code> (equivalently coercing all
+ x values <EM>inside</EM> the intervals).  Note that <code>NA</code>s are
+ propagated from <code>x</code>, and <code>Inf</code> values are allowed in
+ both <code>x</code> and <code>vec</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Martin Maechler</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>approx(*, method = "constant")</code> which is a
+ generalization of <code>findInterval()</code>, <code>ecdf</code> for
+ computing the empirical distribution function which is (up to a factor
+ of <i>n</i>) also basically the same as findInterval(.).
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ N &lt;- 100
+ X &lt;- sort(round(stats::rt(N, df=2), 2))
+ tt &lt;- c(-100, seq(-2,2, len=201), +100)
+ it &lt;- findInterval(tt, X)
+ tt[it &lt; 1 | it &gt;= N] # only first and last are outside range(X)
+ </pre>
+ 
+ 
+ </body></html>

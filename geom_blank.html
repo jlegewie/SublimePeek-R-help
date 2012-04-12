@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Blank, draws nothing.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for geom_blank"><tr><td>geom_blank</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Blank, draws nothing.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The blank geom draws nothing, but can be a useful way of
+ ensuring common scales between different plots.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   geom_blank(mapping = NULL, data = NULL,
+     stat = "identity", position = "identity", ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>The statistical transformation to use on the
+ data for this layer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ qplot(length, rating, data = movies, geom = "blank")
+ # Nothing to see here!
+ 
+ # Take the following scatter plot
+ a &lt;- ggplot(mtcars, aes(x = wt, y = mpg), . ~ cyl) + geom_point()
+ # Add to that some lines with geom_abline()
+ df &lt;- data.frame(a = rnorm(10, 25), b = rnorm(10, 0))
+ a + geom_abline(aes(intercept = a, slope = b), data = df)
+ # Suppose you then wanted to remove the geom_point layer
+ # If you just remove geom_point, you will get an error
+ b &lt;- ggplot(mtcars, aes(x = wt, y = mpg), . ~ cyl)
+ b + geom_abline(aes(intercept = a, slope = b), data = df)
+ # Switching to geom_blank() gets the desired plot
+ c &lt;- ggplot(mtcars, aes(x = wt, y = mpg), . ~ cyl) + geom_blank()
+ c + geom_abline(aes(intercept = a, slope = b), data = df)
+ </pre>
+ 
+ 
+ </body></html>

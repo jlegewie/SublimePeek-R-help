@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Summarise y values at every unique x.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for stat_summary"><tr><td>stat_summary</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Summarise y values at every unique x.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>stat_summary</code> allows for tremendous flexibilty in
+ the specification of summary functions.  The summary
+ function can either operate on a data frame (with
+ argument name <code>fun.data</code>) or on a vector
+ (<code>fun.y</code>, <code>fun.ymax</code>, <code>fun.ymin</code>).
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   stat_summary(mapping = NULL, data = NULL,
+     geom = "pointrange", position = "identity", ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>geom</code></td>
+ <td>
+ <p>The geometric object to use display the data</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>A simple vector function is easiest to work with as you
+ can return a single number, but is somewhat less
+ flexible.  If your summary function operates on a
+ data.frame it should return a data frame with variables
+ that the geom can use.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>a data.frame with additional columns:
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>fun.data</code></td>
+ <td>
+ <p>Complete summary function. Should take
+ data frame as input and return data frame as output</p>
+ </td></tr>
+ <tr valign="top"><td><code>fun.ymin</code></td>
+ <td>
+ <p>ymin summary function (should take
+ numeric vector and return single number)</p>
+ </td></tr> <tr valign="top"><td><code>fun.y</code></td>
+ <td>
+ <p>y
+ summary function (should take numeric vector and return
+ single number)</p>
+ </td></tr> <tr valign="top"><td><code>fun.ymax</code></td>
+ <td>
+ <p>ymax summary function
+ (should take numeric vector and return single number)</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>geom_errorbar</code>,
+ <code>geom_pointrange</code>,
+ <code>geom_linerange</code>, <code>geom_crossbar</code>
+ for geoms to display summarised data
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ # Basic operation on a small dataset
+ d &lt;- qplot(cyl, mpg, data=mtcars)
+ d + stat_summary(fun.data = "mean_cl_boot", colour = "red")
+ 
+ p &lt;- qplot(cyl, mpg, data = mtcars, stat="summary", fun.y = "mean")
+ p
+ # Don't use ylim to zoom into a summary plot - this throws the
+ # data away
+ p + ylim(15, 30)
+ # Instead use coord_cartesian
+ p + coord_cartesian(ylim = c(15, 30))
+ 
+ # You can supply individual functions to summarise the value at
+ # each x:
+ 
+ stat_sum_single &lt;- function(fun, geom="point", ...) {
+   stat_summary(fun.y=fun, colour="red", geom=geom, size = 3, ...)
+ }
+ 
+ d + stat_sum_single(mean)
+ d + stat_sum_single(mean, geom="line")
+ d + stat_sum_single(median)
+ d + stat_sum_single(sd)
+ 
+ d + stat_summary(fun.y = mean, fun.ymin = min, fun.ymax = max,
+   colour = "red")
+ 
+ d + aes(colour = factor(vs)) + stat_summary(fun.y = mean, geom="line")
+ 
+ # Alternatively, you can supply a function that operates on a data.frame.
+ # A set of useful summary functions is provided from the Hmisc package:
+ 
+ stat_sum_df &lt;- function(fun, geom="crossbar", ...) {
+   stat_summary(fun.data=fun, colour="red", geom=geom, width=0.2, ...)
+ }
+ 
+ d + stat_sum_df("mean_cl_boot")
+ d + stat_sum_df("mean_sdl")
+ d + stat_sum_df("mean_sdl", mult=1)
+ d + stat_sum_df("median_hilow")
+ 
+ # There are lots of different geoms you can use to display the summaries
+ 
+ d + stat_sum_df("mean_cl_normal")
+ d + stat_sum_df("mean_cl_normal", geom = "errorbar")
+ d + stat_sum_df("mean_cl_normal", geom = "pointrange")
+ d + stat_sum_df("mean_cl_normal", geom = "smooth")
+ 
+ # Summaries are more useful with a bigger data set:
+ mpg2 &lt;- subset(mpg, cyl != 5L)
+ m &lt;- ggplot(mpg2, aes(x=cyl, y=hwy)) +
+         geom_point() +
+         stat_summary(fun.data = "mean_sdl", geom = "linerange",
+                      colour = "red", size = 2, mult = 1) +
+        xlab("cyl")
+ m
+ # An example with highly skewed distributions:
+ set.seed(596)
+ mov &lt;- movies[sample(nrow(movies), 1000), ]
+  m2 &lt;- ggplot(mov, aes(x= factor(round(rating)), y=votes)) + geom_point()
+  m2 &lt;- m2 + stat_summary(fun.data = "mean_cl_boot", geom = "crossbar",
+                          colour = "red", width = 0.3) + xlab("rating")
+ m2
+ # Notice how the overplotting skews off visual perception of the mean
+ # supplementing the raw data with summary statistics is _very_ important
+ 
+ # Next, we'll look at votes on a log scale.
+ 
+ # Transforming the scale means the data are transformed
+ # first, after which statistics are computed:
+ m2 + scale_y_log10()
+ # Transforming the coordinate system occurs after the
+ # statistic has been computed. This means we're calculating the summary on the raw data
+ # and stretching the geoms onto the log scale.  Compare the widths of the
+ # standard errors.
+ m2 + coord_trans(y="log10")
+ 
+ </pre>
+ 
+ 
+ </body></html>

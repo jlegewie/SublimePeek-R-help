@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: MacOS X Quartz Device</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for quartz"><tr><td>quartz</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>MacOS X Quartz Device</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>quartz</code> starts a graphics device driver for the Mac OS X System.
+ It supports plotting both to the screen (the default) and to various
+ graphics file formats.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ quartz(title, width, height, pointsize, family, fontsmooth,
+        antialias, type, file = NULL, bg, canvas, dpi)
+ 
+ quartz.options(..., reset = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>title</code></td>
+ <td>
+ <p>title for the Quartz window (applies to on-screen output
+ only), default <code>"Quartz %d"</code>.  A C-style format for an integer
+ will be substituted by the device number (see the <code>file</code>
+ argument to <code>postscript</code> for further details).</p>
+ </td></tr>
+ <tr valign="top"><td><code>width</code></td>
+ <td>
+ <p>the width of the plotting area in inches.  Default <code>7</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>height</code></td>
+ <td>
+ <p>the height of the plotting area in inches.  Default <code>7</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>pointsize</code></td>
+ <td>
+ <p>the default pointsize to be used.  Default <code>12</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>family</code></td>
+ <td>
+ <p>this is the family name of the font
+ that will be used by the device.  Default <code>"Helvetica"</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>fontsmooth</code></td>
+ <td>
+ <p>logical specifying if fonts should be
+ smoothed. Default <code>TRUE</code>.  Currently unused.</p>
+ </td></tr>
+ <tr valign="top"><td><code>antialias</code></td>
+ <td>
+ <p>whether to use antialiasing.  Default <code>TRUE</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ <p>the type of output to use.  See &lsquo;Details&rsquo; for
+ more information.  Default <code>"native"</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ <p>an optional target for the graphics device. The default,
+ <code>NULL</code>, selects a default name where one is needed.  See
+ &lsquo;Details&rsquo; for more information.</p>
+ </td></tr>
+ <tr valign="top"><td><code>bg</code></td>
+ <td>
+ <p>the initial background colour to use for the device.  Default
+ <code>"transparent"</code>.  An opaque colour such as <code>"white"</code> will
+ normally be required on off-screen types that support transparency
+ such as <code>"png"</code> and <code>"tiff"</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>canvas</code></td>
+ <td>
+ <p>canvas colour to use for an on-screen device.  Default
+ <code>"white"</code>, and will be forced to be an opaque colour.</p>
+ </td></tr>
+ <tr valign="top"><td><code>dpi</code></td>
+ <td>
+ <p>resolution of the output.  The default (<code>NA_real_</code>)
+ for an on-screen display defaults to the resolution of
+ the main screen, and to 72 dpi otherwise.  See &lsquo;Details&rsquo;.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Any of the arguments to <code>quartz</code> except <code>file</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>reset</code></td>
+ <td>
+ <p>logical: should the defaults be reset to their defaults?</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The defaults for all but one of the arguments of <code>quartz</code> are set
+ by <code>quartz.options</code>: the &lsquo;Arguments&rsquo; section gives the
+ &lsquo;factory-fresh&rsquo; defaults.
+ </p>
+ <p>The Quartz graphics device supports a variety of output types.
+ On-screen output types are <code>""</code> or <code>"native"</code> (picks the best
+ possible on-screen output), <code>"Cocoa"</code> (Mac OS X 10.4 and later)
+ and <code>"Carbon"</code> (not currently implemented &ndash; potentially
+ Mac OS X 10.3 and earlier).   Off-screen output
+ types produce output files and utilize the <code>file</code> argument.
+ <code>type = "pdf"</code> gives PDF output. The following bitmap formats may
+ be supported (on OS X 10.4 and later): <code>"png"</code>, <code>"jpeg"</code>,
+ <code>"jpg"</code>, <code>"jpeg2000"</code>, <code>"tif"</code>, <code>"tiff"</code>,
+ <code>"gif"</code>, <code>"psd"</code> (Adobe Photoshop), <code>"bmp"</code> (Windows
+ bitmap), <code>"sgi"</code> and <code>"pict"</code>.  (The availability of some
+ formats is OS-version-dependent.)
+ </p>
+ <p>To reproduce the default of older Quartz devices on-screen, set
+ <code>dpi = 72</code> (for a permanent solution set
+ <code>quartz.options(dpi = 72)</code>).
+ </p>
+ <p>The <code>file</code> argument is used for off-screen drawing.  The actual
+ file is only created when the device is closed (e.g. using
+ <code>dev.off()</code>).  For the bitmap devices, the page number is
+ substituted if a C integer format is included in the character string,
+ e.g. <code>Rplot%03d.png</code>.  (The result must be less than
+ <code>PATH_MAX</code> characters long, and may be truncated if not. See
+ <code>postscript</code> for further details.)  If a <code>file</code>
+ argument is not supplied, the default is <code>Rplots.pdf</code> or
+ <code>Rplot%03d.<VAR>type</VAR></code>.  Tilde expansion
+ (see <code>path.expand</code>) is done.
+ </p>
+ <p>If a device-independent <font face="Courier New,Courier" color="#666666"><b>R</b></font> graphics font family is specified
+ (e.g., via <code>par(family=)</code> in the graphics package),
+ the Quartz device makes use of the Quartz font database
+ (see <code>quartzFonts</code>) to convert the R graphics font family
+ to a Quartz-specific font family description.
+ </p>
+ <p>On-screen devices are launched with a semi-transparent canvas.  Once a
+ new plot is created, the canvas is first painted with the
+ <code>canvas</code> colour and then the current background colour (which can
+ be transparent or semi-transparent).  Off-screen devices have no
+ canvas colour, and so start with a transparent background where
+ possible (e.g. <code>type="png"</code> and <code>type="tiff"</code>) &ndash; otherwise
+ it appears that a solid white canvas is assumed in the Quartz code.
+ </p>
+ <p><code>title</code> can be used for on-screen output.  It must be a single
+ character string with an optional integer printf-style format that
+ will be substituted by the device number.  It is also optionally used
+ (without a format) to give a title to a PDF file.
+ </p>
+ <p>Calling <code>quartz()</code> sets <code>.Device</code> to <code>"quartz"</code>
+ for on-screen devices and to <code>"quartz_off_screen"</code> otherwise.
+ </p>
+ 
+ 
+ <h3>Conventions</h3>
+ 
+ 
+ <p>This section describes the implementation of the conventions for
+ graphics devices set out in the &ldquo;R Internals Manual&rdquo;.
+ </p>
+ 
+ <ul>
+ <li><p> The default device size is 7 inches square.
+ </p>
+ </li>
+ <li><p> Font sizes are in big points.
+ </p>
+ </li>
+ <li><p> The default font family is Arial.
+ </p>
+ </li>
+ <li><p> Line widths are a multiple of 1/96 inch with no minimum set by <font face="Courier New,Courier" color="#666666"><b>R</b></font>.
+ </p>
+ </li>
+ <li><p> Circle radii are real-valued with no minimum set by <font face="Courier New,Courier" color="#666666"><b>R</b></font>.
+ </p>
+ </li>
+ <li><p> Colours are specified as sRGB.
+ </p>
+ </li></ul>
+ 
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>quartzFonts</code>, <code>Devices</code>.
+ </p>
+ <p><code>png</code> for way to access the bitmap types of this device
+ via <font face="Courier New,Courier" color="#666666"><b>R</b></font>'s standard bitmap devices.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>## Not run: 
+ ## put something this is your .Rprofile to customize the defaults
+ setHook(packageEvent("grDevices", "onLoad"),
+         function(...) grDevices::quartz.options(width=8, height=6,
+                                                 pointsize=10))
+ 
+ ## End(Not run)</pre>
+ 
+ 
+ </body></html>

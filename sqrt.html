@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Miscellaneous Mathematical Functions</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for MathFun"><tr><td>MathFun</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Miscellaneous Mathematical Functions</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>These functions compute miscellaneous mathematical functions.
+ The naming follows the standard for computer languages
+ such as C or Fortran.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ abs(x)
+ sqrt(x)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>a numeric or <code>complex</code> vector or array.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>These are internal generic primitive functions: methods
+ can be defined for them individually or via the
+ <code>Math</code> group generic.  For complex
+ arguments (and the default method), <code>z</code>, <code>abs(z) ==
+   Mod(z)</code> and <code>sqrt(z) == z^0.5</code>.
+ </p>
+ <p><code>abs(x)</code> returns an <code>integer</code> vector when <code>x</code> is
+ <code>integer</code> or <code>logical</code>.
+ </p>
+ 
+ 
+ <h3>S4 methods</h3>
+ 
+ 
+ <p>Both are S4 generic and members of the
+ <code>Math</code> group generic.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988)
+ <EM>The New S Language</EM>.
+ Wadsworth &amp; Brooks/Cole.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>Arithmetic</code> for simple, <code>log</code> for logarithmic,
+ <code>sin</code> for trigonometric, and <code>Special</code> for
+ special mathematical functions.
+ </p>
+ <p>&lsquo;plotmath&rsquo; for the use of <code>sqrt</code> in plot annotation.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ require(stats) # for spline
+ require(graphics)
+ xx &lt;- -9:9
+ plot(xx, sqrt(abs(xx)),  col = "red")
+ lines(spline(xx, sqrt(abs(xx)), n=101), col = "pink")
+ </pre>
+ 
+ 
+ </body></html>

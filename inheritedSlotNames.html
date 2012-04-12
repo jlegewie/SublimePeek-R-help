@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Names of Slots Inherited From a Super Class</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for inheritedSlotNames"><tr><td>inheritedSlotNames</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Names of Slots Inherited From a Super Class</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>For a class (or class definition, see <code>getClass</code> and
+ the description of class <code>classRepresentation</code>),
+ give the names which are inherited from &ldquo;above&rdquo;, i.e., super
+ classes, rather than by this class' definition itself.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ inheritedSlotNames(Class, where = topenv(parent.frame()))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>Class</code></td>
+ <td>
+ <p>character string or
+ <code>classRepresentation</code>, i.e., resulting from
+ <code>getClass</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>where</code></td>
+ <td>
+ <p>environment, to be passed further to
+ <code>isClass</code> and <code>getClass</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>character vector of slot names, or <code>NULL</code>.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>slotNames</code>, <code>slot</code>, <code>setClass</code>, etc.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ .srch &lt;- search()
+ library(stats4)
+ inheritedSlotNames("mle")
+ 
+ 
+ ## Not run: 
+ if(require("Matrix")) {
+   print( inheritedSlotNames("Matrix") ) # NULL
+   ## whereas
+   print( inheritedSlotNames("sparseMatrix") ) # --&gt; Dim &amp; Dimnames
+   ##  i.e. inherited from "Matrix" class
+ 
+   print( cl &lt;- getClass("dgCMatrix") ) # six slots, etc
+ 
+   print( inheritedSlotNames(cl) ) # *all* six slots are inherited
+ }
+ 
+ 
+ ## detach package we've attached above:
+ for(n in rev(which(is.na(match(search(), .srch)))))
+     detach(pos = n)
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

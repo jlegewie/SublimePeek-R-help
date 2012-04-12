@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Rank of a Matrix</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for rankMatrix"><tr><td>rankMatrix</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Rank of a Matrix</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Compute the rank of matrix, a well-defined functional in theory,
+ somewhat ambigous in practice.  We provide several methods, the
+ default corresponding to Matlab's definition.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ rankMatrix(x, tol = NULL,
+            method = c("tolNorm2", "qrLINPACK", "useGrad", "maybeGrad"),
+            sval = svd(x, 0, 0)$d)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>numeric matrix, of dimension <i>n x m</i>, say.</p>
+ </td></tr>
+ <tr valign="top"><td><code>tol</code></td>
+ <td>
+ <p>nonnegative number specifying a tolerance for
+ &ldquo;practically zero&rdquo; with specific meaning depending on
+ <code>method</code>; by default, <code>max(dim(x)) *
+       .Machine$double.eps * abs(max(sval))</code> is according to
+ Matlab's default (for its only <code>method</code> &quot;tolNorm2&quot;).</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>a character string specifying the computational method,
+ can be abbreviated:
+ </p>
+ 
+ <dl>
+ <dt>tolNorm2</dt><dd><p>the number of singular values <code>&gt;= tol</code>;</p>
+ </dd>
+ <dt>qrLINPACK</dt><dd><p>this is the rank of <code>qr(x, tol,
+ 	  LAPACK=FALSE)</code>, which is <code>qr(...)$rank</code> for a dense
+ matrix, and the rank of <i>R</i> for sparse <code>x</code> (where
+ <code>qr</code> uses a &quot;sparseQR&quot; method, see
+ <code>qr-methods</code>, and not LINPACK).
+ </p>
+ <p>This used to be <EM>the</EM> recommended way to compute a matrix
+ rank for a while in the past.  For this method, <code>sval</code> are
+ not used (nor computed).</p>
+ </dd>
+ <dt>useGrad</dt><dd><p>considering the &ldquo;gradient&rdquo; of the
+ (decreasing) singular values, the index of the <EM>smallest</EM> gap.</p>
+ </dd>
+ <dt>maybeGrad</dt><dd><p>choosing method <code>"useGrad"</code> only when that
+ seems <EM>reasonable</EM>; otherwise using <code>"tolNorm2"</code>.</p>
+ </dd>
+ </dl>
+ 
+ 
+ </td></tr>
+ <tr valign="top"><td><code>sval</code></td>
+ <td>
+ <p>numeric vector of non-increasing singular values of
+ <code>x</code>; typically unspecified and computed from <code>x</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>positive integer in <code>1:min(dim(x))</code>, with attributes detailing
+ the method used.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Martin Maechler; for the &quot;*Grad&quot; methods, building on
+ suggestions by Ravi Varadhan.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>qr</code>, <code>svd</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ rankMatrix(cbind(1, 0, 1:3)) # 2
+ 
+ (meths &lt;- eval(formals(rankMatrix)$method))
+ 
+ ## a "border" case:
+ H12 &lt;- Hilbert(12)
+ rankMatrix(H12, tol = 1e-20) # 12;  but  11  with default method &amp; tol.
+ sapply(meths, function(.m.) rankMatrix(H12, method = .m.))
+ ## tolNorm2 qrLINPACK   useGrad maybeGrad
+ ##       11        12        11        11
+ 
+ ## "sparse" case:
+ M15 &lt;- kronecker(diag(x=c(100,1,10)), Hilbert(5))
+ sapply(meths, function(.m.) rankMatrix(M15, method = .m.))
+ #--&gt; all 15, but 'useGrad' has 14.
+ </pre>
+ 
+ 
+ </body></html>

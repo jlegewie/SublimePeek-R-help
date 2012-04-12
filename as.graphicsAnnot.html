@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Coerce an Object for Graphics Annotation</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for as.graphicsAnnot"><tr><td>as.graphicsAnnot</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Coerce an Object for Graphics Annotation</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Coerce an <font face="Courier New,Courier" color="#666666"><b>R</b></font> object into a form suitable for graphics annotation.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ as.graphicsAnnot(x)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>an <font face="Courier New,Courier" color="#666666"><b>R</b></font> object</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Expressions, calls and names (as used by plotmath) are passed
+ through unchanged.  All other objects with an explicit class (as
+ determined by <code>is.object</code>) are coerced by
+ <code>as.character</code> to character vectors.
+ </p>
+ <p>All the <span class="pkg">graphics</span> and <span class="pkg">grid</span> functions which use this coerce
+ calls and names to expressions internally.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A language object or a character vector.
+ </p>
+ 
+ 
+ </body></html>

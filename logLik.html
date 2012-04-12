@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Extract Log-Likelihood</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for logLik"><tr><td>logLik</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Extract Log-Likelihood</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This function is generic; method functions can be written to handle
+ specific classes of objects.  Classes which have methods for this
+ function include: <code>"glm"</code>, <code>"lm"</code>, <code>"nls"</code> and
+ <code>"Arima"</code>.  Packages contain methods for other classes, such as
+ <code>"fitdistr"</code>, <code>"negbin"</code> and <code>"polr"</code> in package
+ <a href="http://CRAN.R-project.org/package=MASS"><span class="pkg">MASS</span></a>, <code>"multinom"</code> in package <a href="http://CRAN.R-project.org/package=nnet"><span class="pkg">nnet</span></a> and
+ <code>"gls"</code>, <code>"gnls"</code> <code>"lme"</code> and others in package
+ <a href="http://CRAN.R-project.org/package=nlme"><span class="pkg">nlme</span></a>. 
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ logLik(object, ...)
+ 
+ ## S3 method for class 'lm'
+ logLik(object, REML = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p>any object from which a log-likelihood value, or a
+ contribution to a log-likelihood value, can be extracted.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>some methods for this generic function require additional
+ arguments.</p>
+ </td></tr>
+ <tr valign="top"><td><code>REML</code></td>
+ <td>
+ <p>an optional logical value.  If <code>TRUE</code> the restricted
+ log-likelihood is returned, else, if <code>FALSE</code>, the
+ log-likelihood is returned.  Defaults to <code>FALSE</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>For a <code>"glm"</code> fit the <code>family</code> does not have to
+ specify how to calculate the log-likelihood, so this is based on using
+ the family's <code>aic()</code> function to compute the AIC.  For the
+ <code>gaussian</code>, <code>Gamma</code> and
+ <code>inverse.gaussian</code> families it assumed that the dispersion
+ of the GLM is estimated and has been counted as a parameter in the AIC
+ value, and for all other families it is assumed that the dispersion is
+ known.  Note that this procedure does not give the maximized
+ likelihood for <code>"glm"</code> fits from the Gamma and inverse gaussian
+ families, as the estimate of dispersion used is not the MLE.
+ </p>
+ <p>For <code>"lm"</code> fits it is assumed that the scale has been estimated
+ (by maximum likelihood or REML), and all the constants in the
+ log-likelihood are included.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Returns an object of class <code>logLik</code>.  This is a number with at
+ least one attribute, <code>"df"</code> (<B>d</B>egrees of <B>f</B>reedom),
+ giving the number of (estimated) parameters in the model.
+ </p>
+ <p>There is a simple <code>print</code> method for <code>"logLik"</code> objects.
+ </p>
+ <p>There may be other attributes depending on the method used: see the
+ appropriate documentation.  One that is used by several methods is
+ <code>"nobs"</code>, the number of observations used in estimation (after
+ the restrictions if <code>REML = TRUE</code>).
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>José Pinheiro and Douglas Bates
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>For <code>logLik.lm</code>:
+ </p>
+ <p>Harville, D.A. (1974).
+ Bayesian inference for variance components using only error contrasts.
+ <EM>Biometrika</EM>, <B>61</B>, 383&ndash;385.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>logLik.gls</code>, <code>logLik.lme</code>, in
+ package <a href="http://CRAN.R-project.org/package=nlme"><span class="pkg">nlme</span></a>, etc.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ x &lt;- 1:5
+ lmx &lt;- lm(x ~ 1)
+ logLik(lmx) # using print.logLik() method
+ utils::str(logLik(lmx))
+ 
+ ## lm method
+ (fm1 &lt;- lm(rating ~ ., data = attitude))
+ logLik(fm1)
+ logLik(fm1, REML = TRUE)
+ 
+ utils::data(Orthodont, package="nlme")
+ fm1 &lt;- lm(distance ~ Sex * age, Orthodont)
+ logLik(fm1)
+ logLik(fm1, REML = TRUE)
+ </pre>
+ 
+ 
+ </body></html>

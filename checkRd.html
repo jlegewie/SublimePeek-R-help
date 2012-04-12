@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Check an Rd Object</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for checkRd"><tr><td>checkRd</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2> Check an Rd Object </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Check an help file or the output of the <code>parse_Rd</code> function.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ checkRd(Rd, defines = .Platform$OS.type, stages = "render",
+         unknownOK = TRUE, listOK = TRUE, ..., def_enc = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>Rd</code></td>
+ <td>
+ <p> a filename or <code>Rd</code> object to use as input. </p>
+ </td></tr>
+ <tr valign="top"><td><code>defines</code></td>
+ <td>
+ <p> string(s) to use in </p>
+ <PRE>#ifdef</PRE> tests. </td></tr>
+ <tr valign="top"><td><code>stages</code></td>
+ <td>
+ <p> at which stage (<code>"build"</code>, <code>"install"</code>, or
+ <code>"render"</code>) should </p>
+ <PRE>\Sexpr</PRE> macros be executed? See the
+ notes below.</td></tr>
+ <tr valign="top"><td><code>unknownOK</code></td>
+ <td>
+ <p> unrecognized macros are treated as errors if
+ <code>FALSE</code>, otherwise warnings. </p>
+ </td></tr>
+ <tr valign="top"><td><code>listOK</code></td>
+ <td>
+ <p> unnecessary non-empty braces (e.g., around text, not as
+ an argument) are treated as errors if <code>FALSE</code>, otherwise
+ warnings.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p> additional parameters to pass to <code>parse_Rd</code> when
+ <code>Rd</code> is a filename.  One that is often useful is <code>encoding</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>def_enc</code></td>
+ <td>
+ <p>logical: has the package declared an encoding, so tests
+ for non-ASCII text are suppressed?</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>checkRd</code> performs consistency checks on an Rd file, confirming that
+ required sections are present, etc.
+ </p>
+ <p>It accepts a filename for an Rd file, and will use
+ <code>parse_Rd</code> to parse it before applying the checks.  If so,
+ warnings from <code>parse_Rd</code> are collected, together with those from
+ the internal function <code>prepare_Rd</code>, which does the
+ </p>
+ <PRE>#ifdef</PRE> and <PRE>\Sexpr</PRE> processing, drops sections that
+ would not be rendered or are duplicated (and should not be) and
+ removes empty sections.
+ An Rd object is passed through <code>prepare_Rd</code>, but it may already
+ have been (and installed Rd objects have).
+ Warnings are given a &lsquo;level&rsquo;: those from <code>prepare_Rd</code> have
+ level 0.  These include
+ 
+ <table summary="Rd table">
+ <tr>
+  <td align="left">
+     All text must be in a section</td>
+ </tr>
+ <tr>
+  <td align="left">
+     Only one <VAR>tag name</VAR> section is allowed: the first will be used</td>
+ </tr>
+ <tr>
+  <td align="left">
+     Section <VAR>name</VAR> is unrecognized and will be dropped</td>
+ </tr>
+ <tr>
+  <td align="left">
+     Dropping empty section <VAR>name</VAR></td>
+ </tr>
+ <tr>
+  <td align="left">
+   </td>
+ </tr>
+ 
+ </table>
+ 
+ <p><code>checkRd</code> itself can show
+ </p>
+ 
+ <table summary="Rd table">
+ <tr>
+  <td align="right">
+     7 </td><td align="left"> Tag <VAR>tag name</VAR> not recognized</td>
+ </tr>
+ <tr>
+  <td align="right">
+     7 </td><td align="left"> <PRE>\tabular</PRE> format must be simple text</td>
+ </tr>
+ <tr>
+  <td align="right">
+     7 </td><td align="left"> Unrecognized <PRE>\tabular</PRE> format: ...</td>
+ </tr>
+ <tr>
+  <td align="right">
+     7 </td><td align="left"> Only <VAR>n</VAR> columns allowed in this table</td>
+ </tr>
+ <tr>
+  <td align="right">
+     7 </td><td align="left"> Must have a <VAR>tag name</VAR></td>
+ </tr>
+ <tr>
+  <td align="right">
+     7 </td><td align="left"> Only one <VAR>tag name</VAR> is allowed</td>
+ </tr>
+ <tr>
+  <td align="right">
+     7 </td><td align="left"> Tag <VAR>tag name</VAR> must not be empty</td>
+ </tr>
+ <tr>
+  <td align="right">
+     7 </td><td align="left"> <PRE>\docType</PRE> must be plain text</td>
+ </tr>
+ <tr>
+  <td align="right">
+     5 </td><td align="left"> Tag <PRE>\method</PRE> is only valid in <PRE>\usage</PRE></td>
+ </tr>
+ <tr>
+  <td align="right">
+     5 </td><td align="left"> Tag <PRE>\dontrun</PRE> is only valid in <PRE>\examples</PRE></td>
+ </tr>
+ <tr>
+  <td align="right">
+     5 </td><td align="left"> Tag <VAR>tag name</VAR> is invalid in a <VAR>block name</VAR> block</td>
+ </tr>
+ <tr>
+  <td align="right">
+     5 </td><td align="left"> Title of <PRE>\section</PRE> must be non-empty plain text</td>
+ </tr>
+ <tr>
+  <td align="right">
+     5 </td><td align="left"> <PRE>\title</PRE> content must be plain text</td>
+ </tr>
+ <tr>
+  <td align="right">
+     3 </td><td align="left"> Empty section <VAR>tag name</VAR></td>
+ </tr>
+ <tr>
+  <td align="right">
+     -1 </td><td align="left"> Non-ASCII contents without declared encoding</td>
+ </tr>
+ <tr>
+  <td align="right">
+     -1 </td><td align="left"> Non-ASCII contents in second part of <PRE>\enc</PRE></td>
+ </tr>
+ <tr>
+  <td align="right"> 
+     -3 </td><td align="left"> Tag <PRE>\ldots</PRE> is not valid in a code block</td>
+ </tr>
+ <tr>
+  <td align="right">
+     -3 </td><td align="left"> Apparent non-ASCII contents without declared encoding</td>
+ </tr>
+ <tr>
+  <td align="right">
+     -3 </td><td align="left"> Apparent non-ASCII contents in second part of <PRE>\enc</PRE></td>
+ </tr>
+ <tr>
+  <td align="right">
+     -3 </td><td align="left"> Unnecessary braces at ...</td>
+ </tr>
+ <tr>
+  <td align="right">
+     -3 </td><td align="left"> <PRE>\method</PRE> not valid outside a code block</td>
+ </tr>
+ <tr>
+  <td align="right">
+   </td>
+ </tr>
+ 
+ </table>
+ 
+ <p>and variations with </p>
+ <PRE>\method</PRE> replaced by <PRE>\S3method</PRE> or
+ <PRE>\S4method</PRE>.
+ Note that both <code>prepare_Rd</code> and <code>checkRd</code> have tests for an
+ empty section: that in <code>checkRd</code> is stricter (essentially that
+ nothing is output).
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>This may fail through an <font face="Courier New,Courier" color="#666666"><b>R</b></font> error, but otherwise warnings are
+ collected as returned as an object of class <code>"checkRd"</code>, a
+ character vector of messages.  This class has a <code>print</code> method
+ which only prints unique messages, and has argument <code>minlevel</code>
+ that can be used to select only more serious messages.  (This is set
+ to <code>-1</code> in <CODE>R CMD check</CODE>.)
+ </p>
+ <p>Possible fatal errors are those from running the parser (e.g. a
+ non-existent file, unclosed quoted string, non-ASCII input without a
+ specified encoding) or from <code>prepare_Rd</code> (multiple
+ </p>
+ <PRE>\Rdversion</PRE> declarations, invalid <PRE>\encoding</PRE> or
+ <PRE>\docType</PRE> or <PRE>\name</PRE> sections, and missing or duplicate
+ <PRE>\name</PRE> or <PRE>\title</PRE> sections).
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>Duncan Murdoch, Brian Ripley
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>parse_Rd</code>, <code>Rd2HTML</code>.
+ </p>
+ 
+ 
+ </body></html>

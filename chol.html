@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Choleski Decomposition - 'Matrix' S4 Generic</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for chol"><tr><td>chol</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Choleski Decomposition - 'Matrix' S4 Generic</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Compute the Choleski factorization of a real symmetric
+ positive-definite square matrix.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ chol(x, ...)
+ ## S4 method for signature 'dsCMatrix'
+ chol(x, pivot = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>a (sparse or dense) square matrix, here inheriting from class
+ <code>Matrix</code>; if <code>x</code> is not positive definite,
+ an error is signalled.</p>
+ </td></tr>
+ <tr valign="top"><td><code>pivot</code></td>
+ <td>
+ <p>logical indicating if pivoting is used.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>potentially further arguments passed to methods.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>a matrix of class <code>Cholesky</code>,
+ i.e., upper triangular: <i>R</i> such that <i>R'R = x</i>.
+ </p>
+ 
+ 
+ <h3>Methods</h3>
+ 
+ 
+ <p>Use <code>showMethods(chol)</code> to see all; some are worth
+ mentioning here:
+ </p>
+ 
+ <dl>
+ <dt>chol</dt><dd><p><code>signature(x = "dgeMatrix")</code>: works via
+ <code>"dpoMatrix"</code>, see class <code>dpoMatrix</code>.</p>
+ </dd>
+ <dt>chol</dt><dd><p><code>signature(x = "dpoMatrix")</code>:
+ Returns (and stores) the Cholesky decomposition of <code>x</code>, via
+ LAPACK routines <code>dlacpy</code> and <code>dpotrf</code>.</p>
+ </dd>
+ <dt>chol</dt><dd><p><code>signature(x = "dppMatrix")</code>:
+ Returns (and stores) the Cholesky decomposition via LAPACK routine
+ <code>dpptrf</code>.</p>
+ </dd>
+ <dt>chol</dt><dd><p><code>signature(x = "dsCMatrix", pivot = "logical")</code>:
+ Returns (and stores) the Cholesky decomposition of <code>x</code>.  If
+ <code>pivot</code> is <code>TRUE</code> (the default) the Approximate Minimal
+ Degree (AMD) algorithm is used to create a reordering of the rows
+ and columns of <code>x</code> so as to reduce fill-in.</p>
+ </dd>
+ </dl>
+ 
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Timothy A. Davis (2006)
+ <EM>Direct Methods for Sparse Linear Systems</EM>, SIAM Series
+ &ldquo;Fundamentals of Algorithms&rdquo;.
+ </p>
+ <p>Tim Davis (1996),
+ An approximate minimal degree ordering algorithm,
+ <EM>SIAM J. Matrix Analysis and Applications</EM>,
+ <B>17</B>, 4, 886&ndash;905.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p>The default from <span class="pkg">base</span>, <code>chol</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ showMethods(chol, inherited = FALSE) # show different methods
+ 
+ sy2 &lt;- new("dsyMatrix", Dim = as.integer(c(2,2)), x = c(14, NA,32,77))
+ (c2 &lt;- chol(sy2))#-&gt; "Cholesky" matrix
+ stopifnot(all.equal(c2, chol(as(sy2, "dpoMatrix")), tol= 1e-13))
+ str(c2)
+ 
+ ## An example where chol() can't work
+ (sy3 &lt;- new("dsyMatrix", Dim = as.integer(c(2,2)), x = c(14, -1, 2, -7)))
+ try(chol(sy3)) # error, since it is not positive definite
+ </pre>
+ 
+ 
+ </body></html>

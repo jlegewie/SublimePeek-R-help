@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Select or define a bibliography style.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for bibstyle"><tr><td>bibstyle</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Select or define a bibliography style.
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This function defines and registers styles for rendering <code>bibentry</code> objects
+ into Rd format, for later conversion to text, HTML, etc.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ bibstyle(style, envir, ..., .init = FALSE, .default = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>style</code></td>
+ <td>
+ 
+ <p>A character string naming the style.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>envir</code></td>
+ <td>
+ 
+ <p>(optional) An environment holding the functions to implement the style.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>Named arguments to add to the environment.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>.init</code></td>
+ <td>
+ 
+ <p>Whether to initialize the environment from the default style <code>"JSS"</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>.default</code></td>
+ <td>
+ 
+ <p>Whether to set the specified style as the default style.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Rendering of <code>bibentry</code> objects may be done using routines
+ modelled after those used by BibTeX.  This function allows environments
+ to be created and manipulated to contain those routines.
+ </p>
+ <p>There are two ways to create a new style environment.  The easiest
+ is to set <code>.init = TRUE</code>, in which case the environment will be
+ initialized with a copy of the default <code>"JSS"</code> environment.  (This style
+ is modelled after the &lsquo;<span class="file">jss.bst</span>&rsquo; style used by the <EM>Journal 
+ of Statistical Software</EM>.)  Alternatively, the <code>envir</code> argument 
+ can be used to specify a completely new style environment.
+ </p>
+ <p>To simply retrieve an existing style, specify <code>style</code>
+ and no other arguments.  To modify an existing style, specify <code>style</code>
+ and some named entries via <code>...</code>.  (Modifying the default
+ <code>"JSS"</code> style is discouraged.)  Setting <code>style</code> to <code>NULL</code>
+ or leaving it missing will retrieve the default style, but modifications
+ will not be allowed.
+ </p>
+ <p>At a minimum, the environment should contain routines to render each
+ of the 12 types of bibliographic entry supported by
+ <code>bibentry</code> as well as a routine to produce a sort key to
+ sort the entries.  The former must be named <code>formatArticle</code>,
+ <code>formatBook</code>, <code>formatInbook</code>, <code>formatIncollection</code>,
+ <code>formatInProceedings</code>, <code>formatManual</code>,
+ <code>formatMastersthesis</code>, <code>formatMisc</code>, <code>formatPhdthesis</code>,
+ <code>formatProceedings</code>, <code>formatTechreport</code> and
+ <code>formatUnpublished</code>.  Each of these takes one argument, a single
+ <code>unclass</code>'ed entry from the <code>bibentry</code> vector
+ passed to the renderer, and should produce a single element character
+ vector (possibly containing newlines).  The sort keys are produced
+ by a function named <code>sortKeys</code>.  It is passed the original 
+ <code>bibentry</code> vector and should produce a sortable vector of 
+ the same length to define the sort order.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>The environment which has been selected or created.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>Duncan Murdoch
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>bibentry</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ refs &lt;- 
+ c(bibentry(bibtype = "manual",
+     title = "R: A Language and Environment for Statistical Computing",
+     author = person("R Development Core Team"),
+     organization = "R Foundation for Statistical Computing",
+     address = "Vienna, Austria",
+     year = 2010,
+     isbn = "3-900051-07-0",
+     url = "http://www.R-project.org"),  
+   bibentry(bibtype = "article",
+     author = c(person(c("George", "E", "P"), "Box"),
+                person(c("David",  "R"),      "Cox")),
+     year = 1964,
+     title = "An Analysis of Transformations",
+     journal = "Journal of the Royal Statistical Society, Series B",
+     volume = 26,
+     pages = "211-252"))
+ bibstyle("unsorted", sortKeys = function(refs) seq_along(refs),
+        .init = TRUE)
+ print(refs, .bibstyle = "unsorted")    
+ </pre>
+ 
+ 
+ </body></html>

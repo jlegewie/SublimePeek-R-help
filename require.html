@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Loading and Listing of Packages</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for library"><tr><td>library</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Loading and Listing of Packages</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>library</code> and <code>require</code> load add-on packages.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ library(package, help, pos = 2, lib.loc = NULL,
+         character.only = FALSE, logical.return = FALSE,
+         warn.conflicts = TRUE, quietly = FALSE,
+         keep.source = getOption("keep.source.pkgs"),
+         verbose = getOption("verbose"))
+ 
+ require(package, lib.loc = NULL, quietly = FALSE,
+         warn.conflicts = TRUE,
+         keep.source = getOption("keep.source.pkgs"),
+         character.only = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>package, help</code></td>
+ <td>
+ <p>the name of a package, given as a name or
+ literal character string, or a character string, depending on
+ whether <code>character.only</code> is <code>FALSE</code> (default) or
+ <code>TRUE</code>).</p>
+ </td></tr>
+ <tr valign="top"><td><code>pos</code></td>
+ <td>
+ <p>the position on the search list at which to attach the
+ loaded package.  Can also be the name of a position on the current
+ search list as given by <code>search()</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>lib.loc</code></td>
+ <td>
+ <p>a character vector describing the location of <font face="Courier New,Courier" color="#666666"><b>R</b></font>
+ library trees to search through, or <code>NULL</code>.  The default value
+ of <code>NULL</code> corresponds to all libraries currently known to
+ <code>.libPaths()</code>.
+ Non-existent library trees are silently ignored.</p>
+ </td></tr>
+ <tr valign="top"><td><code>character.only</code></td>
+ <td>
+ <p>a logical indicating whether <code>package</code> or
+ <code>help</code> can be assumed to be character strings.</p>
+ </td></tr>
+ <tr valign="top"><td><code>logical.return</code></td>
+ <td>
+ <p>logical.  If it is <code>TRUE</code>,  <code>FALSE</code> or
+ <code>TRUE</code> is returned to indicate success.</p>
+ </td></tr>
+ <tr valign="top"><td><code>warn.conflicts</code></td>
+ <td>
+ <p>logical.  If <code>TRUE</code>, warnings are
+ printed about <code>conflicts</code> from attaching the new
+ package.  A conflict is a function masking a function,
+ or a non-function masking a non-function.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>keep.source</code></td>
+ <td>
+ <p>logical. Now ignored.
+ This argument does not apply to packages using lazy-loading:
+ whether they have kept source is determined when they are installed.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>verbose</code></td>
+ <td>
+ <p>a logical.  If <code>TRUE</code>, additional diagnostics are
+ printed.</p>
+ </td></tr>
+ <tr valign="top"><td><code>quietly</code></td>
+ <td>
+ <p>a logical.  If <code>TRUE</code>, no message confirming
+ package loading is printed, and most often, no errors/warnings are
+ printed if package loading fails.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>library(package)</code> and <code>require(package)</code> both load the
+ package with name <code>package</code>.  <code>require</code> is designed for use
+ inside other functions; it returns <code>FALSE</code> and gives a warning
+ (rather than an error as <code>library()</code> does by default) if the
+ package does not exist.  Both functions check and update the list of
+ currently loaded packages and do not reload a package which is already
+ loaded.  (Furthermore, if the package has a namespace and a name
+ space of that name is already loaded, they work from the existing
+ namespace rather than reloading from the file system.  If you want to
+ reload such a package, call <code>detach(unload = TRUE)</code> or
+ <code>unloadNamespace</code> first.)
+ </p>
+ <p>To suppress messages during the loading of packages use
+ <code>suppressPackageStartupMessages</code>: this will suppress all
+ messages from <font face="Courier New,Courier" color="#666666"><b>R</b></font> itself but not necessarily all those from package
+ authors.
+ </p>
+ <p>If <code>library</code> is called with no <code>package</code> or <code>help</code>
+ argument, it lists all available packages in the libraries specified
+ by <code>lib.loc</code>, and returns the corresponding information in an
+ object of class <code>"libraryIQR"</code>.  The structure of this class may
+ change in future versions.  In earlier versions of <font face="Courier New,Courier" color="#666666"><b>R</b></font>, only the names
+ of all available packages were returned; use <code>.packages(all =
+     TRUE)</code> for obtaining these.  Note that
+ <code>installed.packages()</code>
+ returns even more information.
+ </p>
+ <p><code>library(help = somename)</code> computes basic information about the
+ package <code>somename</code>, and returns this in an object of class
+ <code>"packageInfo"</code>.  The structure of this class may change in
+ future versions.  When used with the default value (<code>NULL</code>) for
+ <code>lib.loc</code>, the attached packages are searched before the libraries.
+ </p>
+ <p>In versions of <font face="Courier New,Courier" color="#666666"><b>R</b></font> prior to 2.14.0, a <code>.First.lib</code> function 
+ would be called when a package without a namespace was attached.
+ As of 2.14.0, all functions have namespaces; see 
+ <code>.onLoad</code> for current behaviour, and &lsquo;Writing R Extensions&rsquo;
+ for a description of the older mechanism.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Normally <code>library</code> returns (invisibly) the list of attached
+ packages, but <code>TRUE</code> or <code>FALSE</code> if <code>logical.return</code> is
+ <code>TRUE</code>.  When called as <code>library()</code> it returns an object of
+ class <code>"libraryIQR"</code>, and for <code>library(help=)</code>, one of
+ class <code>"packageInfo"</code>.
+ </p>
+ <p><code>require</code> returns (invisibly) a logical indicating whether the required
+ package is available.
+ </p>
+ 
+ 
+ <h3>Licenses</h3>
+ 
+ 
+ <p>Some packages have restrictive licenses, and there is a mechanism to
+ allow users to be aware of such licenses.  If
+ <code>getOption("checkPackageLicense") == TRUE</code>, then at first
+ use of a package with a not-known-to-be-FOSS (see below) license the
+ user is asked to view and accept the license: a list of accepted
+ licenses is stored in file &lsquo;<span class="file">~/.R/licensed</span>&rsquo;.  In a non-interactive
+ session it is an error to use such a package whose license has not
+ already been accepted.
+ </p>
+ <p>Free or Open Source Software (FOSS, e.g.,
+ <a href="http://en.wikipedia.org/wiki/FOSS">http://en.wikipedia.org/wiki/FOSS</a>) packages are determined by
+ the same filters used by <code>available.packages</code> but applied
+ to just the current package, not its dependencies.
+ </p>
+ <p>There can also be a site-wide file &lsquo;<span class="file">R_HOME/etc/licensed.site</span>&rsquo; of
+ packages (one per line).
+ </p>
+ 
+ 
+ <h3>Formal methods</h3>
+ 
+ 
+ <p><code>library</code> takes some further actions when package <span class="pkg">methods</span>
+ is attached (as it is by default).  Packages may define formal generic
+ functions as well as re-defining functions in other packages (notably
+ <span class="pkg">base</span>) to be generic, and this information is cached whenever
+ such a package is loaded after <span class="pkg">methods</span> and re-defined functions
+ (implicit generics) are excluded from the list of conflicts.
+ The caching  and check for conflicts require looking for a pattern of
+ objects; the search may be avoided by defining an object
+ <code>.noGenerics</code> (with any value) in the package.  Naturally, if the
+ package <EM>does</EM> have any such methods, this will prevent them from
+ being used.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p><code>library</code> and <code>require</code> can only load an <EM>installed</EM>
+ package, and this is detected by having a &lsquo;<span class="file">DESCRIPTION</span>&rsquo; file
+ containing a <span class="samp">Built:</span> field.
+ </p>
+ <p>Under Unix-alikes, the code checks that the package was installed
+ under a similar operating system as given by <code>R.version$platform</code>
+ (the canonical name of the platform under which R was compiled),
+ provided it contains compiled code.  Packages which do not contain
+ compiled code can be shared between Unix-alikes, but not to other OSes
+ because of potential problems with line endings and OS-specific help
+ files.  If sub-architectures are used, the OS similarity is not
+ checked since the OS used to build may differ (e.g.
+ <code>i386-pc-linux-gnu</code> code can be built on an
+ <code>x86_64-unknown-linux-gnu</code> OS).
+ </p>
+ <p>The package name given to <code>library</code> and <code>require</code> must match
+ the name given in the package's &lsquo;<span class="file">DESCRIPTION</span>&rsquo; file exactly, even
+ on case-insensitive file systems such as are common on MS Windows and
+ Mac OS X.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988)
+ <EM>The New S Language</EM>.
+ Wadsworth &amp; Brooks/Cole.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>.libPaths</code>, <code>.packages</code>.
+ </p>
+ <p><code>attach</code>, <code>detach</code>, <code>search</code>,
+ <code>objects</code>, <code>autoload</code>,
+ <code>library.dynam</code>, <code>data</code>,
+ <code>install.packages</code> and
+ <code>installed.packages</code>;
+ <code>INSTALL</code>, <code>REMOVE</code>.
+ </p>
+ <p>The initial set of packages attached is set by
+ <code>options(defaultPackages=)</code>: see also <code>Startup</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ library()                   # list all available packages
+ library(lib.loc = .Library) # list all packages in the default library
+ library(help = splines)     # documentation on package 'splines'
+ library(splines)            # load package 'splines'
+ require(splines)            # the same
+ search()                    # "splines", too
+ detach("package:splines")
+ 
+ # if the package name is in a character vector, use
+ pkg &lt;- "splines"
+ library(pkg, character.only = TRUE)
+ detach(pos = match(paste("package", pkg, sep=":"), search()))
+ 
+ require(pkg, character.only = TRUE)
+ detach(pos = match(paste("package", pkg, sep=":"), search()))
+ 
+ require(nonexistent)        # FALSE
+ ## Not run: 
+ ## if you want to mask as little as possible, use
+ library(mypkg, pos = "package:base")
+ 
+ ## End(Not run)</pre>
+ 
+ 
+ </body></html>

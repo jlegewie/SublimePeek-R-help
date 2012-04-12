@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Return the R Home Directory</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Rhome"><tr><td>Rhome</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Return the R Home Directory</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Return the <font face="Courier New,Courier" color="#666666"><b>R</b></font> home directory.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ R.home(component="home")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>component</code></td>
+ <td>
+ <p>As well as <code>"home"</code> which gives the <font face="Courier New,Courier" color="#666666"><b>R</b></font> home
+ directory, other known values are <code>"bin"</code>, <code>"doc"</code>,
+ <code>"etc"</code>, <code>"modules"</code> and <code>"share"</code> giving the paths to the
+ corresponding parts of an <font face="Courier New,Courier" color="#666666"><b>R</b></font> installation.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The <font face="Courier New,Courier" color="#666666"><b>R</b></font> home directory is the top-level directory of the <font face="Courier New,Courier" color="#666666"><b>R</b></font>
+ installation being run.
+ </p>
+ <p>The <font face="Courier New,Courier" color="#666666"><b>R</b></font> home directory is often referred to as <VAR>R_HOME</VAR>,
+ and is the value of an environment variable of that name in an <font face="Courier New,Courier" color="#666666"><b>R</b></font>
+ session.
+ It can be found outside an <font face="Courier New,Courier" color="#666666"><b>R</b></font> session by <code>R RHOME</code>.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A character string giving the <font face="Courier New,Courier" color="#666666"><b>R</b></font> home directory or path to a
+ particular component.  Normally the components are all subdirectories
+ of the <font face="Courier New,Courier" color="#666666"><b>R</b></font> home directory, but this may not be the case in a Unix-like
+ installation.
+ </p>
+ <p>The return value for <code>"modules"</code> and on Windows <code>"bin"</code> is
+ to a sub-architecture-specific location.
+ </p>
+ <p>The function <code>R.home()</code> bases the constructed paths on the
+ current value of the environment variable <span class="env">R_HOME</span> which is
+ normally set on startup.
+ </p>
+ <p>On Windows the values of <code>R.home()</code> and <span class="env">R_HOME</span> are
+ guaranteed not to contain spaces, switching to the 8.3 short form of
+ path elements if required. From <font face="Courier New,Courier" color="#666666"><b>R</b></font> 2.13.0 the value of <span class="env">R_HOME</span>
+ is set on startup to use forward slashes (since many package
+ maintainers pass it unquoted to shells, for example in Makefiles).
+ </p>
+ 
+ 
+ </body></html>

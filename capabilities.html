@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Report Capabilities of this Build of R</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for capabilities"><tr><td>capabilities</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Report Capabilities of this Build of R</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Report on the optional features which have been compiled into this
+ build of <font face="Courier New,Courier" color="#666666"><b>R</b></font>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ capabilities(what = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>what</code></td>
+ <td>
+ <p>character vector or <code>NULL</code>, specifying
+ required components.  <code>NULL</code> implies that all are required.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A named logical vector.  Current components are
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>jpeg</code></td>
+ <td>
+ <p>is the <code>jpeg</code> function operational?</p>
+ </td></tr>
+ <tr valign="top"><td><code>png</code></td>
+ <td>
+ <p>is the <code>png</code> function operational?</p>
+ </td></tr>
+ <tr valign="top"><td><code>tiff</code></td>
+ <td>
+ <p>is the <code>tiff</code> function operational?</p>
+ </td></tr>
+ <tr valign="top"><td><code>tcltk</code></td>
+ <td>
+ <p>is the <span class="pkg">tcltk</span> package operational?
+ Note that to make use of Tk you will almost always need to check
+ that <code>"X11"</code> is also available.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>X11</code></td>
+ <td>
+ <p>Are the <code>X11</code> graphics device and the
+ X11-based data editor available?  This loads the X11 module if not
+ already loaded, and checks that the default display can be
+ contacted unless a <code>X11</code> device has already been used.</p>
+ </td></tr>
+ <tr valign="top"><td><code>aqua</code></td>
+ <td>
+ <p>Are the <code>R.app</code> GUI components and the
+ <code>quartz</code> function operational?  Only on some Mac OS X
+ builds.  Note that this is distinct from
+ <code>.Platform$GUI == "AQUA"</code>, which is true when using the Mac
+ <code>R.app</code> GUI console.</p>
+ </td></tr>
+ </table>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>http/ftp</code></td>
+ <td>
+ <p>Are <code>url</code> and the internal method for
+ <code>download.file</code> available?</p>
+ </td></tr>
+ <tr valign="top"><td><code>sockets</code></td>
+ <td>
+ <p>Are <code>make.socket</code> and related functions
+ available?</p>
+ </td></tr>
+ <tr valign="top"><td><code>libxml</code></td>
+ <td>
+ <p>is there support for integrating <code>libxml</code> with
+ the <font face="Courier New,Courier" color="#666666"><b>R</b></font> event loop?</p>
+ </td></tr>
+ <tr valign="top"><td><code>fifo</code></td>
+ <td>
+ <p>are FIFO connections supported?</p>
+ </td></tr>
+ <tr valign="top"><td><code>cledit</code></td>
+ <td>
+ <p>is command-line editing available in the current <font face="Courier New,Courier" color="#666666"><b>R</b></font>
+ session?  This is false in non-interactive sessions.
+ It will be true for the command-line interface if <code>readline</code>
+ support has been compiled in and <span class="option">--no-readline</span> was
+ <EM>not</EM> used when <font face="Courier New,Courier" color="#666666"><b>R</b></font> was invoked.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>iconv</code></td>
+ <td>
+ <p>is internationalization conversion via
+ <code>iconv</code> supported?  Always true as from <font face="Courier New,Courier" color="#666666"><b>R</b></font> 2.10.0.</p>
+ </td></tr>
+ <tr valign="top"><td><code>NLS</code></td>
+ <td>
+ <p>is there Natural Language Support (for message translations)?</p>
+ </td></tr>
+ <tr valign="top"><td><code>profmem</code></td>
+ <td>
+ <p>is there support for memory profiling?  See
+ <code>tracemem</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>cairo</code></td>
+ <td>
+ <p>is there support the <code>svg</code>,
+ <code>cairo_pdf</code> and <code>cairo_ps</code> devices, and
+ for <code>type = "cairo"</code> in the
+ <code>X11</code>,
+ <code>bmp</code>, <code>jpeg</code>, <code>png</code>,
+ and <code>tiff</code> devices?</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Note to Mac OS X users</h3>
+ 
+ 
+ <p>Capabilities <code>"jpeg"</code>, <code>"png"</code> and <code>"tiff"</code> refer to
+ the X11-based versions of these devices.  If
+ <code>capabilities("aqua")</code> is true, then these devices with
+ <code>type="quartz"</code> will be available, and out-of-the-box will be the
+ default type.  Thus for example the <code>tiff</code> device will be
+ available if <code>capabilities("aqua") || capabilities("tiff")</code> if
+ the defaults are unchanged.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>.Platform</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ capabilities()
+ 
+ if(!capabilities("http/ftp"))
+    warning("internal download.file() is not available")
+ 
+ ## See also the examples for 'connections'.
+ </pre>
+ 
+ 
+ </body></html>

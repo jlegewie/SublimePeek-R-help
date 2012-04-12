@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Apply a Function to a Data Frame Split by Factors</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for by"><tr><td>by</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Apply a Function to a Data Frame Split by Factors</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Function <code>by</code> is an object-oriented wrapper for
+ <code>tapply</code> applied to data frames.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ by(data, INDICES, FUN, ..., simplify = TRUE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>an <font face="Courier New,Courier" color="#666666"><b>R</b></font> object, normally a data frame, possibly a matrix.</p>
+ </td></tr>
+ <tr valign="top"><td><code>INDICES</code></td>
+ <td>
+ <p>a factor or a list of factors, each of length
+ <code>nrow(data)</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>FUN</code></td>
+ <td>
+ <p>a function to be applied to data frame subsets of <code>data</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>further arguments to <code>FUN</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>simplify</code></td>
+ <td>
+ <p>logical: see <code>tapply</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>A data frame is split by row into data frames
+ subsetted by the values of one or more factors, and function
+ <code>FUN</code> is applied to each subset in turn.
+ </p>
+ <p>Object <code>data</code> will be coerced to a data frame by the default
+ method, <EM>but</EM> if this results in a 1-column data frame, the
+ objects passed to <code>FUN</code> are dropped to a subsets of that column.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>An object of class <code>"by"</code>, giving the results for each subset.
+ This is always a list if <code>simplify</code> is false, otherwise a list or
+ array (see <code>tapply</code>).
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>tapply</code>, <code>simplify2array</code>.
+ <code>ave</code> also applies a function block-wise.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ require(stats)
+ by(warpbreaks[, 1:2], warpbreaks[,"tension"], summary)
+ by(warpbreaks[, 1],   warpbreaks[, -1],       summary)
+ by(warpbreaks, warpbreaks[,"tension"],
+    function(x) lm(breaks ~ wool, data = x))
+ 
+ ## now suppose we want to extract the coefficients by group
+ tmp &lt;- with(warpbreaks,
+             by(warpbreaks, tension,
+                function(x) lm(breaks ~ wool, data = x)))
+ sapply(tmp, coef)
+ </pre>
+ 
+ 
+ </body></html>

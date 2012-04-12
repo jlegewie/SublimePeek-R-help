@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Unevaluated Expressions</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for expression"><tr><td>expression</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Unevaluated Expressions</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Creates or tests for objects of mode <code>"expression"</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ expression(...)
+ 
+ is.expression(x)
+ as.expression(x, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p><code>expression</code>: <font face="Courier New,Courier" color="#666666"><b>R</b></font> objects, typically calls, symbols
+ or constants.<br>
+ <code>as.expression</code>: arguments to be passed to methods.</p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>an arbitrary <font face="Courier New,Courier" color="#666666"><b>R</b></font> object.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>&lsquo;Expression&rsquo; here is not being used in its colloquial sense,
+ that of mathematical expressions.  Those are calls (see
+ <code>call</code>) in <font face="Courier New,Courier" color="#666666"><b>R</b></font>, and an <font face="Courier New,Courier" color="#666666"><b>R</b></font> expression vector is a list of
+ calls, symbols etc, for example as returned by <code>parse</code>.
+ </p>
+ <p>As an object of mode <code>"expression"</code> is a list, it can be
+ subsetted by <code>[</code>, <code>[[</code> or <code>$</code>, the latter two extracting
+ individual calls etc.  The replacement forms of these operators can be
+ used to replace or delete elements.
+ </p>
+ <p><code>expression</code> and <code>is.expression</code> are primitive functions.
+ <code>expression</code> is &lsquo;special&rsquo;: it does not evaluate its arguments.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>expression</code> returns a vector of type <code>"expression"</code>
+ containing its arguments (unevaluated).
+ </p>
+ <p><code>is.expression</code> returns <code>TRUE</code> if <code>expr</code> is an
+ expression object and <code>FALSE</code> otherwise.
+ </p>
+ <p><code>as.expression</code> attempts to coerce its argument into an
+ expression object.  It is generic, and only the default method is
+ described here.  (The default method calls
+ <code>as.vector(type="expression")</code> and so may dispatch methods for
+ <code>as.vector</code>.)  <code>NULL</code>, calls, symbols (see
+ <code>as.symbol</code>) and pairlists are returned as the element of
+ a length-one expression vector.  Atomic vectors are placed
+ element-by-element into an expression vector (without using any
+ names): lists are changed type to an expression vector (keeping all
+ attributes).  Other types are not currently supported.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988)
+ <EM>The New S Language</EM>.
+ Wadsworth &amp; Brooks/Cole.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>call</code>,
+ <code>eval</code>,
+ <code>function</code>.
+ Further,
+ <code>text</code> and
+ <code>legend</code>
+ for plotting mathematical expressions.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ length(ex1 &lt;- expression(1+ 0:9))# 1
+ ex1
+ eval(ex1)# 1:10
+ 
+ length(ex3 &lt;- expression(u,v, 1+ 0:9))# 3
+ mode(ex3 [3]) # expression
+ mode(ex3[[3]])# call
+ rm(ex3)
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Find Complete Cases</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for complete.cases"><tr><td>complete.cases</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Find Complete Cases</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Return a logical vector indicating which cases are complete, i.e.,
+ have no missing values.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ complete.cases(...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>a sequence of vectors, matrices and data frames.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A logical vector specifying which observations/rows have no missing
+ values across the entire sequence.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>is.na</code>,
+ <code>na.omit</code>,
+ <code>na.fail</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ x &lt;- airquality[, -1] # x is a regression design matrix
+ y &lt;- airquality[,  1] # y is the corresponding response
+ 
+ stopifnot(complete.cases(y) != is.na(y))
+ ok &lt;- complete.cases(x,y)
+ sum(!ok) # how many are not "ok" ?
+ x &lt;- x[ok,]
+ y &lt;- y[ok]
+ </pre>
+ 
+ 
+ </body></html>

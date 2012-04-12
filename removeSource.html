@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Remove Stored Source from a Function.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for removeSource"><tr><td>removeSource</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Remove Stored Source from a Function.
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>When <code>options("keep.source")</code> is <code>TRUE</code>, a copy of the
+ original source code to a function is stored with it.  This function
+ removes that copy.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ removeSource(fn)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>fn</code></td>
+ <td>
+ 
+ <p>A single function from which to remove the source.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This removes both the <code>"source"</code> attribute (from <font face="Courier New,Courier" color="#666666"><b>R</b></font> version
+ 2.13.x or earlier) and the <code>"srcref"</code> and related attributes.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A copy of the function with the source removed.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>srcref</code> for a description of source reference records,
+ <code>deparse</code> for a description of how functions are deparsed.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ fn &lt;- function(x) {
+   x + 1 # A comment, kept as part of the source
+ }
+ fn
+ fn &lt;- removeSource(fn)
+ fn
+ </pre>
+ 
+ 
+ </body></html>

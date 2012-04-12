@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: List Available Packages at CRAN-like Repositories</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for available.packages"><tr><td>available.packages</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>List Available Packages at CRAN-like Repositories</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>available.packages</code> returns a matrix of details corresponding to
+ packages currently available at one or more repositories. The
+ current list of packages is downloaded over the internet (or copied
+ from a local mirror).
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ available.packages(contriburl = contrib.url(getOption("repos"), type),
+                    method, fields = NULL,
+                    type = getOption("pkgType"),
+                    filters = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>contriburl</code></td>
+ <td>
+ 
+ <p>URL(s) of the &lsquo;<span class="file">contrib</span>&rsquo; sections of the repositories.
+ Specify this argument only if your repository mirror is incomplete,
+ e.g., because you burned only the &lsquo;<span class="file">contrib</span>&rsquo; section on a CD.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ 
+ <p>download method, see <code>download.file</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ 
+ <p>character string, indicate which type of packages: see
+ <code>install.packages</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>fields</code></td>
+ <td>
+ 
+ <p>a character vector giving the fields to extract from
+ the &lsquo;<span class="file">PACKAGES</span>&rsquo; file(s) in addition to the default ones, or
+ <code>NULL</code> (default).  Unavailable fields result in <code>NA</code>
+ values.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>filters</code></td>
+ <td>
+ 
+ <p>a character vector or list or <code>NULL</code> (default). See &lsquo;Details&rsquo;.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>By default, this includes only packages whose version and OS
+ requirements are met by the running version of <font face="Courier New,Courier" color="#666666"><b>R</b></font>, and only gives
+ information on the latest versions of packages.
+ </p>
+ <p>Argument <code>filters</code> can be used to select which of the packages on the
+ repositories are reported.  It is called with its default value
+ (<code>NULL</code>) by functions such as <code>install.packages</code>: this value
+ corresponds to <code>getOption("available_packages_filters")</code>
+ and to <code>c("R_version", "OS_type", "subarch", "duplicates")</code> if
+ that is unset or set to <code>NULL</code>.
+ </p>
+ <p>The built-in filters are
+ </p>
+ 
+ <dl>
+ <dt><code>"R_version"</code></dt><dd><p>exclude packages whose <font face="Courier New,Courier" color="#666666"><b>R</b></font> version
+ requirements are not met</p>
+ </dd>
+ <dt><code>"OS_type"</code></dt><dd><p>exclude packages whose OS requirement is
+ incompatible with this version of <font face="Courier New,Courier" color="#666666"><b>R</b></font>: that is exclude
+ Windows-only packages on a Unix-alike platform
+ and <EM>vice versa</EM>.</p>
+ </dd>
+ <dt><code>"subarch"</code></dt><dd><p>for binary packages, exclude those with
+ compiled code that is not available for the current
+ sub-architecture, e.g. exclude packages only compiled for 32-bit
+ Windows on a 64-bit Windows <font face="Courier New,Courier" color="#666666"><b>R</b></font>.</p>
+ </dd>
+ <dt><code>"duplicates"</code></dt><dd><p>only report the latest version where more
+ than one version is available, and only report the first-named
+ repository (in <code>contriburl</code>) with the latest version if that
+ is in more than one repository.</p>
+ </dd>
+ <dt><code>"license/FOSS"</code></dt><dd><p>include only packages for which
+ installation can proceed solely based on packages which can be
+ verified as Free or Open Source Software (FOSS, e.g.,
+ <a href="http://en.wikipedia.org/wiki/FOSS">http://en.wikipedia.org/wiki/FOSS</a>) employing the available
+ license specifications.  Thus both the package and any packages
+ that it depends on to load need to be <EM>known to be</EM> FOSS.
+ </p>
+ <p>Note that this does depend on the repository supplying license
+ information.
+ </p>
+ </dd>
+ </dl>
+ 
+ <p>If all the filters are from this set they can be specified as a
+ character vector; otherwise <code>filters</code> should be a list with
+ elements which are character strings, user-defined functions or
+ <code>add = TRUE</code> (see below).
+ </p>
+ <p>User-defined filters are functions which take a single argument, a
+ matrix of the form returned by by <code>available.packages</code>, and
+ return a matrix consisting of a subset of the rows of the argument.
+ </p>
+ <p>The special &lsquo;filter&rsquo; <code>add = TRUE</code> appends the other
+ elements of the filter list to the default filters.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A matrix with one row per package, row names the package names and
+ column names <code>"Package"</code>, <code>"Version"</code>, <code>"Priority"</code>,
+ <code>"Depends"</code>, <code>"Imports"</code>, <code>"LinkingTo"</code>,
+ <code>"Suggests"</code>, <code>"Enhances"</code>, <code>"OS_type"</code>,
+ <code>"License"</code>, <code>"File"</code> and <code>"Repository"</code>.  Additional
+ columns can be specified using the <code>fields</code> argument.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>install.packages</code>, <code>download.packages</code>,
+ <code>contrib.url</code>.
+ </p>
+ <p>The &lsquo;R Installation and Administration&rsquo; manual for how to 
+ set up a repository.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>## Not run: 
+ ## restrict install.packages() (etc) to known-to-be-FOSS packages
+ options(available_packages_filters =
+   c("R_version", "OS_type", "subarch", "duplicates", "license/FOSS"))
+ 
+ 
+ ## End(Not run)</pre>
+ 
+ 
+ </body></html>

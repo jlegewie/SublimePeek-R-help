@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Code to create a scatterplot matrix (experimental)</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for plotmatrix"><tr><td>plotmatrix</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Code to create a scatterplot matrix (experimental)</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Code to create a scatterplot matrix (experimental)
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   plotmatrix(data, mapping = aes(), colour = "black")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>data frame</p>
+ </td></tr>
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>any additional aesthetic mappings (do not
+ use x and y)</p>
+ </td></tr>
+ <tr valign="top"><td><code>colour</code></td>
+ <td>
+ <p>default point colour</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ plotmatrix(mtcars[, 1:3])
+ plotmatrix(mtcars[, 1:3]) + geom_smooth(method="lm")
+ </pre>
+ 
+ 
+ </body></html>

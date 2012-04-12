@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Spell Check Interface</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for aspell"><tr><td>aspell</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Spell Check Interface</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Spell check given files via Aspell, Hunspell or Ispell.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ aspell(files, filter, control = list(), encoding = "unknown",
+        program = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>files</code></td>
+ <td>
+ <p>a character vector with the names of files to be checked.</p>
+ </td></tr>
+ <tr valign="top"><td><code>filter</code></td>
+ <td>
+ <p>an optional filter for processing the files before spell
+ checking, given as either a function (with formals <code>ifile</code> and
+ <code>encoding</code>), or a character string specifying a built-in
+ filter, or a list with the name of a built-in filter and additional
+ arguments to be passed to it.  See <B>Details</B> for available
+ filters.  If missing or <code>NULL</code>, no filtering is performed.</p>
+ </td></tr>
+ <tr valign="top"><td><code>control</code></td>
+ <td>
+ <p>a list or character vector of control options for the
+ spell checker.</p>
+ </td></tr>
+ <tr valign="top"><td><code>encoding</code></td>
+ <td>
+ <p>the encoding of the files.  Recycled as needed.</p>
+ </td></tr>
+ <tr valign="top"><td><code>program</code></td>
+ <td>
+ <p>a character string giving the name (if on the system
+ path) or full path of the spell check program to be used, or
+ <code>NULL</code> (default).  By default, the system path is searched for
+ <CODE>aspell</CODE>, <CODE>hunspell</CODE> and <CODE>ispell</CODE> (in that
+ order), and the first one found is used.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The spell check programs employed must support the so-called Ispell
+ pipe interface activated via command line option <span class="option">-a</span>.  In
+ addition to the programs, suitable dictionaries need to be available.
+ See <a href="http://aspell.net">http://aspell.net</a>,
+ <a href="http://hunspell.sourceforge.net/">http://hunspell.sourceforge.net/</a> and
+ <a href="http://lasr.cs.ucla.edu/geoff/ispell.html">http://lasr.cs.ucla.edu/geoff/ispell.html</a>, respectively, for
+ obtaining the Aspell, Hunspell and (International) Ispell programs and
+ dictionaries.
+ </p>
+ <p>Currently the only available built-in filters are <code>"Rd"</code>,
+ corresponding to <code>RdTextFilter</code>, and <code>"Sweave"</code>,
+ corresponding to <code>SweaveTeXFilter</code>.
+ </p>
+ <p>The print method has for the objects returned by <code>aspell</code> has an
+ <code>indent</code> argument controlling the indentation of the positions of
+ possibly mis-spelled words.  The default is 2; Emacs users may find it
+ useful to use an indentation of 0 and visit output in grep-mode.  It
+ also has a <code>verbose</code> argument: when this is true, suggestions for
+ replacements are shown as well.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A data frame inheriting from <code>aspell</code> (which has a useful print
+ method) with the information about possibly mis-spelled words.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>aspell-utils for utilities for spell checking packages.
+ </p>
+ <p>Package <span class="pkg">Aspell</span> on Omegahat
+ (<a href="http://www.omegahat.org/Aspell">http://www.omegahat.org/Aspell</a>) for a fine-grained R interface
+ to the Aspell library.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: 
+ ## To check all Rd files in a directory, (additonally) skipping the
+ ## \references sections.
+ files &lt;- Sys.glob("*.Rd")
+ aspell(files, filter = list("Rd", drop = "\references"))
+ 
+ # To check all Sweave files
+ files &lt;- Sys.glob(c("*.Rnw", "*.Snw", "*.rnw", "*.snw"))
+ aspell(files, filter = "Sweave", control = "-t")
+ 
+ # To check all Texinfo files (Aspell only)
+ files &lt;- Sys.glob("*.texi")
+ aspell(files, control = "--mode=texinfo")
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

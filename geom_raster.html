@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: High-performance rectangular tiling.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for geom_raster"><tr><td>geom_raster</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>High-performance rectangular tiling.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This is a special case of <code>geom_tile</code> where
+ all tiles are the same size.  It is implemented highly
+ efficiently using the internal <code>rasterGrob</code>
+ function.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   geom_raster(mapping = NULL, data = NULL,
+     stat = "identity", position = "identity", hjust = 0.5,
+     vjust = 0.5, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>hjust,vjust</code></td>
+ <td>
+ <p>horizontal and vertical justification
+ of the grob.  Each justification value should be a number
+ between 0 and 1.  Defaults to 0.5 for both, centering
+ each pixel over its data location.</p>
+ </td></tr>
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>The statistical transformation to use on the
+ data for this layer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>By default, <code>geom_raster</code> add a vertical and
+ horizontal padding. The size of padding depends on the
+ resolution of data. If you want to manually set the
+ padding (e.g. want zero-padding), you can change the
+ behavior by setting <code>hpad</code> and <code>vpad</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ # Generate data
+ pp &lt;- function (n,r=4) {
+  x &lt;- seq(-r*pi, r*pi, len=n)
+  df &lt;- expand.grid(x=x, y=x)
+  df$r &lt;- sqrt(df$x^2 + df$y^2)
+  df$z &lt;- cos(df$r^2)*exp(-df$r/6)
+  df
+ }
+ qplot(x, y, data = pp(20), fill = z, geom = "raster")
+ 
+ # For the special cases where it is applicable, geom_raster is much
+ # faster than geom_tile:
+ pp200 &lt;- pp(200)
+ base &lt;- ggplot(pp200, aes(x, y, fill = z))
+ benchplot(base + geom_raster())
+ benchplot(base + geom_tile())
+ 
+ # padding
+ df &lt;- expand.grid(x = 0:5, y = 0:5)
+ df$z &lt;- runif(nrow(df))
+ # default is compatible with geom_tile()
+ ggplot(df, aes(x, y, fill = z)) + geom_raster()
+ # zero padding
+ ggplot(df, aes(x, y, fill = z)) + geom_raster(hpad = 0, vpad = 0)
+ 
+ </pre>
+ 
+ 
+ </body></html>

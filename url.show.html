@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Display a text URL</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for url.show"><tr><td>url.show</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Display a text URL</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Extension of <code>file.show</code> to display text files from a remote 
+ server.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ url.show(url, title = url, file = tempfile(),
+          delete.file = TRUE, method, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>url</code></td>
+ <td>
+ <p>The URL to read from.</p>
+ </td></tr>
+ <tr valign="top"><td><code>title</code></td>
+ <td>
+ <p>Title for the browser.</p>
+ </td></tr>
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ <p>File to copy to.</p>
+ </td></tr>
+ <tr valign="top"><td><code>delete.file</code></td>
+ <td>
+ <p>Delete the file afterwards?</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>File transfer method: see <code>download.file</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Arguments to pass to <code>file.show</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>Since this is for text files, it will convert to CRLF line endings on
+ Windows.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>url</code>, <code>file.show</code>, <code>download.file</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: url.show("http://lib.stat.cmu.edu/datasets/csb/ch3a.txt")
+ </pre>
+ 
+ 
+ </body></html>

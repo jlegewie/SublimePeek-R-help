@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Change axis labels and legend titles</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for labs"><tr><td>labs</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Change axis labels and legend titles</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Change axis labels and legend titles
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   labs(...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>a list of new names in the form aesthetic =
+ &quot;new name&quot;</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ p &lt;- qplot(mpg, wt, data = mtcars)
+ p + labs(x = "New x label")
+ p + xlab("New x label")
+ p + ylab("New y label")
+ 
+ # This should work indepdendently of other functions that modify the
+ # the scale names
+ p + ylab("New y label") + ylim(2, 4)
+ p + ylim(2, 4) + ylab("New y label")
+ 
+ # The labs function also modifies legend labels
+ p &lt;- qplot(mpg, wt, data = mtcars, colour = cyl)
+ p + labs(colour = "Cylinders")
+ 
+ # Can also pass in a list, if that is more convenient
+ p + labs(list(x = "X", y = "Y"))
+ </pre>
+ 
+ 
+ </body></html>

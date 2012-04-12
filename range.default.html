@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Range of Values</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for range"><tr><td>range</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Range of Values</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>range</code> returns a vector containing the minimum and maximum of
+ all the given arguments.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ range(..., na.rm = FALSE)
+ 
+ ## Default S3 method:
+ range(..., na.rm = FALSE, finite = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>any <code>numeric</code> or character objects.</p>
+ </td></tr>
+ <tr valign="top"><td><code>na.rm</code></td>
+ <td>
+ <p>logical, indicating if <code>NA</code>'s should be
+ omitted.</p>
+ </td></tr>
+ <tr valign="top"><td><code>finite</code></td>
+ <td>
+ <p>logical, indicating if all non-finite elements should
+ be omitted.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>range</code> is a generic function: methods can be defined for it
+ directly or via the <code>Summary</code> group generic.
+ For this to work properly, the arguments <code>...</code> should be
+ unnamed, and dispatch is on the first argument.
+ </p>
+ <p>If <code>na.rm</code> is <code>FALSE</code>, <code>NA</code>
+ and <code>NaN</code> values in any of the arguments will cause <code>NA</code> values
+ to be returned, otherwise <code>NA</code> values are ignored.
+ </p>
+ <p>If <code>finite</code> is <code>TRUE</code>, the minimum
+ and maximum of all finite values is computed, i.e.,
+ <code>finite=TRUE</code> <EM>includes</EM> <code>na.rm=TRUE</code>.
+ </p>
+ <p>A special situation occurs when there is no (after omission
+ of <code>NA</code>s) nonempty argument left, see <code>min</code>.
+ </p>
+ 
+ 
+ <h3>S4 methods</h3>
+ 
+ 
+ <p>This is part of the S4 <code>Summary</code>
+ group generic.  Methods for it must use the signature
+ <code>x, ..., na.rm</code>.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988)
+ <EM>The New S Language</EM>.
+ Wadsworth &amp; Brooks/Cole.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>min</code>, <code>max</code>.
+ </p>
+ <p>The <code>extendrange()</code> utility in package <span class="pkg">grDevices</span>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ (r.x &lt;- range(stats::rnorm(100)))
+ diff(r.x) # the SAMPLE range
+ 
+ x &lt;- c(NA, 1:3, -1:1/0); x
+ range(x)
+ range(x, na.rm = TRUE)
+ range(x, finite = TRUE)
+ </pre>
+ 
+ 
+ </body></html>

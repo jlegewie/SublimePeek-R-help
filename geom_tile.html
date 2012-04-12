@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Tile plane with rectangles.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for geom_tile"><tr><td>geom_tile</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Tile plane with rectangles.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Similar to <code>levelplot</code> and
+ <code>image</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   geom_tile(mapping = NULL, data = NULL, stat = "identity",
+     position = "identity", ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>The statistical transformation to use on the
+ data for this layer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ # Generate data
+ pp &lt;- function (n,r=4) {
+  x &lt;- seq(-r*pi, r*pi, len=n)
+  df &lt;- expand.grid(x=x, y=x)
+  df$r &lt;- sqrt(df$x^2 + df$y^2)
+  df$z &lt;- cos(df$r^2)*exp(-df$r/6)
+  df
+ }
+ p &lt;- ggplot(pp(20), aes(x=x,y=y))
+ 
+ p + geom_tile() #pretty useless!
+ 
+ # Add aesthetic mappings
+ p + geom_tile(aes(fill=z))
+ 
+ # Change scale
+ p + geom_tile(aes(fill=z)) + scale_fill_gradient(low="green", high="red")
+ 
+ # Use qplot instead
+ qplot(x, y, data=pp(20), geom="tile", fill=z)
+ qplot(x, y, data=pp(100), geom="tile", fill=z)
+ 
+ # Missing values
+ p &lt;- ggplot(pp(20)[sample(20*20, size=200),], aes(x=x,y=y,fill=z))
+ p + geom_tile()
+ 
+ # Input that works with image
+ image(t(volcano)[ncol(volcano):1,])
+ library(reshape2) # for melt
+ ggplot(melt(volcano), aes(x=Var1, y=Var2, fill=value)) + geom_tile()
+ 
+ # inspired by the image-density plots of Ken Knoblauch
+ cars &lt;- ggplot(mtcars, aes(y=factor(cyl), x=mpg))
+ cars + geom_point()
+ cars + stat_bin(aes(fill=..count..), geom="tile", binwidth=3, position="identity")
+ cars + stat_bin(aes(fill=..density..), geom="tile", binwidth=3, position="identity")
+ 
+ cars + stat_density(aes(fill=..density..), geom="tile", position="identity")
+ cars + stat_density(aes(fill=..count..), geom="tile", position="identity")
+ 
+ # Another example with with unequal tile sizes
+ x.cell.boundary &lt;- c(0, 4, 6, 8, 10, 14)
+ example &lt;- data.frame(
+   x = rep(c(2, 5, 7, 9, 12), 2),
+   y = factor(rep(c(1,2), each=5)),
+   z = rep(1:5, each=2),
+   w = rep(diff(x.cell.boundary), 2)
+ )
+ 
+ qplot(x, y, fill=z, data=example, geom="tile")
+ qplot(x, y, fill=z, data=example, geom="tile", width=w)
+ qplot(x, y, fill=factor(z), data=example, geom="tile", width=w)
+ 
+ # You can manually set the colour of the tiles using
+ # scale_manual
+ col &lt;- c("darkblue", "blue", "green", "orange", "red")
+ qplot(x, y, fill=col[z], data=example, geom="tile", width=w, group=1) + scale_fill_identity(labels=letters[1:5], breaks=col)
+ 
+ </pre>
+ 
+ 
+ </body></html>

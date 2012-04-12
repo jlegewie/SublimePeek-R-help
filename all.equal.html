@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Test if Two Objects are (Nearly) Equal</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for all.equal"><tr><td>all.equal</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Test if Two Objects are (Nearly) Equal</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>all.equal(x,y)</code> is a utility to compare <font face="Courier New,Courier" color="#666666"><b>R</b></font> objects <code>x</code>
+ and <code>y</code> testing &lsquo;near equality&rsquo;.  If they are different,
+ comparison is still made to some extent, and a report of the
+ differences is returned.    Don't use <code>all.equal</code> directly in
+ <code>if</code> expressions&mdash;either use <code>isTRUE(all.equal(....))</code> or
+ <code>identical</code> if appropriate.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ all.equal(target, current, ...)
+ 
+ ## S3 method for class 'numeric'
+ all.equal(target, current,
+           tolerance = .Machine$double.eps ^ 0.5,
+           scale = NULL, check.attributes = TRUE, ...)
+ 
+ attr.all.equal(target, current,
+                check.attributes = TRUE, check.names = TRUE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>target</code></td>
+ <td>
+ <p><font face="Courier New,Courier" color="#666666"><b>R</b></font> object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>current</code></td>
+ <td>
+ <p>other <font face="Courier New,Courier" color="#666666"><b>R</b></font> object, to be compared with <code>target</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Further arguments for different methods, notably the
+ following two, for numerical comparison:</p>
+ </td></tr>
+ <tr valign="top"><td><code>tolerance</code></td>
+ <td>
+ <p>numeric <i>&ge;</i> 0.  Differences smaller than
+ <code>tolerance</code> are not considered.</p>
+ </td></tr>
+ <tr valign="top"><td><code>scale</code></td>
+ <td>
+ <p>numeric scalar &gt; 0 (or <code>NULL</code>). See &lsquo;Details&rsquo;.</p>
+ </td></tr>
+ <tr valign="top"><td><code>check.attributes</code></td>
+ <td>
+ <p>logical indicating if the
+ <code>attributes(.)</code> of <code>target</code> and <code>current</code>
+ should be compared as well.</p>
+ </td></tr>
+ <tr valign="top"><td><code>check.names</code></td>
+ <td>
+ <p>logical indicating if the <code>names(.)</code>
+ of <code>target</code> and <code>current</code> should be compared as well (and
+ separately from the <code>attributes</code>).</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>all.equal</code> is a generic function, dispatching methods on the
+ <code>target</code> argument.  To see the available methods, use
+ <code>methods("all.equal")</code>, but note that the default method
+ also does some dispatching, e.g. using the raw method for logical
+ targets.
+ </p>
+ <p>Numerical comparisons for <code>scale = NULL</code> (the default) are done
+ by first computing the mean absolute difference of the two numerical
+ vectors.  If this is smaller than <code>tolerance</code> or not finite,
+ absolute differences are used, otherwise relative differences scaled
+ by the mean absolute difference.
+ </p>
+ <p>If <code>scale</code> is positive, absolute comparisons are made after
+ scaling (dividing) by <code>scale</code>.
+ </p>
+ <p>For complex <code>target</code>, the modulus (<code>Mod</code>) of the
+ difference is used: <code>all.equal.numeric</code> is called so arguments
+ <code>tolerance</code> and <code>scale</code> are available.
+ </p>
+ <p><code>attr.all.equal</code> is used for comparing
+ <code>attributes</code>, returning <code>NULL</code> or a
+ <code>character</code> vector.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Either <code>TRUE</code> (<code>NULL</code> for <code>attr.all.equal</code>) or a vector
+ of <code>mode</code> <code>"character"</code> describing the differences
+ between <code>target</code> and <code>current</code>.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Chambers, J. M. (1998)
+ <EM>Programming with Data. A Guide to the S Language</EM>.
+ Springer (for <code>=</code>).
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>identical</code>, <code>isTRUE</code>, <code>==</code>, and
+ <code>all</code> for exact equality testing.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ all.equal(pi, 355/113)
+ # not precise enough (default tol) &gt; relative error
+ 
+ d45 &lt;- pi*(1/4 + 1:10)
+ stopifnot(
+ all.equal(tan(d45), rep(1,10)))        # TRUE, but
+ all      (tan(d45) == rep(1,10))       # FALSE, since not exactly
+ all.equal(tan(d45), rep(1,10), tol=0)  # to see difference
+ </pre>
+ 
+ 
+ </body></html>

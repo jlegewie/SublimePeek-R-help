@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Sequential grey colour scale.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for scale_colour_grey"><tr><td>scale_colour_grey</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Sequential grey colour scale.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Based on <code>gray.colors</code>
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   scale_colour_grey(..., start = 0.2, end = 0.8,
+     na.value = "red")
+ 
+   scale_fill_grey(..., start = 0.2, end = 0.8,
+     na.value = "grey50")
+ 
+   scale_color_grey(..., start = 0.2, end = 0.8,
+     na.value = "red")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>start</code></td>
+ <td>
+ <p>gray value at low end of palette</p>
+ </td></tr>
+ <tr valign="top"><td><code>end</code></td>
+ <td>
+ <p>gray value at high end of palette</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Other arguments passed on to
+ <code>continuous_scale</code> to control name, limits,
+ breaks, labels and so forth.</p>
+ </td></tr>
+ <tr valign="top"><td><code>na.value</code></td>
+ <td>
+ <p>Colour to use for missing values</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Other colour scales: <code>scale_color_brewer</code>,
+ <code>scale_color_continuous</code>,
+ <code>scale_color_discrete</code>,
+ <code>scale_color_gradient</code>,
+ <code>scale_color_gradient2</code>,
+ <code>scale_color_gradientn</code>,
+ <code>scale_color_hue</code>,
+ <code>scale_colour_brewer</code>,
+ <code>scale_colour_continuous</code>,
+ <code>scale_colour_discrete</code>,
+ <code>scale_colour_gradient</code>,
+ <code>scale_colour_gradient2</code>,
+ <code>scale_colour_gradientn</code>,
+ <code>scale_colour_hue</code>,
+ <code>scale_fill_brewer</code>,
+ <code>scale_fill_continuous</code>,
+ <code>scale_fill_discrete</code>,
+ <code>scale_fill_gradient</code>,
+ <code>scale_fill_gradient2</code>,
+ <code>scale_fill_gradientn</code>,
+ <code>scale_fill_hue</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ p &lt;- qplot(mpg, wt, data=mtcars, colour=factor(cyl))
+ p + scale_colour_grey()
+ p + scale_colour_grey(end = 0)
+ 
+ # You may want to turn off the pale grey background with this scale
+ p + scale_colour_grey() + theme_bw()
+ 
+ # Colour of missing values is controlled with na.value:
+ miss &lt;- factor(sample(c(NA, 1:5), nrow(mtcars), rep = TRUE))
+ qplot(mpg, wt, data = mtcars, colour = miss) + scale_colour_grey()
+ qplot(mpg, wt, data = mtcars, colour = miss) +
+   scale_colour_grey(na.value = "green")
+ </pre>
+ 
+ 
+ </body></html>

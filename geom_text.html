@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Textual annotations.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for geom_text"><tr><td>geom_text</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Textual annotations.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Textual annotations.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   geom_text(mapping = NULL, data = NULL, stat = "identity",
+     position = "identity", parse = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>parse</code></td>
+ <td>
+ <p>If TRUE, the labels will be parsed into
+ expressions and displayed as described in ?plotmath</p>
+ </td></tr>
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>The statistical transformation to use on the
+ data for this layer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ p &lt;- ggplot(mtcars, aes(x=wt, y=mpg, label=rownames(mtcars)))
+ 
+ p + geom_text()
+ # Change size of the label
+ p + geom_text(size=10)
+ p &lt;- p + geom_point()
+ 
+ # Set aesthetics to fixed value
+ p + geom_text()
+ p + geom_point() + geom_text(hjust=0, vjust=0)
+ p + geom_point() + geom_text(angle = 45)
+ 
+ # Add aesthetic mappings
+ p + geom_text(aes(colour=factor(cyl)))
+ p + geom_text(aes(colour=factor(cyl))) + scale_colour_discrete(l=40)
+ 
+ p + geom_text(aes(size=wt))
+ p + geom_text(aes(size=wt)) + scale_size(range=c(3,6))
+ 
+ # You can display expressions by setting parse = TRUE.  The
+ # details of the display are described in ?plotmath, but note that
+ # geom_text uses strings, not expressions.
+ p + geom_text(aes(label = paste(wt, "^(", cyl, ")", sep = "")),
+   parse = TRUE)
+ 
+ # Add an annotation not from a variable source
+ c &lt;- ggplot(mtcars, aes(wt, mpg)) + geom_point()
+ c + geom_text(data = data.frame(), aes(5, 30, label = "plot mpg vs. wt"))
+ # Or, you can use annotate
+ c + annotate("text", label = "plot mpg vs. wt", x = 2, y = 15, size = 8, colour = "red")
+ 
+ # Use qplot instead
+ qplot(wt, mpg, data = mtcars, label = rownames(mtcars),
+    geom=c("point", "text"))
+ qplot(wt, mpg, data = mtcars, label = rownames(mtcars), size = wt) +
+   geom_text(colour = "red")
+ 
+ # You can specify fontfamily, fontface and lineheight
+ p &lt;- ggplot(mtcars, aes(x=wt, y=mpg, label=rownames(mtcars)))
+ p + geom_text(fontface=3)
+ p + geom_text(aes(fontface=am+1))
+ p + geom_text(aes(family=c("serif", "mono")[am+1]))
+ 
+ </pre>
+ 
+ 
+ </body></html>

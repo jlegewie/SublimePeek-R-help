@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Edit One or More Files</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for file.edit"><tr><td>file.edit</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Edit One or More Files</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p>Edit one or more files in a text editor.</p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ file.edit(..., title = file, editor = getOption("editor"),
+           fileEncoding = "")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>one or more character vectors containing the names of the
+ files to be displayed.  These will be tilde-expanded: see
+ <code>path.expand</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>title</code></td>
+ <td>
+ <p>the title to use in the editor; defaults to the filename.</p>
+ </td></tr>  
+ <tr valign="top"><td><code>editor</code></td>
+ <td>
+ <p>the text editor to be used.  See &lsquo;Details&rsquo;.</p>
+ </td></tr>
+ <tr valign="top"><td><code>fileEncoding</code></td>
+ <td>
+ <p>the encoding to assume for the file: the default
+ is to assume the native encoding.  See the &lsquo;Encoding&rsquo; section
+ of the help for <code>file</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The behaviour of this function is very system dependent.  Currently
+ files can be opened only one at a time on Unix; on Windows, the
+ internal editor allows multiple files to be opened, but has a limit of
+ 50 simultaneous edit windows.
+ </p>
+ <p>The <code>title</code> argument is used for the window caption in Windows,
+ and is currently ignored on other platforms.
+ </p>
+ <p>The <code>fileEncoding</code> argument was added in <font face="Courier New,Courier" color="#666666"><b>R</b></font> 2.13.0: any error in
+ re-encoding the files to the native encoding will cause the function
+ to fail.
+ </p>
+ <p>The default for <code>editor</code> is system-dependent.   On
+ Windows it defaults to <code>"internal"</code>, the script editor, and in
+ the Mac OS X GUI the document editor is used whatever the value of
+ <code>editor</code>.  On Unix the default is set from the environment
+ variables <span class="env">EDITOR</span> or <span class="env">VISUAL</span> if either is set, otherwise
+ <code>vi</code> is used.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>files</code>,
+ <code>file.show</code>,
+ <code>edit</code>,
+ <code>fix</code>,
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: 
+ # open two R scripts for editing
+ file.edit("script1.R", "script2.R")
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

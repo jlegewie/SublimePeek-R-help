@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Remove 'names' or 'dimnames'</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for unname"><tr><td>unname</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Remove <code>names</code> or <code>dimnames</code></h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Remove the <code>names</code> or <code>dimnames</code> attribute of
+ an <font face="Courier New,Courier" color="#666666"><b>R</b></font> object.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ unname(obj, force = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>obj</code></td>
+ <td>
+ <p>an <font face="Courier New,Courier" color="#666666"><b>R</b></font> object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>force</code></td>
+ <td>
+ <p>logical; if true, the <code>dimnames</code> (names and row
+ names) are removed even from <code>data.frame</code>s.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Object as <code>obj</code> but without <code>names</code> or
+ <code>dimnames</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ require(graphics); require(stats)
+ 
+ ## Answering a question on R-help (14 Oct 1999):
+ col3 &lt;- 750+ 100*rt(1500, df = 3)
+ breaks &lt;- factor(cut(col3,breaks=360+5*(0:155)))
+ z &lt;- table(breaks)
+ z[1:5] # The names are larger than the data ...
+ barplot(unname(z), axes= FALSE)
+ </pre>
+ 
+ 
+ </body></html>

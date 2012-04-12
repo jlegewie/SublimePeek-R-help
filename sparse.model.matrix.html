@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Construct Sparse Design / Model Matrices</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for sparse.model.matrix"><tr><td>sparse.model.matrix</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Construct Sparse Design / Model Matrices</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Construct a Model or &ldquo;Design&rdquo; Matrix
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ sparse.model.matrix(object, data = environment(object),
+                     contrasts.arg = NULL, xlev = NULL, transpose = FALSE,
+                     drop.unused.levels = FALSE, row.names = TRUE,
+                     verbose = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>object</code></td>
+ <td>
+ <p>an object of an appropriate class.  For the default
+ method, a model formula or terms object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>a data frame created with <code>model.frame</code>.  If
+ another sort of object, <code>model.frame</code> is called first.</p>
+ </td></tr>
+ <tr valign="top"><td><code>contrasts.arg</code></td>
+ <td>
+ <p>A list, whose entries are contrasts suitable for
+ input to the <code>contrasts</code> replacement function and
+ whose names are the names of columns of <code>data</code> containing
+ <code>factor</code>s.</p>
+ </td></tr>
+ <tr valign="top"><td><code>xlev</code></td>
+ <td>
+ <p>to be used as argument of <code>model.frame</code> if
+ <code>data</code> has no <code>"terms"</code> attribute.</p>
+ </td></tr>
+ <tr valign="top"><td><code>transpose</code></td>
+ <td>
+ <p>logical indicating if the <EM>transpose</EM> should be
+ returned; if the transposed is used anyway, setting <code>transpose = TRUE</code>
+ is more efficient.</p>
+ </td></tr>
+ <tr valign="top"><td><code>drop.unused.levels</code></td>
+ <td>
+ <p>should factors have unused levels dropped?
+ (This used to be true, <EM>implicitly</EM> in versions of <span class="pkg">Matrix</span>
+ up to July 2010; the default has been changed for compatibility with
+ <font face="Courier New,Courier" color="#666666"><b>R</b></font>'s standard (dense) <code>model.matrix()</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>row.names</code></td>
+ <td>
+ <p>logical indicating if row names should be used.</p>
+ </td></tr>
+ <tr valign="top"><td><code>verbose</code></td>
+ <td>
+ <p>logical or integer indicating if (and how much)
+ progress output should be printed.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>further arguments passed to or from other methods.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>a sparse matrix extending <code>CsparseMatrix</code>.
+ </p>
+ <p>Note that <code>model.Matrix(*, sparse=TRUE)</code>
+ from package <span class="pkg">MatrixModels</span> may be often be preferable to
+ <code>sparse.model.matrix()</code> nowadays, as <code>model.Matrix()</code>
+ returns <code>modelMatrix</code>
+ objects with additional slots <code>assign</code> and <code>contrasts</code> which
+ relate back to the variables used.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Doug Bates and Martin Maechler, with initial suggestions from Tim
+ Hesterberg.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>model.matrix</code> in standard <font face="Courier New,Courier" color="#666666"><b>R</b></font>'s package <span class="pkg">stats</span>.<br>
+ <code>model.Matrix</code> which calls
+ <code>sparse.model.matrix</code> or <code>model.matrix</code> depending on its
+ <code>sparse</code> argument may be preferred to <code>sparse.model.matrix</code>.
+ </p>
+ <p><code>as(f, "sparseMatrix")</code> (see <code>coerce(from = "factor", ..)</code>
+ in the class doc sparseMatrix) produces the
+ <EM>transposed</EM> sparse model matrix for a single factor <code>f</code>
+ (and <EM>no</EM> contrasts).
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ dd &lt;- data.frame(a = gl(3,4), b = gl(4,1,12))# balanced 2-way
+ options("contrasts") # the default:  "contr.treatment"
+ sparse.model.matrix(~ a + b, dd)
+ sparse.model.matrix(~ -1+ a + b, dd)# no intercept --&gt; even sparser
+ sparse.model.matrix(~ a + b, dd, contrasts = list(a="contr.sum"))
+ sparse.model.matrix(~ a + b, dd, contrasts = list(b="contr.SAS"))
+ 
+ ## Sparse method is equivalent to the traditional one :
+ stopifnot(all(sparse.model.matrix(~ a + b, dd) ==
+ 	      Matrix(model.matrix(~ a + b, dd), sparse=TRUE)),
+           all(sparse.model.matrix(~ 0+ a + b, dd) ==
+ 	      Matrix(model.matrix(~ 0+ a + b, dd), sparse=TRUE)))
+ 
+ </pre>
+ 
+ 
+ </body></html>

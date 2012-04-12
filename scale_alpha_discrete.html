@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Alpha scales.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for scale_alpha"><tr><td>scale_alpha</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Alpha scales.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>scale_alpha</code> is an alias for
+ <code>scale_alpha_continuous</code> since that is the most
+ common use of alpha, and it saves a bit of typing.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   scale_alpha(..., range = c(0.1, 1))
+ 
+   scale_alpha_continuous(..., range = c(0.1, 1))
+ 
+   scale_alpha_discrete(..., range = c(0.1, 1))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Other arguments passed on to
+ <code>continuous_scale</code> or
+ <code>discrete_scale</code> as appropriate, to control
+ name, limits, breaks, labels and so forth.</p>
+ </td></tr>
+ <tr valign="top"><td><code>range</code></td>
+ <td>
+ <p>range of output alpha values.  Should lie
+ between 0 and 1.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ (p &lt;- qplot(mpg, cyl, data = mtcars, alpha = cyl))
+ p + scale_alpha("cylinders")
+ p + scale_alpha("number\nof\ncylinders")
+ 
+ p + scale_alpha(range = c(0.4, 0.8))
+ 
+ (p &lt;- qplot(mpg, cyl, data=mtcars, alpha = factor(cyl)))
+ p + scale_alpha_discrete(range = c(0.4, 0.8))
+ </pre>
+ 
+ 
+ </body></html>

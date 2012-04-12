@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Some diagnostics for a fitted gam model</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for gam.check"><tr><td>gam.check</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Some diagnostics for a fitted gam model</h2>
+ 
+ <h3>Description</h3>
+ 
+ <p> Takes a fitted <code>gam</code> object produced by <code>gam()</code> and produces some diagnostic information
+ about the fitting procedure and results. The default is to produce 4 residual
+ plots, and some information about the convergence of the smoothness selection optimization.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ gam.check(b, old.style=FALSE,
+           type=c("deviance","pearson","response"),
+           rep=0, level=.9, rl.col=2, rep.col="gray80", ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>b</code></td>
+ <td>
+ <p>a fitted <code>gam</code> object as produced by <code>gam()</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>old.style</code></td>
+ <td>
+ <p>If you want old fashioned plots, exactly as in Wood, 2006, set to <code>TRUE</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ <p>type of residuals, see <code>residuals.gam</code>, used in
+ all plots.</p>
+ </td></tr>
+ <tr valign="top"><td><code>rep, level, rl.col, rep.col</code></td>
+ <td>
+ 
+ <p>arguments passed to <code>qq.gam()</code> when <code>old.style</code> is
+ false, see there.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>extra graphics parameters to pass to plotting functions.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ <p> This function plots 4 standard diagnostic plots, and some other
+ convergence diagnostics. Usually the 4 plots are various residual plots. The
+ printed information relates to the optimization used to select smoothing
+ parameters. For the default optimization methods the information is summarized in a
+ readable way, but for other optimization methods, whatever is returned by way of
+ convergence diagnostics is simply printed.
+ </p>
+ <p>The QQ plot produced is usually created by a call to <code>qq.gam</code>, and plots deviance residuals 
+ against approximate theoretical quantilies of the deviance residual distribution, according to the fitted model. 
+ If this looks odd then investigate further using <code>qq.gam</code>. Note that residuals for models fitted to binary data contain very little 
+ information useful for model checking (it is necessary to find some way of aggregating them first), so the QQ plot is unlikely 
+ to be useful in this case.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ <p>A vector of reference quantiles for the residual distribution, if these can be computed.</p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p> Simon N. Wood <a href="mailto:simon.wood@r-project.org">simon.wood@r-project.org</a></p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Wood S.N. (2006) Generalized Additive Models: An Introduction with R. Chapman
+ and Hall/CRC Press.
+ </p>
+ <p><a href="http://www.maths.bath.ac.uk/~sw283/">http://www.maths.bath.ac.uk/~sw283/</a>
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+  <p><code>choose.k</code>,  <code>gam</code>, <code>mgcv</code>, <code>magic</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ library(mgcv)
+ set.seed(0)
+ dat &lt;- gamSim(1,n=200)
+ b&lt;-gam(y~s(x0)+s(x1)+s(x2)+s(x3),data=dat)
+ plot(b,pages=1)
+ gam.check(b,pch=19,cex=.3)
+ </pre>
+ 
+ 
+ </body></html>

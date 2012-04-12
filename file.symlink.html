@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: File Manipulation</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for files"><tr><td>files</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>File Manipulation</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>These functions provide a low-level interface to the computer's
+ file system.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ file.create(..., showWarnings = TRUE)
+ file.exists(...)
+ file.remove(...)
+ file.rename(from, to)
+ file.append(file1, file2)
+ file.copy(from, to, overwrite = recursive, recursive = FALSE,
+           copy.mode = TRUE)
+ file.symlink(from, to)
+ file.link(from, to)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>..., file1, file2</code></td>
+ <td>
+ <p>character vectors, containing file names or paths.</p>
+ </td></tr>
+ <tr valign="top"><td><code>from, to</code></td>
+ <td>
+ <p>character vectors, containing file names or paths.
+ For <code>file.copy</code> and <code>file.symlink</code>
+ <code>to</code> can alternatively be the path to a single existing directory.</p>
+ </td></tr>
+ <tr valign="top"><td><code>overwrite</code></td>
+ <td>
+ <p>logical; should existing destination files be overwritten?</p>
+ </td></tr>
+ <tr valign="top"><td><code>showWarnings</code></td>
+ <td>
+ <p>logical; should the warnings on failure be shown?</p>
+ </td></tr>
+ <tr valign="top"><td><code>recursive</code></td>
+ <td>
+ <p>logical.  If <code>to</code> is a directory, should
+ directories in <code>from</code> be copied (and their contents)?</p>
+ </td></tr>
+ <tr valign="top"><td><code>copy.mode</code></td>
+ <td>
+ <p>logical:  should file permission bits be copied where
+ possible?  This applies to both files and directories.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The <code>...</code> arguments are concatenated to form one character
+ string: you can specify the files separately or as one vector.
+ All of these functions expand path names: see <code>path.expand</code>.
+ </p>
+ <p><code>file.create</code> creates files with the given names if they do not
+ already exist and truncates them if they do.  They are created with
+ the maximal read/write permissions allowed by the
+ &lsquo;umask&rsquo; setting (where relevant).  By default a warning
+ is given (with the reason) if the operation fails.
+ </p>
+ <p><code>file.exists</code> returns a logical vector indicating whether the
+ files named by its argument exist.  (Here &lsquo;exists&rsquo; is in the
+ sense of the system's <code>stat</code> call: a file will be reported as
+ existing only if you have the permissions needed by <code>stat</code>.
+ Existence can also be checked by <code>file.access</code>, which
+ might use different permissions and so obtain a different result.
+ Note that the existence of a file does not imply that it is readable:
+ for that use <code>file.access</code>.)  What constitutes a
+ &lsquo;file&rsquo; is system-dependent, but should include directories.
+ (However, directory names must not include a trailing backslash or
+ slash on Windows.)  Note that if the file is a symbolic link on a
+ Unix-alike, the result indicates if the link points to an actual file,
+ not just if the link exists.
+ </p>
+ <p><code>file.remove</code> attempts to remove the files named in its argument.
+ On most Unix platforms &lsquo;file&rsquo; includes <EM>empty</EM>
+ directories, symbolic links, fifos and sockets.  On Windows,
+ &lsquo;file&rsquo; means a regular file and not, say, an empty directory.
+ </p>
+ <p><code>file.rename</code> attempts to rename files (and <code>from</code> and
+ <code>to</code> must be of the same length).  Where file permissions allow
+ this will overwrite an existing element of <code>to</code>.  This is subject
+ to the limitations of the OS's corresponding system call (see
+ something like <CODE>man 2 rename</CODE> on a Unix-alike): in particular
+ in the interpretation of &lsquo;file&rsquo;: most platforms will not rename
+ files across file systems.  (On Windows, <code>file.rename</code> nowadays
+ works across volumes for files but not directories.)
+ </p>
+ <p><code>file.append</code> attempts to append the files named by its
+ second argument to those named by its first.  The <font face="Courier New,Courier" color="#666666"><b>R</b></font> subscript
+ recycling rule is used to align names given in vectors
+ of different lengths.
+ </p>
+ <p><code>file.copy</code> works in a similar way to <code>file.append</code> but with
+ the arguments in the natural order for copying.  Copying to existing
+ destination files is skipped unless <code>overwrite = TRUE</code>.  The
+ <code>to</code> argument can specify a single existing directory.  If
+ <code>copy.mode = TRUE</code> (added in <font face="Courier New,Courier" color="#666666"><b>R</b></font> 2.13.0) file read/write/execute
+ permissions are copied where possible, restricted by
+ &lsquo;umask&rsquo;.  Other security attributes such as ACLs are not
+ copied.  On a POSIX filesystem the targets of symbolic links will be
+ copied rather than the links themselves.
+ </p>
+ <p><code>file.symlink</code> and <code>file.link</code> make symbolic and hard links
+ on those file systems which support them.  For <code>file.symlink</code> the
+ <code>to</code> argument can specify a single existing directory.  (Unix and
+ Mac OS X native filesystems support both.  Windows has hard links to
+ files on NTFS file systems and concepts related to symbolic links on
+ recent versions: see the section below on the Windows version of this
+ help page.  What happens on a FAT or SMB-mounted file system is OS-specific.)
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>These functions return a logical vector indicating which
+ operation succeeded for each of the files attempted.  Using a missing
+ value for a file or path name will always be regarded as a failure.
+ </p>
+ <p>If <code>showWarnings = TRUE</code>, <code>file.create</code> will give a warning
+ for an unexpected failure.
+ </p>
+ 
+ 
+ <h3>Case-insensitive file systems</h3>
+ 
+ 
+ <p>Case-insensitive file systems are the norm on Windows and Mac OS X,
+ but can be found on all OSes (for example a FAT-formatted USB drive is
+ probably case-insensitive).
+ </p>
+ <p>These functions will most likely match existing files regardless of case
+ on such file systems: however this is an OS function and it is
+ possible that file names might be mapped to upper or lower case.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>Ross Ihaka, Brian Ripley
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>file.info</code>, <code>file.access</code>, <code>file.path</code>,
+ <code>file.show</code>, <code>list.files</code>,
+ <code>unlink</code>, <code>basename</code>,
+ <code>path.expand</code>.
+ </p>
+ <p><code>dir.create</code>.
+ </p>
+ <p><code>Sys.glob</code> to expand wildcards in file specifications.
+ </p>
+ <p><code>file_test</code>, <code>Sys.readlink</code>.
+ </p>
+ <p><a href="http://en.wikipedia.org/wiki/Hard_link">http://en.wikipedia.org/wiki/Hard_link</a> and
+ <a href="http://en.wikipedia.org/wiki/Symbolic_link">http://en.wikipedia.org/wiki/Symbolic_link</a> for the concepts of
+ links and their limitations. 
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ cat("file A\n", file="A")
+ cat("file B\n", file="B")
+ file.append("A", "B")
+ file.create("A")
+ file.append("A", rep("B", 10))
+ if(interactive()) file.show("A")
+ file.copy("A", "C")
+ dir.create("tmp")
+ file.copy(c("A", "B"), "tmp")
+ list.files("tmp")
+ setwd("tmp")
+ file.remove("B")
+ file.symlink(file.path("..", c("A", "B")), ".")
+ setwd("..")
+ unlink("tmp", recursive=TRUE)
+ file.remove("A", "B", "C")
+ </pre>
+ 
+ 
+ </body></html>

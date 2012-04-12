@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: The Number of Levels of a Factor</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for nlevels"><tr><td>nlevels</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>The Number of Levels of a Factor</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Return the number of levels which its argument has.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ nlevels(x)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>an object, usually a factor.</p>
+ </td></tr> 
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This is usually applied to a factor, but other objects can have levels.
+ </p>
+ <p>The actual factor levels (if they exist) can be obtained
+ with the <code>levels</code> function.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>The length of <code>levels(x)</code>, which is zero if
+ <code>x</code> has no levels.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>levels</code>, <code>factor</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ nlevels(gl(3,7)) # = 3
+ </pre>
+ 
+ 
+ </body></html>

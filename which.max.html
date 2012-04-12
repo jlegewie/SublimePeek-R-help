@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Where is the Min() or Max() ?</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for which.min"><tr><td>which.min</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Where is the Min() or Max() ?</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Determines the location, i.e., index of the (first) minimum or maximum
+ of a numeric vector.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ which.min(x)
+ which.max(x)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>numeric (integer or double) vector, whose
+ <code>min</code> or <code>max</code> is searched for.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Missing and <code>NaN</code> values are discarded.
+ </p>
+ <p>an <code>integer</code> of length 1 or 0 (iff <code>x</code> has no
+ non-<code>NA</code>s), giving the index of the <EM>first</EM> minimum or
+ maximum respectively of <code>x</code>.
+ </p>
+ <p>If this extremum is unique (or empty), the results are the same as
+ (but more efficient than) <code>which(x == min(x))</code> or
+ <code>which(x == max(x))</code> respectively.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Martin Maechler</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>which</code>, <code>max.col</code>, <code>max</code>, etc.
+ </p>
+ <p>Use <code>arrayInd()</code>, if you need array/matrix indices instead
+ of 1D vector ones.
+ </p>
+ <p><code>which.is.max</code> in package <a href="http://CRAN.R-project.org/package=nnet"><span class="pkg">nnet</span></a> differs in
+ breaking ties at random (and having a &lsquo;fuzz&rsquo; in the definition
+ of ties).
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ x &lt;- c(1:4,0:5,11)
+ which.min(x)
+ which.max(x)
+ 
+ ## it *does* work with NA's present, by discarding them:
+ presidents[1:30]
+ range(presidents, na.rm = TRUE)
+ which.min(presidents) # 28
+ which.max(presidents) #  2
+ </pre>
+ 
+ 
+ </body></html>

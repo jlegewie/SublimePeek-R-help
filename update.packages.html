@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Compare Installed Packages with CRAN-like Repositories</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for update.packages"><tr><td>update.packages</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Compare Installed Packages with CRAN-like Repositories</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p><code>old.packages</code> indicates packages which have a (suitable) later
+ version on the repositories whereas <code>update.packages</code> offers to
+ download and install such packages.
+ </p>
+ <p><code>new.packages</code> looks for (suitable) packages on the repositories
+ that are not already installed, and optionally offers them for
+ installation.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ update.packages(lib.loc = NULL, repos = getOption("repos"),
+                 contriburl = contrib.url(repos, type),
+                 method, instlib = NULL,
+                 ask = TRUE, available = NULL,
+                 oldPkgs = NULL, ..., checkBuilt = FALSE,
+                 type = getOption("pkgType"))
+ 
+ old.packages(lib.loc = NULL, repos = getOption("repos"),
+              contriburl = contrib.url(repos, type),
+              instPkgs = installed.packages(lib.loc = lib.loc),
+              method, available = NULL, checkBuilt = FALSE,
+              type = getOption("pkgType"))
+ 
+ new.packages(lib.loc = NULL, repos = getOption("repos"),
+              contriburl = contrib.url(repos, type),
+              instPkgs = installed.packages(lib.loc = lib.loc),
+              method, available = NULL, ask = FALSE, ...,
+              type = getOption("pkgType"))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>lib.loc</code></td>
+ <td>
+ <p>character vector describing the location of R
+ library trees to search through (and update packages therein), or
+ <code>NULL</code> for all known trees (see <code>.libPaths</code>).</p>
+ </td></tr>
+ <tr valign="top"><td><code>repos</code></td>
+ <td>
+ <p>character vector, the base URL(s) of the repositories
+ to use, i.e., the URL of the CRAN master such as
+ <code>"http://cran.r-project.org"</code> or its Statlib mirror,
+ <code>"http://lib.stat.cmu.edu/R/CRAN"</code>.
+ Can be <code>NULL</code> to install from local files
+ (&lsquo;<span class="file">.tar.gz</span>&rsquo; for source packages).
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>contriburl</code></td>
+ <td>
+ <p>URL(s) of the contrib sections of the
+ repositories.  Use this argument only if your repository mirror is
+ incomplete, e.g., because you burned only the &lsquo;<span class="file">contrib</span>&rsquo; section on a
+ CD.  Overrides argument <code>repos</code>.  As with <code>repos</code>, can
+ also be <code>NULL</code> to install from local files.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>Download method, see <code>download.file</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>instlib</code></td>
+ <td>
+ <p>character string giving the library directory where to
+ install the packages.</p>
+ </td></tr>
+ <tr valign="top"><td><code>ask</code></td>
+ <td>
+ <p>logical indicating whether to ask user before packages are
+ actually downloaded and installed, or the character string
+ <code>"graphics"</code>, which brings up a widget to allow the
+ user to (de-)select from the list of packages which could
+ be updated or added.  The latter value only works on
+ systems with a GUI version of <code>select.list</code>,
+ and is otherwise equivalent to <code>ask = TRUE</code>.     
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>available</code></td>
+ <td>
+ 
+ <p>an object as returned by <code>available.packages</code>
+ listing packages available at the repositories, or <code>NULL</code> which
+ makes an internal call to <code>available.packages</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>checkBuilt</code></td>
+ <td>
+ <p>If <code>TRUE</code>, a package built under an earlier
+ minor version of <font face="Courier New,Courier" color="#666666"><b>R</b></font> is considered to be &lsquo;old&rsquo;.</p>
+ </td></tr>
+ <tr valign="top"><td><code>oldPkgs</code></td>
+ <td>
+ 
+ <p>if specified as non-NULL, <code>update.packages()</code> only considers
+ these packages for updating. This may be a character vector
+ of package names or a matrix as returned by <code>old.packages()</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>instPkgs</code></td>
+ <td>
+ 
+ <p>by default all installed packages,
+ <code>installed.packages(lib.loc=lib.loc)</code>.  A subset can be 
+ specified; currently this must be in the same (character matrix)
+ format as returned by <code>installed.packages()</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ 
+ <p>Arguments such as <code>destdir</code> and <code>dependencies</code> to be
+ passed to <code>install.packages</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>type</code></td>
+ <td>
+ <p>character, indicating the type of package to download and
+ install.  See <code>install.packages</code>.
+ </p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>old.packages</code> compares the information from
+ <code>available.packages</code> with that from <code>instPkgs</code> (computed by
+ <code>installed.packages</code> by default) and reports installed
+ packages that have newer versions on the repositories or, if
+ <code>checkBuilt = TRUE</code>, that were built under an earlier minor
+ version of <font face="Courier New,Courier" color="#666666"><b>R</b></font> (for example built under 2.14.x when running <font face="Courier New,Courier" color="#666666"><b>R</b></font> 2.15.0).
+ (For binary package types here is no check that the version on the
+ repository was built under the current minor version of <font face="Courier New,Courier" color="#666666"><b>R</b></font>,
+ but it is advertised as being suitable for this version.) 
+ </p>
+ <p><code>new.packages</code> does the same comparison but reports uninstalled
+ packages that are available at the repositories.  If <code>ask !=
+   FALSE</code> it asks which packages should be installed in the first element
+ of <code>lib.loc</code>.
+ </p>
+ <p>The main function of the set is <code>update.packages</code>.  First a list
+ of all packages found in <code>lib.loc</code> is created and compared with
+ those available at the repositories.  If <code>ask = TRUE</code> (the
+ default) packages with a newer version are reported and for each one
+ the user can specify if it should be updated.  If so the packages are
+ downloaded from the repositories and installed in the respective
+ library path (or <code>instlib</code> if specified).
+ </p>
+ <p>For how the list of suitable available packages is determined see
+ <code>available.packages</code>.  <code>available = NULL</code> make a call
+ to <code>available.packages(contriburl = contriburl, method = method)</code>
+ and hence by default filters on <font face="Courier New,Courier" color="#666666"><b>R</b></font> version, OS type and removes
+ duplicates.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>update.packages</code> returns <code>NULL</code> invisibly.
+ </p>
+ <p>For <code>old.packages</code>, <code>NULL</code> or a matrix with one row per
+ package, row names the package names and column names
+ <code>"Package"</code>, <code>"LibPath"</code>, <code>"Installed"</code> (the version),
+ <code>"Built"</code> (the version built under), <code>"ReposVer"</code> and
+ <code>"Repository"</code>.
+ </p>
+ <p>For <code>new.packages</code> a character vector of package names,
+ <EM>after</EM> any selected <EM>via</EM> <code>ask</code> have been installed.
+ </p>
+ 
+ 
+ <h3>Warning</h3>
+ 
+ 
+ <p>Take care when using <code>dependencies</code> (passed to
+ <code>install.packages</code>) with <code>update.packages</code>,
+ for it is unclear where new dependencies should be installed.  The
+ current implementation will only allow it if all the packages to be
+ updated are in a single library, when that library will be used.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>install.packages</code>,
+ <code>available.packages</code>, <code>download.packages</code>,
+ <code>installed.packages</code>, <code>contrib.url</code>.
+ </p>
+ <p>See <code>download.file</code> for how to handle proxies and
+ other options to monitor file transfers.
+ </p>
+ <p><code>INSTALL</code>, <code>REMOVE</code>, <code>remove.packages</code>,
+ <code>library</code>, <code>.packages</code>, <code>read.dcf</code>
+ </p>
+ <p>The &lsquo;R Installation and Administration&rsquo; manual for how to 
+ set up a repository.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ ## Not run: 
+ install.packages(
+     c("XML_0.99-5.tar.gz",
+       "../../Interfaces/Perl/RSPerl_0.8-0.tar.gz"),
+     repos = NULL,
+     configure.args = c(XML = '--with-xml-config=xml-config',
+                        RSPerl = "--with-modules='IO Fcntl'"))
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

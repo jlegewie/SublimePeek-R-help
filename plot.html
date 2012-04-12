@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Generic X-Y Plotting</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for plot"><tr><td>plot</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Generic X-Y Plotting</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Generic function for plotting of <font face="Courier New,Courier" color="#666666"><b>R</b></font> objects.  For more details about
+ the graphical parameter arguments, see <code>par</code>.
+ </p>
+ <p>For simple scatter plots, <code>plot.default</code> will be used.
+ However, there are <code>plot</code> methods for many <font face="Courier New,Courier" color="#666666"><b>R</b></font> objects,
+ including <code>function</code>s, <code>data.frame</code>s,
+ <code>density</code> objects, etc.  Use <code>methods(plot)</code> and
+ the documentation for these.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ plot(x, y, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>the coordinates of points in the plot. Alternatively, a
+ single plotting structure, function or <EM>any <font face="Courier New,Courier" color="#666666"><b>R</b></font> object with a
+ <code>plot</code> method</EM> can be provided.</p>
+ </td></tr>
+ <tr valign="top"><td><code>y</code></td>
+ <td>
+ <p>the y coordinates of points in the plot, <EM>optional</EM>
+ if <code>x</code> is an appropriate structure.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Arguments to be passed to methods, such as
+ graphical parameters (see <code>par</code>).
+ Many methods will accept the following arguments:
+ </p>
+ 
+ <dl>
+ <dt><code>type</code></dt><dd><p>what type of plot should be drawn.  Possible types are
+ </p>
+ 
+ <ul>
+ <li> <p><code>"p"</code> for <B>p</B>oints,
+ </p>
+ </li>
+ <li> <p><code>"l"</code> for <B>l</B>ines,
+ </p>
+ </li>
+ <li> <p><code>"b"</code> for <B>b</B>oth,
+ </p>
+ </li>
+ <li> <p><code>"c"</code> for the lines part alone of <code>"b"</code>,
+ </p>
+ </li>
+ <li> <p><code>"o"</code> for both &lsquo;<B>o</B>verplotted&rsquo;,
+ </p>
+ </li>
+ <li> <p><code>"h"</code> for &lsquo;<B>h</B>istogram&rsquo; like (or
+ &lsquo;high-density&rsquo;) vertical lines,
+ </p>
+ </li>
+ <li> <p><code>"s"</code> for stair <B>s</B>teps,
+ </p>
+ </li>
+ <li> <p><code>"S"</code> for other <B>s</B>teps, see &lsquo;Details&rsquo; below,
+ </p>
+ </li>
+ <li> <p><code>"n"</code> for no plotting.
+ </p>
+ </li></ul>
+ 
+ <p>All other <code>type</code>s give a warning or an error; using, e.g.,
+ <code>type = "punkte"</code> being equivalent to <code>type = "p"</code> for S
+ compatibility.  Note that some methods,
+ e.g. <code>plot.factor</code>, do not accept this.
+ </p>
+ </dd>
+ <dt><code>main</code></dt><dd><p>an overall title for the plot: see <code>title</code>.</p>
+ </dd>
+ <dt><code>sub</code></dt><dd><p>a sub title for the plot: see <code>title</code>.</p>
+ </dd>
+ <dt><code>xlab</code></dt><dd><p>a title for the x axis: see <code>title</code>.</p>
+ </dd>
+ <dt><code>ylab</code></dt><dd><p>a title for the y axis: see <code>title</code>.</p>
+ </dd>
+ <dt><code>asp</code></dt><dd><p>the <i>y/x</i> aspect ratio,
+ see <code>plot.window</code>.</p>
+ </dd>
+ </dl>
+ 
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The two step types differ in their x-y preference: Going from
+ <i>(x1,y1)</i> to <i>(x2,y2)</i> with <i>x1 &lt; x2</i>, <code>type = "s"</code>
+ moves first horizontal, then vertical, whereas <code>type = "S"</code> moves
+ the other way around.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>plot.default</code>, <code>plot.formula</code> and other
+ methods; <code>points</code>, <code>lines</code>, <code>par</code>.
+ </p>
+ <p>For X-Y-Z plotting see <code>contour</code>, <code>persp</code> and
+ <code>image</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ require(stats)
+ plot(cars)
+ lines(lowess(cars))
+ 
+ plot(sin, -pi, 2*pi) # see ?plot.function
+ 
+ ## Discrete Distribution Plot:
+ plot(table(rpois(100,5)), type = "h", col = "red", lwd=10,
+      main="rpois(100,lambda=5)")
+ 
+ ## Simple quantiles/ECDF, see ecdf() {library(stats)} for a better one:
+ plot(x &lt;- sort(rnorm(47)), type = "s", main = "plot(x, type = \"s\")")
+ points(x, cex = .5, col = "dark red")
+ </pre>
+ 
+ 
+ </body></html>

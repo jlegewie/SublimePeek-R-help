@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Construct a Block Diagonal Matrix</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for bdiag"><tr><td>bdiag</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Construct a Block Diagonal Matrix</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Build a block diagonal matrix given several building block matrices.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ bdiag(...)
+ .bdiag(lst)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>individual matrices or a <code>list</code> of matrices.</p>
+ </td></tr>
+ <tr valign="top"><td><code>lst</code></td>
+ <td>
+ <p>non-empty <code>list</code> of matrices.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>For non-trivial argument list, <code>bdiag()</code> calls <code>.bdiag()</code>.
+ The latter maybe useful to programmers
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A <EM>sparse</EM> matrix obtained by combining the arguments into a
+ block diagonal matrix.
+ </p>
+ <p>The value of <code>bdiag()</code> inheris from class
+ <code>CsparseMatrix</code>, whereas
+ <code>.bdiag()</code> returns a <code>TsparseMatrix</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Martin Maechler, built on a version posted by Berton Gunter to
+ R-help; earlier versions have been posted by other authors, notably
+ Scott Chasalow to S-news.  Doug Bates's faster implementation builds
+ on <code>TsparseMatrix</code> objects.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>Diagonal</code> for constructing matrices of
+ class <code>diagonalMatrix</code>, or <code>kronecker</code>
+ which also works for <code>"Matrix"</code> inheriting matrices.
+ </p>
+ <p><code>bandSparse</code> constructs a <EM>banded</EM> sparse matrix from
+ its non-zero sub-/super - diagonals.
+ </p>
+ <p>Note that other CRAN <font face="Courier New,Courier" color="#666666"><b>R</b></font> packages have own versions of <code>bdiag()</code>
+ which return traditional matrices.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ bdiag(matrix(1:4, 2), diag(3))
+ ## combine "Matrix" class and traditional matrices:
+ bdiag(Diagonal(2), matrix(1:3, 3,4), diag(3:2))
+ 
+ mlist &lt;- list(1, 2:3, diag(x=5:3), 27, cbind(1,3:6), 100:101)
+ bdiag(mlist)
+ stopifnot(identical(bdiag(mlist), 
+                     bdiag(lapply(mlist, as.matrix))))
+ 
+ ml &lt;- c(as(matrix((1:24)%% 11 == 0, 6,4),"nMatrix"),
+         rep(list(Diagonal(2, x=TRUE)), 3))
+ mln &lt;- c(ml, Diagonal(x = 1:3))
+ stopifnot(is(bdiag(ml), "lsparseMatrix"),
+           is(bdiag(mln),"dsparseMatrix") )
+ </pre>
+ 
+ 
+ </body></html>

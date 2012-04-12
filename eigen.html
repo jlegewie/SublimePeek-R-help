@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Spectral Decomposition of a Matrix</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for eigen"><tr><td>eigen</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Spectral Decomposition of a Matrix</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Computes eigenvalues and eigenvectors of real (double, integer,
+ logical) or complex matrices.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ eigen(x, symmetric, only.values = FALSE, EISPACK = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>a matrix whose spectral decomposition is to be computed.</p>
+ </td></tr>
+ <tr valign="top"><td><code>symmetric</code></td>
+ <td>
+ <p>if <code>TRUE</code>, the matrix is assumed to be symmetric
+ (or Hermitian if complex) and only its lower triangle (diagonal
+ included) is used.  If <code>symmetric</code> is not specified, the matrix
+ is inspected for symmetry.</p>
+ </td></tr>
+ <tr valign="top"><td><code>only.values</code></td>
+ <td>
+ <p>if <code>TRUE</code>, only the eigenvalues are computed
+ and returned, otherwise both eigenvalues and eigenvectors are
+ returned.</p>
+ </td></tr>
+ <tr valign="top"><td><code>EISPACK</code></td>
+ <td>
+ <p>logical.  Should EISPACK be used (for compatibility with
+ <font face="Courier New,Courier" color="#666666"><b>R</b></font> &lt; 1.7.0)?</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>By default <code>eigen</code> uses the LAPACK routines DSYEVR,
+ DGEEV, ZHEEV and ZGEEV whereas <code>eigen(EISPACK = TRUE)</code> provides an
+ interface to the EISPACK routines <code>RS</code>, <code>RG</code>, <code>CH</code>
+ and <code>CG</code>.
+ </p>
+ <p>If <code>symmetric</code> is unspecified, the code attempts to
+ determine if the matrix is symmetric up to plausible numerical
+ inaccuracies.  It is faster and surer to set the value yourself.
+ </p>
+ <p><code>eigen</code> is preferred to <code>eigen(EISPACK = TRUE)</code>
+ for new projects, but its eigenvectors may differ in sign and
+ (in the asymmetric case) in normalization.  (They may also differ
+ between methods and between platforms.)
+ </p>
+ <p>Computing the eigenvectors is the slow part for large matrices.
+ </p>
+ <p>Computing the eigendecomposition of a matrix is subject to errors on a
+ real-world computer: the definitive analysis is Wilkinson (1965).  All
+ you can hope for is a solution to a problem suitably close to
+ <code>x</code>.  So even though a real asymmetric <code>x</code> may have an
+ algebraic solution with repeated real eigenvalues, the computed
+ solution may be of a similar matrix with complex conjugate pairs of
+ eigenvalues.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>The spectral decomposition of <code>x</code> is returned as components of a
+ list with components
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>values</code></td>
+ <td>
+ <p>a vector containing the <i>p</i> eigenvalues of <code>x</code>,
+ sorted in <EM>decreasing</EM> order, according to <code>Mod(values)</code>
+ in the asymmetric case when they might be complex (even for real
+ matrices).  For real asymmetric matrices the vector will be
+ complex only if complex conjugate pairs of eigenvalues are detected.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>vectors</code></td>
+ <td>
+ <p>either a <i>p * p</i> matrix whose columns
+ contain the eigenvectors of <code>x</code>, or <code>NULL</code> if
+ <code>only.values</code> is <code>TRUE</code>.
+ </p>
+ <p>For <code>eigen(, symmetric = FALSE, EISPACK =TRUE)</code> the choice of
+ length of the eigenvectors is not defined by EISPACK.  In all other
+ cases the vectors are normalized to unit length.
+ </p>
+ <p>Recall that the eigenvectors are only defined up to a constant: even
+ when the length is specified they are still only defined up to a
+ scalar of modulus one (the sign for real matrices).
+ </p>
+ </td></tr>
+ </table>
+ <p>If <code>r &lt;- eigen(A)</code>, and <code>V &lt;- r$vectors; lam &lt;- r$values</code>,
+ then </p>
+ <p align="center"><i>A = V Lmbd V^(-1)</i></p>
+ <p> (up to numerical
+ fuzz), where <i>Lmbd =</i><code>diag(lam)</code>.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988)
+ <EM>The New S Language</EM>.
+ Wadsworth &amp; Brooks/Cole.
+ </p>
+ <p>Smith, B. T, Boyle, J. M., Dongarra, J. J., Garbow, B. S., Ikebe,Y.,
+ Klema, V., and  Moler, C. B. (1976).
+ <EM>Matrix Eigensystems Routines &ndash; EISPACK Guide</EM>.
+ Springer-Verlag Lecture Notes in Computer Science <B>6</B>.
+ </p>
+ <p>Anderson. E. and ten others (1999)
+ <EM>LAPACK Users' Guide</EM>.  Third Edition.  SIAM.<br>
+ Available on-line at
+ <a href="http://www.netlib.org/lapack/lug/lapack_lug.html">http://www.netlib.org/lapack/lug/lapack_lug.html</a>.
+ </p>
+ <p>Wilkinson, J. H. (1965) <EM>The Algebraic Eigenvalue Problem.</EM>
+ Clarendon Press, Oxford.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>svd</code>, a generalization of <code>eigen</code>; <code>qr</code>, and
+ <code>chol</code> for related decompositions.
+ </p>
+ <p>To compute the determinant of a matrix, the <code>qr</code>
+ decomposition is much more efficient: <code>det</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ eigen(cbind(c(1,-1),c(-1,1)))
+ eigen(cbind(c(1,-1),c(-1,1)), symmetric = FALSE)
+ # same (different algorithm).
+ 
+ eigen(cbind(1,c(1,-1)), only.values = TRUE)
+ eigen(cbind(-1,2:1)) # complex values
+ eigen(print(cbind(c(0,1i), c(-1i,0))))# Hermite ==&gt; real Eigen values
+ ## 3 x 3:
+ eigen(cbind( 1,3:1,1:3))
+ eigen(cbind(-1,c(1:2,0),0:2)) # complex values
+ 
+ </pre>
+ 
+ 
+ </body></html>

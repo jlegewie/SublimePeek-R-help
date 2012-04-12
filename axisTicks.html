@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Compute Pretty Axis Tick Scales</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for axisTicks"><tr><td>axisTicks</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Compute Pretty Axis Tick Scales</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Compute pretty axis scales and tick mark locations, the same way as
+ traditional <font face="Courier New,Courier" color="#666666"><b>R</b></font> graphics do it.  This is interesting particularly for
+ log scale axes.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ axisTicks(usr, log, axp = NULL, nint = 5)
+  .axisPars(usr, log = FALSE, nintLog = 5)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>usr</code></td>
+ <td>
+ <p>numeric vector of length 2, with <code>c(min, max)</code> axis
+ extents.</p>
+ </td></tr>
+ <tr valign="top"><td><code>log</code></td>
+ <td>
+ <p>logical indicating if a log scale is (thought to be) in
+ use.</p>
+ </td></tr>
+ <tr valign="top"><td><code>axp</code></td>
+ <td>
+ <p>numeric vector of length 3, <code>c(mi, ma, n.)</code>, with
+ identical meaning to <code>par("?axp")</code> (where <code>?</code> is
+ <code>x</code> or <code>y</code>), namely &ldquo;pretty&rdquo; axis extents, and an
+ integer <EM>code</EM> <code>n.</code>.
+ 
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>nint, nintLog</code></td>
+ <td>
+ <p>positive integer value indicating
+ (<EM>approximately</EM>) the desired number of intervals.
+ <code>nintLog</code> is used <B>only</B> for the case <code>log = TRUE</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>axisTicks(usr, *)</code> calls <code>.axisPars(usr, ..)</code> when
+ <code>axp</code> is missing (or <code>NULL</code>).
+ 
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>axisTicks()</code> returns a numeric vector of potential axis tick
+ locations, of length approximately <code>nint+1</code>.
+ </p>
+ <p><code>.axisPars()</code> returns a <code>list</code> with components
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>axp</code></td>
+ <td>
+ <p>numeric vector of length 2, <code>c(min., max.)</code>, of pretty
+ axis extents.</p>
+ </td></tr>
+ <tr valign="top"><td><code>n</code></td>
+ <td>
+ <p>integer (code), with the same meaning as
+ <code>par("?axp")[3]</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>axTicks</code>;
+ <code>axis</code>, and <code>par</code> (from
+ the <span class="pkg">graphics</span> package).
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ##--- Demonstrating correspondence between graphics'
+ ##--- axis() and the graphics-engine agnostic  axisTicks() :
+ 
+ require("graphics")
+ plot(10*(0:10)); (pu &lt;- par("usr"))
+ aX &lt;- function(side, at, ...)
+     axis(side, at=at, labels=FALSE, lwd.ticks=2, col.ticks=2, tck=0.05, ...)
+ aX(1, print(xa &lt;- axisTicks(pu[1:2], log=FALSE)))# x axis
+ aX(2, print(ya &lt;- axisTicks(pu[3:4], log=FALSE)))# y axis
+ 
+ axisTicks(pu[3:4], log=FALSE, n = 10)
+ 
+ plot(10*(0:10), log="y"); (pu &lt;- par("usr"))
+ aX(2, print(ya &lt;- axisTicks(pu[3:4], log=TRUE)))# y axis
+ 
+ plot(2^(0:9), log="y"); (pu &lt;- par("usr"))
+ aX(2, print(ya &lt;- axisTicks(pu[3:4], log=TRUE)))# y axis
+ 
+ </pre>
+ 
+ 
+ </body></html>

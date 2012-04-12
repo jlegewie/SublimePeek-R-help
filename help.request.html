@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Send a Post to R-help</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for help.request"><tr><td>help.request</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Send a Post to R-help</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Prompts the user to check they have done all that is expected of them
+ before sending a post to the R-help mailing list, provides a template
+ for the post with session information included and optionally sends
+ the email (on Unix systems).
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ help.request(subject = "",
+              address = "r-help@R-project.org",
+              file = "R.help.request", ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>subject</code></td>
+ <td>
+ <p>subject of the email.  Please do not use single quotes
+ (<KBD>'</KBD>) in the subject!  Post separate help requests for multiple
+ queries.</p>
+ </td></tr>
+ <tr valign="top"><td><code>address</code></td>
+ <td>
+ <p>recipient's email address.</p>
+ </td></tr>
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ <p>filename to use (if needed) for setting up the email.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>additional named arguments such as <code>method</code> and
+ <code>ccaddress</code> to pass to <code>create.post</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This function is not intended to replace the posting
+ guide.  Please read the guide before posting to R-help or using this
+ function (see <a href="http://www.r-project.org/posting-guide.html">http://www.r-project.org/posting-guide.html</a>).
+ </p>
+ <p>The <code>help.request</code> function:
+ </p>
+ 
+ <ul>
+ <li><p> asks whether the user has consulted relevant resources,
+ stopping and opening the relevant URL if a negative response if
+ given.
+ </p>
+ </li>
+ <li><p> checks whether the current version of <font face="Courier New,Courier" color="#666666"><b>R</b></font> is being used and
+ whether the add-on packages are up-to-date, giving the option of
+ updating where necessary.
+ </p>
+ </li>
+ <li><p> asks whether the user has prepared appropriate (minimal,
+ reproducible, self-contained, commented) example code ready to
+ paste into the post.
+ </p>
+ </li></ul>
+ 
+ <p>Once this checklist has been completed a template post is prepared
+ including current session information, and passed to
+ <code>create.post</code>.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>Nothing useful.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Heather Turner, based on the then current code and help page of
+ <code>bug.report()</code>.</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p>The posting guide (<a href="http://www.r-project.org/posting-guide.html">http://www.r-project.org/posting-guide.html</a>),
+ also <code>sessionInfo()</code> from which you may add to the help request.
+ </p>
+ <p><code>create.post</code>.
+ </p>
+ 
+ 
+ </body></html>

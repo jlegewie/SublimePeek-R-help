@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Diverging colour gradient</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for scale_colour_gradient2"><tr><td>scale_colour_gradient2</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Diverging colour gradient</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Diverging colour gradient
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   scale_colour_gradient2(..., low = muted("red"),
+     mid = "white", high = muted("blue"), midpoint = 0,
+     space = "rgb", na.value = "grey50")
+ 
+   scale_fill_gradient2(..., low = muted("red"),
+     mid = "white", high = muted("blue"), midpoint = 0,
+     space = "rgb", na.value = "grey50")
+ 
+   scale_color_gradient2(..., low = muted("red"),
+     mid = "white", high = muted("blue"), midpoint = 0,
+     space = "rgb", na.value = "grey50")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>midpoint</code></td>
+ <td>
+ <p>The midpoint (in data value) of the
+ diverging scale.  Defaults to 0.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Other arguments passed on to
+ <code>continuous_scale</code> to control name, limits,
+ breaks, labels and so forth.</p>
+ </td></tr>
+ <tr valign="top"><td><code>na.value</code></td>
+ <td>
+ <p>Colour to use for missing values</p>
+ </td></tr>
+ <tr valign="top"><td><code>low</code></td>
+ <td>
+ <p>colour for low end of gradient.</p>
+ </td></tr>
+ <tr valign="top"><td><code>mid</code></td>
+ <td>
+ <p>colour for mid point</p>
+ </td></tr>
+ <tr valign="top"><td><code>high</code></td>
+ <td>
+ <p>colour for high end of gradient.</p>
+ </td></tr>
+ <tr valign="top"><td><code>space</code></td>
+ <td>
+ <p>colour space in which to calculate gradient.
+ &quot;Lab&quot; usually best unless gradient goes through white.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Other colour scales: <code>scale_color_brewer</code>,
+ <code>scale_color_continuous</code>,
+ <code>scale_color_discrete</code>,
+ <code>scale_color_gradient</code>,
+ <code>scale_color_gradientn</code>,
+ <code>scale_color_grey</code>,
+ <code>scale_color_hue</code>,
+ <code>scale_colour_brewer</code>,
+ <code>scale_colour_continuous</code>,
+ <code>scale_colour_discrete</code>,
+ <code>scale_colour_gradient</code>,
+ <code>scale_colour_gradientn</code>,
+ <code>scale_colour_grey</code>,
+ <code>scale_colour_hue</code>,
+ <code>scale_fill_brewer</code>,
+ <code>scale_fill_continuous</code>,
+ <code>scale_fill_discrete</code>,
+ <code>scale_fill_gradient</code>,
+ <code>scale_fill_gradientn</code>,
+ <code>scale_fill_grey</code>,
+ <code>scale_fill_hue</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ dsub &lt;- subset(diamonds, x &gt; 5 &amp; x &lt; 6 &amp; y &gt; 5 &amp; y &lt; 6)
+ dsub$diff &lt;- with(dsub, sqrt(abs(x-y))* sign(x-y))
+ (d &lt;- qplot(x, y, data=dsub, colour=diff))
+ 
+ d + scale_colour_gradient2()
+ # Change scale name
+ d + scale_colour_gradient2(expression(sqrt(abs(x - y))))
+ d + scale_colour_gradient2("Difference\nbetween\nwidth and\nheight")
+ 
+ # Change limits and colours
+ d + scale_colour_gradient2(limits=c(-0.2, 0.2))
+ 
+ # Using "muted" colours makes for pleasant graphics
+ # (and they have better perceptual properties too)
+ library(scales) # for muted
+ d + scale_colour_gradient2(low="red", high="blue")
+ d + scale_colour_gradient2(low=muted("red"), high=muted("blue"))
+ 
+ # Using the Lab colour space also improves perceptual properties
+ # at the price of slightly slower operation
+ d + scale_colour_gradient2(space="Lab")
+ 
+ # About 5% of males are red-green colour blind, so it's a good
+ # idea to avoid that combination
+ d + scale_colour_gradient2(high=muted("green"))
+ 
+ # We can also make the middle stand out
+ d + scale_colour_gradient2(mid=muted("green"), high="white", low="white")
+ 
+ # or use a non zero mid point
+ (d &lt;- qplot(carat, price, data=diamonds, colour=price/carat))
+ d + scale_colour_gradient2(midpoint=mean(diamonds$price / diamonds$carat))
+ 
+ # Fill gradients work much the same way
+ p &lt;- qplot(letters[1:5], 1:5, fill= c(-3, 3, 5, 2, -2), geom="bar")
+ p + scale_fill_gradient2("fill")
+ # Note how positive and negative values of the same magnitude
+ # have similar intensity
+ 
+ </pre>
+ 
+ 
+ </body></html>

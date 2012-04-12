@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: An interval represented by a vertical line.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for geom_linerange"><tr><td>geom_linerange</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>An interval represented by a vertical line.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>An interval represented by a vertical line.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   geom_linerange(mapping = NULL, data = NULL,
+     stat = "identity", position = "identity", ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>The statistical transformation to use on the
+ data for this layer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>geom_errorbar</code>: error bars;
+ <code>geom_pointrange</code>: range indicated by
+ straight line, with point in the middle;
+ <code>geom_crossbar</code>: hollow bar with middle
+ indicated by horizontal line; <code>stat_summary</code>:
+ examples of these guys in use; <code>geom_smooth</code>:
+ for continuous analog
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ # Generate data: means and standard errors of means for prices
+ # for each type of cut
+ dmod &lt;- lm(price ~ cut, data=diamonds)
+ cuts &lt;- data.frame(cut=unique(diamonds$cut), predict(dmod, data.frame(cut = unique(diamonds$cut)), se=TRUE)[c("fit","se.fit")])
+ 
+ qplot(cut, fit, data=cuts)
+ # With a bar chart, we are comparing lengths, so the y-axis is
+ # automatically extended to include 0
+ qplot(cut, fit, data=cuts, geom="bar")
+ 
+ # Display estimates and standard errors in various ways
+ se &lt;- ggplot(cuts, aes(cut, fit,
+   ymin = fit - se.fit, ymax=fit + se.fit, colour = cut))
+ se + geom_linerange()
+ se + geom_pointrange()
+ se + geom_errorbar(width = 0.5)
+ se + geom_crossbar(width = 0.5)
+ 
+ # Use coord_flip to flip the x and y axes
+ se + geom_linerange() + coord_flip()
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Create Diagonal Matrix Object</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Diagonal"><tr><td>Diagonal</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Create Diagonal Matrix Object</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Create a diagonal matrix object, i.e., an object inheriting from
+ <code>diagonalMatrix</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ Diagonal(n, x = NULL)
+ 
+ .symDiagonal(n, x = rep.int(1,n), uplo = "U")
+ .sparseDiagonal(n, x = rep.int(1,m), uplo = "U",
+                 shape = if(missing(cols)) "t" else "g",
+ 	        kind, cols = if(n) 0:(n - 1L) else integer(0))
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>n</code></td>
+ <td>
+ <p>integer specifying the dimension of the (square) matrix.  If
+ missing, <code>length(x)</code> is used.</p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>numeric or logical; if missing, a <EM>unit</EM> diagonal
+ <i>n x n</i> matrix is created.</p>
+ </td></tr>
+ <tr valign="top"><td><code>uplo</code></td>
+ <td>
+ <p>for <code>.symDiagonal</code>, the resulting sparse
+ <code>symmetricMatrix</code> will have slot <code>uplo</code> set
+ from this argument, either <code>"U"</code> or <code>"L"</code>.  Only rarely
+ will it make sense to change this from the default.</p>
+ </td></tr>
+ <tr valign="top"><td><code>shape</code></td>
+ <td>
+ <p>string of 1 character, one of <code>c("t","s","g")</code>, to
+ chose a triangular, symmetric or general result matrix.</p>
+ </td></tr>
+ <tr valign="top"><td><code>kind</code></td>
+ <td>
+ <p>string of 1 character, one of <code>c("d","l","n")</code>, to
+ chose the storage mode of the result, from classes
+ <code>dsparseMatrix</code>,
+ <code>lsparseMatrix</code>, or
+ <code>nsparseMatrix</code>, respectively.</p>
+ </td></tr>
+ <tr valign="top"><td><code>cols</code></td>
+ <td>
+ <p>integer vector with values from <code>0:(n-1)</code>, denoting
+ the <EM>columns</EM> to subselect conceptually, i.e., get the
+ equivalent of  <code>Diagonal(n,*)[, cols + 1]</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>Diagonal()</code> returns an object of class
+ <code>ddiMatrix</code> or <code>ldiMatrix</code>
+ (with &ldquo;superclass&rdquo; <code>diagonalMatrix</code>).
+ </p>
+ <p><code>.symDiagonal()</code> returns an object of class
+ <code>dsCMatrix</code> or <code>lsCMatrix</code>,
+ i.e., a <EM>sparse</EM> <EM>symmetric</EM> matrix.  This can be
+ more efficient than <code>Diagonal(n)</code> when the result is combined
+ with further symmetric (sparse) matrices, however <EM>not</EM> for
+ matrix multiplications where <code>Diagonal()</code> is clearly preferred.
+ </p>
+ <p><code>.sparseDiagonal()</code>, the workhorse of <code>.symDiagonal</code> returns
+ a <code>CsparseMatrix</code> (the resulting class depending
+ on <code>shape</code> and <code>kind</code>) representation of <code>Diagonal(n)</code>,
+ or, when <code>cols</code> are specified, of <code>Diagonal(n)[, cols+1]</code>.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Martin Maechler</p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p>the generic function <code>diag</code> for <EM>extraction</EM>
+ of the diagonal from a matrix works for all &ldquo;Matrices&rdquo;.
+ </p>
+ <p><code>bandSparse</code> constructs a <EM>banded</EM> sparse matrix from
+ its non-zero sub-/super - diagonals.  <code>band(A)</code> returns a
+ band matrix containing some sub-/super - diagonals of <code>A</code>.
+ </p>
+ <p><code>Matrix</code> for general matrix construction;
+ further, class <code>diagonalMatrix</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ Diagonal(3)
+ Diagonal(x = 10^(3:1))
+ Diagonal(x = (1:4) &gt;= 2)#-&gt; "ldiMatrix"
+ 
+ ## Use Diagonal() + kronecker() for "repeated-block" matrices:
+ M1 &lt;- Matrix(0+0:5, 2,3)
+ (M &lt;- kronecker(Diagonal(3), M1))
+ 
+ (S &lt;- crossprod(Matrix(rbinom(60, size=1, prob=0.1), 10,6)))
+ (SI &lt;- S + 10*.symDiagonal(6)) # sparse symmetric still
+ stopifnot(is(SI, "dsCMatrix"))
+ </pre>
+ 
+ 
+ </body></html>

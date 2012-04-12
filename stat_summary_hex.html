@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Apply funciton for 2D hexagonal bins.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for stat_summary_hex"><tr><td>stat_summary_hex</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Apply funciton for 2D hexagonal bins.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Apply function for 2D hexagonal bins.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   stat_summary_hex(mapping = NULL, data = NULL,
+     geom = "hex", position = "identity", bins = 30,
+     drop = TRUE, fun = mean, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>bins</code></td>
+ <td>
+ <p>see <code>stat_binhex</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>drop</code></td>
+ <td>
+ <p>drop if the output of <code>fun</code> is
+ <code>NA</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>fun</code></td>
+ <td>
+ <p>function for summary.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>parameters passed to <code>fun</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>geom</code></td>
+ <td>
+ <p>The geometric object to use display the data</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>stat_summary2d</code> is hexagonal version of
+ <code>stat_summary</code>. The data are devided by
+ <code>x</code> and <code>y</code>. <code>z</code> in each cell is passed to
+ arbitral summary function.
+ </p>
+ <p><code>stat_summary-hex</code> requires the following
+ aesthetics:
+ </p>
+  <ul>
+ <li> <p><code>x</code>: horizontal position </p>
+ </li>
+ <li>
+ <p><code>y</code>: vertical position </p>
+ </li>
+ <li> <p><code>z</code>: value passed
+ to the summary function </p>
+ </li></ul>
+ 
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>stat_summary2d</code> for rectangular
+ summarization. <code>stat_bin2d</code> for the
+ hexagon-ing options.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ d &lt;- ggplot(diamonds, aes(carat, depth, z = price))
+ d + stat_summary_hex()
+ 
+ # Specifying function
+ d + stat_summary_hex(fun = function(x) sum(x^2))
+ d + stat_summary_hex(fun = var, na.rm = TRUE)
+ </pre>
+ 
+ 
+ </body></html>

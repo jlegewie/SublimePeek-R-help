@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Transform Triangular Matrices from Unit Triangular to General...</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for diagU2N"><tr><td>diagU2N</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Transform Triangular Matrices from Unit Triangular to General and back</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Transform a triangular matrix <code>x</code>, i.e., of <code>class</code>
+ <code>"triangularMatrix"</code>,
+ from (internally!) unit triangular (&ldquo;unitriangular&rdquo;) to
+ &ldquo;general&rdquo; (<code>diagU2N(x)</code>) or back (<code>diagN2U(x)</code>).
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+  diagN2U(x, cl = getClassDef(class(x)))
+  diagU2N(x, cl = getClassDef(class(x)), checkDense = FALSE)
+ .diagU2N(x, cl, checkDense = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>a <code>triangularMatrix</code>, often sparse.</p>
+ </td></tr>
+ <tr valign="top"><td><code>cl</code></td>
+ <td>
+ <p>(optional, for speedup only:) class (definition) of <code>x</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>checkDense</code></td>
+ <td>
+ <p>logical indicating if dense (see
+ <code>denseMatrix</code>) matrices should be considered at all.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The concept of unit triangular matrices with a <code>diag</code> slot of
+ <code>"U"</code> stems from LAPACK.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>a triangular matrix of the same <code>class</code> and (semantically)
+ with identical entries as <code>x</code>,
+ but with a different <code>diag</code> slot.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ <p>Such internal storage details should rarely be of relevance to the
+ user.  Hence, these functions really are rather <EM>internal</EM>
+ utilities.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>"triangularMatrix"</code>,
+ <code>"dtCMatrix"</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ (T &lt;- Diagonal(7) + triu(Matrix(rpois(49, 1/4), 7,7), k = 1))
+ (uT &lt;- diagN2U(T)) # "unitriangular"
+ stopifnot(all(T == uT),
+           identical(T, diagU2N(uT)))
+ </pre>
+ 
+ 
+ </body></html>

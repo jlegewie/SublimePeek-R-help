@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Map projections.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for coord_map"><tr><td>coord_map</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Map projections.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This coordinate system provides the full range of map
+ projections available in the mapproj package.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   coord_map(projection = "mercator", ...,
+     orientation = NULL, xlim = NULL, ylim = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>projection</code></td>
+ <td>
+ <p>projection to use, see
+ <code>mapproject</code> for list</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>mapproject</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>orientation</code></td>
+ <td>
+ <p>projection orientation, which defaults
+ to <code>c(90, 0, mean(range(x)))</code>.  This is not optimal
+ for many projections, so you will have to supply your
+ own.</p>
+ </td></tr>
+ <tr valign="top"><td><code>xlim</code></td>
+ <td>
+ <p>manually specific x limits (in degrees of
+ lontitude)</p>
+ </td></tr>
+ <tr valign="top"><td><code>ylim</code></td>
+ <td>
+ <p>manually specific y limits (in degrees of
+ latitude)</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This is still experimental, and if you have any advice to
+ offer regarding a better (or more correct) way to do
+ this, please let me know
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ if (require("maps")) {
+ # Create a lat-long dataframe from the maps package
+ nz &lt;- data.frame(map("nz", plot=FALSE)[c("x","y")])
+ (nzmap &lt;- qplot(x, y, data=nz, geom="path"))
+ 
+ nzmap + coord_map()
+ nzmap + coord_map(project="cylindrical")
+ nzmap + coord_map(project='azequalarea',orientation=c(-36.92,174.6,0))
+ 
+ states &lt;- data.frame(map("state", plot=FALSE)[c("x","y")])
+ (usamap &lt;- qplot(x, y, data=states, geom="path"))
+ usamap + coord_map()
+ # See ?mapproject for coordinate systems and their parameters
+ usamap + coord_map(project="gilbert")
+ usamap + coord_map(project="lagrange")
+ 
+ # For most projections, you'll need to set the orientation yourself
+ # as the automatic selection done by mapproject is not available to
+ # ggplot
+ usamap + coord_map(project="orthographic")
+ usamap + coord_map(project="stereographic")
+ usamap + coord_map(project="conic", lat0 = 30)
+ usamap + coord_map(project="bonne", lat0 = 50)
+ }
+ </pre>
+ 
+ 
+ </body></html>

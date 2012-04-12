@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Query or Set Aspects of the Locale</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for locales"><tr><td>locales</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Query or Set Aspects of the Locale</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Get details of or set aspects of the locale for the <font face="Courier New,Courier" color="#666666"><b>R</b></font> process.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ Sys.getlocale(category = "LC_ALL")
+ Sys.setlocale(category = "LC_ALL", locale = "")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>category</code></td>
+ <td>
+ <p>character string.  The following categories should
+ always be supported: <code>"LC_ALL"</code>, <code>"LC_COLLATE"</code>,
+ <code>"LC_CTYPE"</code>, <code>"LC_MONETARY"</code>, <code>"LC_NUMERIC"</code> and
+ <code>"LC_TIME"</code>.  Some systems (not Windows) will also support
+ <code>"LC_MESSAGES"</code>, <code>"LC_PAPER"</code> and <code>"LC_MEASUREMENT"</code>.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>locale</code></td>
+ <td>
+ <p>character string.  A valid locale name on the system in
+ use.  Normally <code>""</code> (the default) will pick up the default
+ locale for the system.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The locale describes aspects of the internationalization of a program.
+ Initially most aspects of the locale of <font face="Courier New,Courier" color="#666666"><b>R</b></font> are set to <code>"C"</code> (which
+ is the default for the C language and reflects North-American usage).
+ <font face="Courier New,Courier" color="#666666"><b>R</b></font> sets <code>"LC_CTYPE"</code> and <code>"LC_COLLATE"</code>, which allow the
+ use of a different character set and alphabetic
+ comparisons in that character set (including the use of
+ <code>sort</code>), <code>"LC_MONETARY"</code> (for use by
+ <code>Sys.localeconv</code>) and <code>"LC_TIME"</code> may affect
+ the behaviour of <code>as.POSIXlt</code> and <code>strptime</code>
+ and functions which use them (but not <code>date</code>).
+ </p>
+ <p>The first seven categories described here are those specified by
+ POSIX.  <code>"LC_MESSAGES"</code> will be <code>"C"</code> on systems that do not
+ support message translation, and is not supported on Windows.  Trying
+ to use an unsupported category is an error for <code>Sys.setlocale</code>.
+ </p>
+ <p>Note that setting category <code>"LC_ALL"</code> sets only
+ <code>"LC_COLLATE"</code>, <code>"LC_CTYPE"</code>, <code>"LC_MONETARY"</code> and
+ <code>"LC_TIME"</code>.
+ </p>
+ <p>Attempts to set an invalid locale are ignored.  There may or may not
+ be a warning, depending on the OS.
+ </p>
+ <p>Attempts to change the character set (by
+ <code>Sys.setlocale("LC_TYPE", )</code>, if that implies a different
+ character set) during a session may not work and are likely to lead to
+ some confusion.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A character string of length one describing the locale in use (after
+ setting for <code>Sys.setlocale</code>), or an empty character string if the
+ current locale settings are invalid or <code>NULL</code> if locale
+ information is unavailable.
+ </p>
+ <p>For <code>category = "LC_ALL"</code> the details of the string are
+ system-specific: it might be a single locale name or a set of locale
+ names separated by <code>"/"</code> (Solaris, Mac OS X) or <code>";"</code>
+ (Windows, Linux).  For portability, it is best to query categories
+ individually: it is not necessarily the case that the result of
+ <code>foo &lt;- Sys.getlocale()</code> can be used in
+ <code>Sys.setlocale("LC_ALL", locale = foo)</code>.
+ </p>
+ 
+ 
+ <h3>Warning</h3>
+ 
+ 
+ <p>Setting <code>"LC_NUMERIC"</code> may cause <font face="Courier New,Courier" color="#666666"><b>R</b></font> to function
+ anomalously, so gives a warning.  Input conversions
+ in <font face="Courier New,Courier" color="#666666"><b>R</b></font> itself are unaffected, but the reading and writing of ASCII
+ <code>save</code> files will be, as may packages.
+ Setting it temporarily to produce graphical or text output may work
+ well enough, but <code>options(OutDec)</code> is often preferable.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>Changing the values of locale categories whilst <font face="Courier New,Courier" color="#666666"><b>R</b></font> is running ought
+ to be noticed by the OS services, and usually is but exceptions have
+ been seen (usually in collation services).
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>strptime</code> for uses of <code>category = "LC_TIME"</code>.
+ <code>Sys.localeconv</code> for details of numerical and monetary
+ representations.
+ </p>
+ <p><code>l10n_info</code> gives some summary facts about the locale and
+ its encoding.
+ </p>
+ <p>The &lsquo;R Installation and Administration&rsquo; manual for background
+ on locales and how to find out locale names on your system.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ Sys.getlocale()
+ Sys.getlocale("LC_TIME")
+ ## Not run: 
+ Sys.setlocale("LC_TIME", "de")     # Solaris: details are OS-dependent
+ Sys.setlocale("LC_TIME", "de_DE.utf8")   # Modern Linux etc.
+ Sys.setlocale("LC_TIME", "de_DE.UTF-8")  # ditto
+ Sys.setlocale("LC_TIME", "de_DE")  # Mac OS X, in UTF-8
+ Sys.setlocale("LC_TIME", "German") # Windows
+ 
+ ## End(Not run)
+ Sys.getlocale("LC_PAPER")          # may or may not be set
+ 
+ Sys.setlocale("LC_COLLATE", "C")   # turn off locale-specific sorting,
+                                    #  usually
+ </pre>
+ 
+ 
+ </body></html>

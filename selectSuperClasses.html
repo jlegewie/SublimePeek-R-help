@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Super Classes (of Specific Kinds) of a Class</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for selectSuperClasses"><tr><td>selectSuperClasses</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Super Classes (of Specific Kinds) of a Class</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Return superclasses of <code>ClassDef</code>, possibly only non-virtual or
+ direct or simple ones.
+ </p>
+ <p>These functions are designed to be fast, and consequently only work
+ with the <code>contains</code> slot of the corresponding class definitions.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ selectSuperClasses(Class, dropVirtual = FALSE, namesOnly = TRUE,
+                    directOnly = TRUE, simpleOnly = directOnly,
+                    where = topenv(parent.frame()))
+ 
+ .selectSuperClasses(ext, dropVirtual = FALSE, namesOnly = TRUE,
+                     directOnly = TRUE, simpleOnly = directOnly)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>Class</code></td>
+ <td>
+ <p>name of the class or (more efficiently) the class
+ definition object (see <code>getClass</code>).</p>
+ </td></tr>
+ <tr valign="top"><td><code>dropVirtual</code></td>
+ <td>
+ <p>logical indicating if only non-virtual superclasses
+ should be returned.</p>
+ </td></tr>
+ <tr valign="top"><td><code>namesOnly</code></td>
+ <td>
+ <p>logical indicating if only a vector names instead of
+ a named list class-extensions should be returned.</p>
+ </td></tr>
+ <tr valign="top"><td><code>directOnly</code></td>
+ <td>
+ <p>logical indicating if only a <EM>direct</EM> super
+ classes should be returned.</p>
+ </td></tr>
+ <tr valign="top"><td><code>simpleOnly</code></td>
+ <td>
+ <p>logical indicating if only simple class extensions
+ should be returned.</p>
+ </td></tr>
+ <tr valign="top"><td><code>where</code></td>
+ <td>
+ <p>(only used when <code>Class</code> is not a class definition)
+ environment where the class definition of <code>Class</code> is found.</p>
+ </td></tr>
+ <tr valign="top"><td><code>ext</code></td>
+ <td>
+ <p>for <code>.selectSuperClasses()</code> only, a <code>list</code>
+ of class extensions, typically <code>getClassDef(..)@contains</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>a <code>character</code> vector (if <code>namesOnly</code> is true, as per
+ default) or a list of class extensions (as the <code>contains</code> slot in
+ the result of <code>getClass</code>).
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ <p>The typical user level function is <code>selectSuperClasses()</code>
+ which calls <code>.selectSuperClasses()</code>; i.e., the latter should only
+ be used for efficiency reasons by experienced useRs.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>is</code>, <code>getClass</code>; further, the more technical
+ class <code>classRepresentation</code> documentation.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ setClass("Root")
+ setClass("Base", contains = "Root", representation(length = "integer"))
+ setClass("A", contains = "Base", representation(x = "numeric"))
+ setClass("B", contains = "Base", representation(y = "character"))
+ setClass("C", contains = c("A", "B"))
+ 
+ extends("C")   #--&gt;  "C"  "A" "B"  "Base" "Root"
+ selectSuperClasses("C") # "A" "B"
+ selectSuperClasses("C", direct=FALSE) # "A" "B"  "Base"  "Root"
+ selectSuperClasses("C", dropVirt = TRUE, direct=FALSE)# ditto w/o "Root"
+ </pre>
+ 
+ 
+ </body></html>

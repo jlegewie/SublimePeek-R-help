@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Stack overlapping objects on top of one another.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for position_stack"><tr><td>position_stack</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Stack overlapping objects on top of one another.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Stack overlapping objects on top of one another.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   position_stack(width = NULL, height = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>width</code></td>
+ <td>
+ <p>Manually specify width (does not affect all
+ position adjustments)</p>
+ </td></tr>
+ <tr valign="top"><td><code>height</code></td>
+ <td>
+ <p>Manually specify height (does not affect
+ all position adjustments)</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Other position adjustments: <code>position_dodge</code>,
+ <code>position_fill</code>,
+ <code>position_identity</code>,
+ <code>position_jitter</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ # Stacking is the default behaviour for most area plots:
+ ggplot(mtcars, aes(factor(cyl), fill = factor(vs))) + geom_bar()
+ 
+ # To change stacking order, use factor() to change order of levels
+ mtcars$vs &lt;- factor(mtcars$vs, levels = c(1,0))
+ ggplot(mtcars, aes(factor(cyl), fill = factor(vs))) + geom_bar()
+ 
+ ggplot(diamonds, aes(price)) + geom_histogram(binwidth=500)
+ ggplot(diamonds, aes(price, fill = cut)) + geom_histogram(binwidth=500)
+ 
+ # Stacking is also useful for time series
+ data.set &lt;- data.frame(
+   Time = c(rep(1, 4),rep(2, 4), rep(3, 4), rep(4, 4)),
+   Type = rep(c('a', 'b', 'c', 'd'), 4),
+   Value = rpois(16, 10)
+ )
+ 
+ qplot(Time, Value, data = data.set, fill = Type, geom = "area")
+ # If you want to stack lines, you need to say so:
+ qplot(Time, Value, data = data.set, colour = Type, geom = "line")
+ qplot(Time, Value, data = data.set, colour = Type, geom = "line",
+   position = "stack")
+ # But realise that this makes it *much* harder to compare individual
+ # trends
+ </pre>
+ 
+ 
+ </body></html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Display Connections</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for showConnections"><tr><td>showConnections</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Display Connections</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Display aspects of connections.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ showConnections(all = FALSE)
+ getConnection(what)
+ closeAllConnections()
+ 
+ stdin()
+ stdout()
+ stderr()
+ 
+ isatty(con)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>all</code></td>
+ <td>
+ <p>logical: if true all connections, including closed ones
+ and the standard ones are displayed.  If false only open user-created
+ connections are included.</p>
+ </td></tr>
+ <tr valign="top"><td><code>what</code></td>
+ <td>
+ <p>integer: a row number of the table given by
+ <code>showConnections</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>con</code></td>
+ <td>
+ <p>a connection.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>stdin()</code>, <code>stdout()</code> and <code>stderr()</code> are standard
+ connections corresponding to input, output and error on the console
+ respectively (and not necessarily to file streams).  They are text-mode
+ connections of class <code>"terminal"</code> which cannot be opened or
+ closed, and are read-only, write-only and write-only respectively.
+ The <code>stdout()</code> and <code>stderr()</code> connections can be
+ re-directed by <code>sink</code> (and in some circumstances the
+ output from <code>stdout()</code> can be split: see the help page).
+ </p>
+ <p>The encoding for <code>stdin()</code> when redirected can
+ be set by the command-line flag <span class="option">--encoding</span>.
+ </p>
+ <p><code>showConnections</code> returns a matrix of information.  If a
+ connection object has been lost or forgotten, <code>getConnection</code>
+ will take a row number from the table and return a connection object
+ for that connection, which can be used to close the connection,
+ for example.  However, if there is no <font face="Courier New,Courier" color="#666666"><b>R</b></font> level object referring to the
+ connection it will be closed automatically at the next garbage
+ collection (except for <code>gzcon</code> connections).
+ </p>
+ <p><code>closeAllConnections</code> closes (and destroys) all user
+ connections, restoring all <code>sink</code> diversions as it does
+ so.
+ </p>
+ <p><code>isatty</code> returns true if the connection is one of the class
+ <code>"terminal"</code> connections and it is apparently connected to a
+ terminal, otherwise false.  This may not be reliable in embedded
+ applications, including GUI consoles.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>stdin()</code>, <code>stdout()</code> and <code>stderr()</code> return connection
+ objects.
+ </p>
+ <p><code>showConnections</code> returns a character matrix of information with
+ a row for each connection, by default only for open non-standard connections.
+ </p>
+ <p><code>getConnection</code> returns a connection object, or <code>NULL</code>.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p><code>stdin()</code> refers to the &lsquo;console&rsquo; and not to the C-level
+ &lsquo;<span class="file">stdin</span>&rsquo; of the process.  The distinction matters in GUI consoles
+ (which may not have an active &lsquo;<span class="file">stdin</span>&rsquo;, and if they do it may not
+ be connected to console input), and also in embedded applications.
+ If you want access to the C-level file stream &lsquo;<span class="file">stdin</span>&rsquo;, use
+ <code>file("stdin")</code>.
+ </p>
+ <p>When <font face="Courier New,Courier" color="#666666"><b>R</b></font> is reading a script from a file, the <EM>file</EM> is the
+ &lsquo;console&rsquo;: this is traditional usage to allow in-line data (see
+ &lsquo;An Introduction to R&rsquo; for an example).
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ <p><code>connections</code></p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ showConnections(all = TRUE)
+ 
+ textConnection(letters)
+ # oops, I forgot to record that one
+ showConnections()
+ #  class     description      mode text   isopen   can read can write
+ #3 "letters" "textConnection" "r"  "text" "opened" "yes"    "no"     
+ ## Not run: close(getConnection(3))
+ 
+ showConnections()
+ 
+ c(isatty(stdin()), isatty(stdout()), isatty(stderr()))
+ </pre>
+ 
+ 
+ </body></html>

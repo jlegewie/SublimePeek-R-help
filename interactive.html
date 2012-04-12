@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Is R Running Interactively?</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for interactive"><tr><td>interactive</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Is R Running Interactively?</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Return <code>TRUE</code> when <font face="Courier New,Courier" color="#666666"><b>R</b></font> is being used interactively and
+ <code>FALSE</code> otherwise.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ interactive()
+ </pre>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>An interactive <font face="Courier New,Courier" color="#666666"><b>R</b></font> session is one in which it is assumed that there is
+ a human operator to interact with, so for example <font face="Courier New,Courier" color="#666666"><b>R</b></font> can prompt for
+ corrections to incorrect input or ask what to do next or if it is OK
+ to move to the next plot.
+ </p>
+ <p>GUI consoles will arrange to start <font face="Courier New,Courier" color="#666666"><b>R</b></font> in an interactive session.  When
+ <font face="Courier New,Courier" color="#666666"><b>R</b></font> is run in a terminal (via <CODE>Rterm.exe</CODE> on Windows), it
+ assumes that it is interactive if &lsquo;<span class="file">stdin</span>&rsquo; is connected to a
+ (pseudo-)terminal and not if &lsquo;<span class="file">stdin</span>&rsquo; is redirected to a file or
+ pipe.  Command-line options <span class="option">--interactive</span> (Unix) and
+ <span class="option">--ess</span> (Windows, <CODE>Rterm.exe</CODE>) override the default
+ assumption.
+ (On a Unix-alike, whether the <code>readline</code> command-line editor is
+ used is <STRONG>not</STRONG> overridden by <span class="option">--interactive</span>.)
+ </p>
+ <p>Embedded uses of <font face="Courier New,Courier" color="#666666"><b>R</b></font> can set a session to be interactive or not.
+ </p>
+ <p>Internally, whether a session is interactive determines
+ </p>
+ 
+ <ul>
+ <li><p> how some errors are handled and reported, e.g. see
+ <code>stop</code> and <code>options("showWarnCalls")</code>.
+ </p>
+ </li>
+ <li><p>  whether one of <span class="option">--save</span>, <span class="option">--no-save</span> or
+ <span class="option">--vanilla</span> is required, and if <font face="Courier New,Courier" color="#666666"><b>R</b></font> ever asks whether to save the
+ workspace.
+ </p>
+ </li>
+ <li><p> the choice of default graphics device launched when needed and
+ by <code>dev.new</code>: see <code>options("device")</code>
+ </p>
+ </li>
+ <li><p> whether graphics devices ever ask for confirmation of a new
+ page.
+ </p>
+ </li></ul>
+ 
+ <p>In addition, <font face="Courier New,Courier" color="#666666"><b>R</b></font>'s own <font face="Courier New,Courier" color="#666666"><b>R</b></font> code makes use of <code>interactive()</code>: for
+ example <code>help</code>, <code>debugger</code> and
+ <code>install.packages</code> do.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>This is a primitive function.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>source</code>,
+ <code>.First</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+  .First &lt;- function() if(interactive()) x11()
+ </pre>
+ 
+ 
+ </body></html>

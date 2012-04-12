@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: 1d kernel density estimate along y axis, for violin plot.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for stat_ydensity"><tr><td>stat_ydensity</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>1d kernel density estimate along y axis, for violin plot.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>1d kernel density estimate along y axis, for violin plot.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   stat_ydensity(mapping = NULL, data = NULL,
+     geom = "violin", position = "dodge", adjust = 1,
+     kernel = "gaussian", trim = TRUE, scale = "equal",
+     na.rm = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>trim</code></td>
+ <td>
+ <p>If <code>TRUE</code> (default), trim the tails of
+ the violins to the range of the data. If <code>FALSE</code>,
+ don't trim the tails.</p>
+ </td></tr>
+ <tr valign="top"><td><code>scale</code></td>
+ <td>
+ <p>if &quot;equal&quot; (default), all violins have the
+ same area (to be precise, they would have the same area
+ if tails are not trimmed). If &quot;count&quot;, the areas are
+ scaled proportionally to the number of observations.</p>
+ </td></tr>
+ <tr valign="top"><td><code>na.rm</code></td>
+ <td>
+ <p>If <code>FALSE</code> (the default), removes
+ missing values with a warning.  If <code>TRUE</code> silently
+ removes missing values.</p>
+ </td></tr>
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>geom</code></td>
+ <td>
+ <p>The geometric object to use display the data</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>adjust</code></td>
+ <td>
+ <p>see <code>density</code> for details</p>
+ </td></tr>
+ <tr valign="top"><td><code>kernel</code></td>
+ <td>
+ <p>kernel used for density estimation, see
+ <code>density</code> for details</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A data frame with additional columns: </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>width</code></td>
+ <td>
+ <p>width
+ of violin bounding box</p>
+ </td></tr> <tr valign="top"><td><code>ydensity</code></td>
+ <td>
+ <p>density estimate</p>
+ </td></tr>
+ <tr valign="top"><td><code>scaled</code></td>
+ <td>
+ <p>density estimate, scaled depending on
+ scalearea and scalecount</p>
+ </td></tr> <tr valign="top"><td><code>count</code></td>
+ <td>
+ <p>ydensity * number
+ of points</p>
+ </td></tr> <tr valign="top"><td><code>counttotal</code></td>
+ <td>
+ <p>number of points</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ # See geom_violin for examples
+ # Also see stat_density for similar examples with data along x axis
+ </pre>
+ 
+ 
+ </body></html>

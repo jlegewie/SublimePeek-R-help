@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Read File Symbolic Links</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Sys.readlink"><tr><td>Sys.readlink</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>
+ Read File Symbolic Links
+ </h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Find out if a file path is a symbolic link, and if so what it is
+ linked to, <EM>via</EM> the system call <code>readlink</code>.
+ </p>
+ <p>Symbolic links are a Unix concept, not implemented on Windows.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ Sys.readlink(paths)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>paths</code></td>
+ <td>
+ <p>character vector of file paths.  Tilde expansion is done:
+ see <code>path.expand</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A character vector of the the same length as <code>paths</code>.  The
+ entries are the path of the file linked to, <code>""</code> if the path is
+ not a symbolic link, and <code>NA</code> if there is an error (e.g., the
+ path does not exist).
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>file.symlink</code>, <code>file.info</code>
+ </p>
+ 
+ 
+ </body></html>

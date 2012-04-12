@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Dot plot</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for geom_dotplot"><tr><td>geom_dotplot</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Dot plot</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>In a dot plot, the width of a dot corresponds to the bin
+ width (or maximum width, depending on the binning
+ algorithm), and dots are stacked, with each dot
+ representing one observation.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   geom_dotplot(mapping = NULL, data = NULL,
+     stat = "bindot", position = "identity", na.rm = FALSE,
+     binwidth = NULL, binaxis = "x", method = "dotdensity",
+     binpositions = "bygroup", stackdir = "up",
+     stackratio = 1, dotsize = 1, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>binaxis</code></td>
+ <td>
+ <p>which axis to bin along &quot;x&quot; (default) or
+ &quot;y&quot;</p>
+ </td></tr>
+ <tr valign="top"><td><code>method</code></td>
+ <td>
+ <p>&quot;dotdensity&quot; (default) for dot-density
+ binning, or &quot;histodot&quot; for fixed bin widths (like
+ stat_bin)</p>
+ </td></tr>
+ <tr valign="top"><td><code>binwidth</code></td>
+ <td>
+ <p>When <code>method</code> is &quot;dotdensity&quot;, this
+ specifies maximum bin width.  When method is &quot;histodot&quot;,
+ this specifies bin width.  Defaults to 1/30 of the range
+ of the data</p>
+ </td></tr>
+ <tr valign="top"><td><code>binpositions</code></td>
+ <td>
+ <p>When <code>method</code> is &quot;dotdensity&quot;,
+ &quot;bygroup&quot; (default) determines positions of the bins for
+ each group separately. &quot;all&quot; determines positions of the
+ bins with all the data taken together; this is used for
+ aligning dot stacks across multiple groups.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stackdir</code></td>
+ <td>
+ <p>which direction to stack the dots. &quot;up&quot;
+ (default), &quot;down&quot;, &quot;center&quot;, &quot;centerwhole&quot; (centered, but
+ with dots aligned)</p>
+ </td></tr>
+ <tr valign="top"><td><code>stackratio</code></td>
+ <td>
+ <p>how close to stack the dots. Default is
+ 1, where dots just just touch. Use smaller values for
+ closer, overlapping dots.</p>
+ </td></tr>
+ <tr valign="top"><td><code>dotsize</code></td>
+ <td>
+ <p>The diameter of the dots relative to
+ <code>binwidth</code>, default 1.</p>
+ </td></tr>
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>The statistical transformation to use on the
+ data for this layer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>na.rm</code></td>
+ <td>
+ <p>If <code>FALSE</code> (the default), removes
+ missing values with a warning.  If <code>TRUE</code> silently
+ removes missing values.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>With dot-density binning, the bin positions are
+ determined by the data and <code>binwidth</code>, which is the
+ maximum width of each bin. See Wilkinson (1999) for
+ details on the dot-density binning algorithm.
+ </p>
+ <p>With histodot binning, the bins have fixed positions and
+ fixed widths, much like a histogram.
+ </p>
+ <p>When binning along the x axis and stacking along the y
+ axis, the numbers on y axis are not meaningful, due to
+ technical limitations of ggplot2. You can hide the y
+ axis, as in one of the examples, or manually scale it to
+ match the number of dots.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Wilkinson, L. (1999) Dot plots. The American
+ Statistician, 53(3), 276-281.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ggplot(mtcars, aes(x = mpg)) + geom_dotplot()
+ ggplot(mtcars, aes(x = mpg)) + geom_dotplot(binwidth = 1.5)
+ 
+ # Use fixed-width bins
+ ggplot(mtcars, aes(x = mpg)) +
+   geom_dotplot(method="histodot", binwidth = 1.5)
+ 
+ # Some other stacking methods
+ ggplot(mtcars, aes(x = mpg)) +
+   geom_dotplot(binwidth = 1.5, stackdir = "center")
+ ggplot(mtcars, aes(x = mpg)) +
+   geom_dotplot(binwidth = 1.5, stackdir = "centerwhole")
+ 
+ # y axis isn't really meaningful, so hide it
+ ggplot(mtcars, aes(x = mpg)) + geom_dotplot(binwidth = 1.5) +
+   scale_y_continuous(name = "", breaks = NA)
+ 
+ # Overlap dots vertically
+ ggplot(mtcars, aes(x = mpg)) + geom_dotplot(binwidth = 1.5, stackratio = .7)
+ 
+ # Expand dot diameter
+ ggplot(mtcars, aes(x  =mpg)) + geom_dotplot(binwidth = 1.5, dotsize = 1.25)
+ 
+ 
+ # Examples with stacking along y axis instead of x
+ ggplot(mtcars, aes(x = 1, y = mpg)) +
+   geom_dotplot(binaxis = "y", stackdir = "center")
+ 
+ ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +
+   geom_dotplot(binaxis = "y", stackdir = "center")
+ 
+ ggplot(mtcars, aes(x = factor(cyl), y = mpg)) +
+   geom_dotplot(binaxis = "y", stackdir = "centerwhole")
+ 
+ ggplot(mtcars, aes(x = factor(vs), fill = factor(cyl), y = mpg)) +
+   geom_dotplot(binaxis = "y", stackdir = "center", position = "dodge")
+ 
+ # binpositions="all" ensures that the bins are aligned between groups
+ ggplot(mtcars, aes(x = factor(am), y = mpg)) +
+   geom_dotplot(binaxis = "y", stackdir = "center", binpositions="all")
+ </pre>
+ 
+ 
+ </body></html>

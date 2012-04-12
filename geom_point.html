@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Points, as for a scatterplot</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for geom_point"><tr><td>geom_point</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Points, as for a scatterplot</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The point geom is used to create scatterplots.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   geom_point(mapping = NULL, data = NULL,
+     stat = "identity", position = "identity",
+     na.rm = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>The statistical transformation to use on the
+ data for this layer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>na.rm</code></td>
+ <td>
+ <p>If <code>FALSE</code> (the default), removes
+ missing values with a warning.  If <code>TRUE</code> silently
+ removes missing values.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The scatterplot is useful for displaying the relationship
+ between two continuous variables, although it can also be
+ used with one continuous and one categorical variable, or
+ two categorical variables.  See <code>geom_jitter</code>
+ for possibilities.
+ </p>
+ <p>The <EM>bubblechart</EM> is a scatterplot with a third
+ variable mapped to the size of points.  There are no
+ special names for scatterplots where another variable is
+ mapped to point shape or colour, however.
+ </p>
+ <p>The biggest potential problem with a scatterplot is
+ overplotting: whenever you have more than a few points,
+ points may be plotted on top of one another. This can
+ severely distort the visual appearance of the plot. There
+ is no one solution to this problem, but there are some
+ techniques that can help.  You can add additional
+ information with <code>stat_smooth</code>,
+ <code>stat_quantile</code> or
+ <code>stat_density2d</code>.  If you have few unique x
+ values, <code>geom_boxplot</code> may also be useful.
+ Alternatively, you can summarise the number of points at
+ each location and display that in some way, using
+ <code>stat_sum</code>. Another technique is to use
+ transparent points, <code>geom_point(alpha = 0.05)</code>.
+ </p>
+ 
+ 
+ <h3>Aesthetics</h3>
+ 
+ 
+ <p><code>geom_point</code> understands the following aesthetics:
+ </p>
+  <ul>
+ <li> <p><code>x</code>: horizontal position </p>
+ </li>
+ <li>
+ <p><code>y</code>: vertical position </p>
+ </li>
+ <li> <p><code>shape</code>: point
+ shape.  </p>
+ </li>
+ <li> <p><code>colour</code>: point colour.  </p>
+ </li>
+ <li>
+ <p><code>fill</code>: fill colour, only affects solid points </p>
+ </li>
+ <li>
+ <p><code>size</code>: size.  </p>
+ </li>
+ <li> <p><code>alpha</code>: alpha
+ transparency modifies colour. </p>
+ </li></ul>
+ 
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>scale_size</code> to see scale area of points,
+ instead of radius, <code>geom_jitter</code> to jitter
+ points to reduce (mild) overplotting
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ p &lt;- ggplot(mtcars, aes(wt, mpg))
+ p + geom_point()
+ 
+ # Add aesthetic mappings
+ p + geom_point(aes(colour = qsec))
+ p + geom_point(aes(alpha = qsec))
+ p + geom_point(aes(colour = factor(cyl)))
+ p + geom_point(aes(shape = factor(cyl)))
+ p + geom_point(aes(size = qsec))
+ 
+ # Change scales
+ p + geom_point(aes(colour = cyl)) + scale_colour_gradient(low = "blue")
+ p + geom_point(aes(size = qsec)) + scale_area()
+ p + geom_point(aes(shape = factor(cyl))) + scale_shape(solid = FALSE)
+ 
+ # Set aesthetics to fixed value
+ p + geom_point(colour = "red", size = 3)
+ qplot(wt, mpg, data = mtcars, colour = I("red"), size = I(3))
+ 
+ # Varying alpha is useful for large datasets
+ d &lt;- ggplot(diamonds, aes(carat, price))
+ d + geom_point(alpha = 1/10)
+ d + geom_point(alpha = 1/20)
+ d + geom_point(alpha = 1/100)
+ 
+ # You can create interesting shapes by layering multiple points of
+ # different sizes
+ p &lt;- ggplot(mtcars, aes(mpg, wt))
+ p + geom_point(colour="grey50", size = 4) + geom_point(aes(colour = cyl))
+ p + aes(shape = factor(cyl)) +
+   geom_point(aes(colour = factor(cyl)), size = 4) +
+   geom_point(colour="grey90", size = 1.5)
+ p + geom_point(colour="black", size = 4.5) +
+   geom_point(colour="pink", size = 4) +
+   geom_point(aes(shape = factor(cyl)))
+ 
+ # These extra layers don't usually appear in the legend, but we can
+ # force their inclusion
+ p + geom_point(colour="black", size = 4.5, show_guide = TRUE) +
+   geom_point(colour="pink", size = 4, show_guide = TRUE) +
+   geom_point(aes(shape = factor(cyl)))
+ 
+ # Transparent points:
+ qplot(mpg, wt, data = mtcars, size = I(5), alpha = I(0.2))
+ 
+ # geom_point warns when missing values have been dropped from the data set
+ # and not plotted, you can turn this off by setting na.rm = TRUE
+ mtcars2 &lt;- transform(mtcars, mpg = ifelse(runif(32) &lt; 0.2, NA, mpg))
+ qplot(wt, mpg, data = mtcars2)
+ qplot(wt, mpg, data = mtcars2, na.rm = TRUE)
+ 
+ # Use qplot instead
+ qplot(wt, mpg, data = mtcars)
+ qplot(wt, mpg, data = mtcars, colour = factor(cyl))
+ qplot(wt, mpg, data = mtcars, colour = I("red"))
+ 
+ </pre>
+ 
+ 
+ </body></html>

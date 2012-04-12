@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Adjust position by dodging overlaps to the side.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for position_dodge"><tr><td>position_dodge</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Adjust position by dodging overlaps to the side.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Adjust position by dodging overlaps to the side.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   position_dodge(width = NULL, height = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>width</code></td>
+ <td>
+ <p>Manually specify width (does not affect all
+ position adjustments)</p>
+ </td></tr>
+ <tr valign="top"><td><code>height</code></td>
+ <td>
+ <p>Manually specify height (does not affect
+ all position adjustments)</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Other position adjustments: <code>position_fill</code>,
+ <code>position_identity</code>,
+ <code>position_jitter</code>,
+ <code>position_stack</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ ggplot(mtcars, aes(x=factor(cyl), fill=factor(vs))) +
+   geom_bar(position="dodge")
+ ggplot(diamonds, aes(x=price, fill=cut)) + geom_bar(position="dodge")
+ # see ?geom_boxplot and ?geom_bar for more examples
+ 
+ # Dodging things with different widths is tricky
+ df &lt;- data.frame(x=c("a","a","b","b"), y=1:4)
+ (p &lt;- qplot(x, y, data=df, position="dodge", geom="bar", stat="identity"))
+ 
+ p + geom_linerange(aes(ymin = y-1, ymax = y+1), position="dodge")
+ # You need to explicitly specify the width for dodging
+ p + geom_linerange(aes(ymin = y-1, ymax = y+1),
+   position = position_dodge(width = 0.9))
+ 
+ # Similarly with error bars:
+ p + geom_errorbar(aes(ymin = y-1, ymax = y+1), width = 0.2,
+   position="dodge")
+ p + geom_errorbar(aes(ymin = y-1, ymax = y+1, width = 0.2),
+   position = position_dodge(width = 0.90))
+ 
+ </pre>
+ 
+ 
+ </body></html>

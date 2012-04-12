@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Load URL into a WWW Browser</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for browseURL"><tr><td>browseURL</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Load URL into a WWW Browser</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Load a given URL into a WWW browser.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ browseURL(url, browser = getOption("browser"), encodeIfNeeded = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>url</code></td>
+ <td>
+ <p>a non-empty character string giving the URL to be loaded.</p>
+ </td></tr>
+ <tr valign="top"><td><code>browser</code></td>
+ <td>
+ <p>a non-empty character string giving the name of the
+ program to be used as hypertext browser.  It should be in the PATH,
+ or a full path specified.  Alternatively, an <font face="Courier New,Courier" color="#666666"><b>R</b></font> function to be
+ called to invoke the browser.
+ </p>
+ <p>Under Windows <code>NULL</code> is also allowed (and is the default), and
+ implies that the file association mechanism will be used.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>encodeIfNeeded</code></td>
+ <td>
+ <p>Should the URL be encoded by
+ <code>URLencode</code> before passing to the browser?  This is not
+ needed (and might be harmful) if the <code>browser</code> program/function
+ itself does encoding, and can be harmful for <span class="samp">file://</span> URLs on some
+ systems and for <span class="samp">http://</span> URLs passed to some CGI applications.
+ Fortunately, most URLs do not need encoding.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>The default browser is set by option <code>"browser"</code>, in turn set by
+ the environment variable <span class="env">R_BROWSER</span> which is by default set in
+ file &lsquo;<span class="file"><VAR>R_HOME</VAR>/etc/Renviron</span>&rsquo; to a choice
+ made manually or automatically when <font face="Courier New,Courier" color="#666666"><b>R</b></font> was configured.  (See
+ <code>Startup</code> for where to override that default value.)
+ To suppress showing URLs altogether, use the value <code>"false"</code>.
+ </p>
+ <p>If <code>browser</code> supports remote control and <font face="Courier New,Courier" color="#666666"><b>R</b></font> knows how to perform
+ it, the URL is opened in any already running browser or a new one if
+ necessary.  This mechanism currently is available for browsers which
+ support the <code>"-remote openURL(...)"</code> interface (which includes
+ Mozilla &gt;= 0.9.5 and Mozilla Firefox), Galeon, KDE konqueror
+ (<EM>via</EM> kfmclient) and the GNOME interface to Mozilla.  Note that
+ the type of browser is determined from its name, so this mechanism
+ will only be used if the browser is installed under its canonical
+ name.
+ </p>
+ <p>Because <code>"-remote"</code> will use any browser displaying on the X
+ server (whatever machine it is running on), the remote control
+ mechanism is only used if <code>DISPLAY</code> points to the local host.
+ This may not allow displaying more than one URL at a time from a
+ remote host.
+ </p>
+ <p>It is the caller's responsibility to encode <code>url</code> if necessary
+ (see <code>URLencode</code>).  This can be tricky for file URLs,
+ where the format accepted can depend on the browser and OS.
+ </p>
+ <p>To suppress showing URLs altogether, set <code>browser="false"</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: ## for KDE users who want to open files in a new tab
+ options(browser="kfmclient newTab") 
+ browseURL("http://www.r-project.org")
+ 
+ ## End(Not run)</pre>
+ 
+ 
+ </body></html>

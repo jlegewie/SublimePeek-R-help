@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Horizontal line.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for geom_hline"><tr><td>geom_hline</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Horizontal line.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>This geom allows you to annotate the plot with horizontal
+ lines (see <code>geom_vline</code> and
+ <code>geom_abline</code> for other types of lines).
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   geom_hline(mapping = NULL, data = NULL, stat = "hline",
+     position = "identity", show_guide = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>show_guide</code></td>
+ <td>
+ <p>should a legend be drawn? (defaults to
+ <code>FALSE</code>)</p>
+ </td></tr>
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>The statistical transformation to use on the
+ data for this layer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>There are two ways to use it. You can either specify the
+ intercept of the line in the call to the geom, in which
+ case the line will be in the same position in every
+ panel. Alternatively, you can supply a different
+ intercept for each panel using a data.frame. See the
+ examples for the differences
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>geom_vline</code> for vertical lines,
+ <code>geom_abline</code> for lines defined by a slope
+ and intercept, <code>geom_segment</code> for a more
+ general approach
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ p &lt;- ggplot(mtcars, aes(x = wt, y=mpg)) + geom_point()
+ 
+ p + geom_hline(aes(yintercept=mpg))
+ p + geom_hline(yintercept=20)
+ p + geom_hline(yintercept=seq(10, 30, by=5))
+ 
+ # With coordinate transforms
+ p + geom_hline(aes(yintercept=mpg)) + coord_equal()
+ p + geom_hline(aes(yintercept=mpg)) + coord_flip()
+ p + geom_hline(aes(yintercept=mpg)) + coord_polar()
+ 
+ # To display different lines in different facets, you need to
+ # create a data frame.
+ p &lt;- qplot(mpg, wt, data=mtcars, facets = vs ~ am)
+ 
+ hline.data &lt;- data.frame(z = 1:4, vs = c(0,0,1,1), am = c(0,1,0,1))
+ p + geom_hline(aes(yintercept = z), hline.data)
+ </pre>
+ 
+ 
+ </body></html>

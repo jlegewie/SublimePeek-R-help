@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Give Search Path for R Objects</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for search"><tr><td>search</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Give Search Path for R Objects</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Gives a list of <code>attach</code>ed <EM>packages</EM>
+ (see <code>library</code>), and <font face="Courier New,Courier" color="#666666"><b>R</b></font> objects, usually
+ <code>data.frames</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ search()
+ searchpaths()
+ </pre>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A character vector, starting with <code>".GlobalEnv"</code>, and
+ ending with <code>"package:base"</code> which is <font face="Courier New,Courier" color="#666666"><b>R</b></font>'s <span class="pkg">base</span> package
+ required always.
+ </p>
+ <p><code>searchpaths</code> gives a similar character vector, with the
+ entries for packages being the path to the package used to load the
+ code.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ <p>Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988)
+ <EM>The New S Language</EM>.
+ Wadsworth &amp; Brooks/Cole.  (<code>search</code>.)
+ </p>
+ <p>Chambers, J. M. (1998)
+ <EM>Programming with Data.  A Guide to the S Language</EM>.
+ Springer.  (<code>searchPaths</code>.)
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>.packages</code> to list just the packages on search path.
+ </p>
+ <p><code>loadedNamespaces</code> to list loaded namespaces.
+ </p>
+ <p><code>attach</code> and <code>detach</code> to change the
+ search path, <code>objects</code> to find <font face="Courier New,Courier" color="#666666"><b>R</b></font> objects in there.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ search()
+ searchpaths()
+ </pre>
+ 
+ 
+ </body></html>

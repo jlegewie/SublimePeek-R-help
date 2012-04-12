@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Use values without scaling.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for scale_colour_identity"><tr><td>scale_colour_identity</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Use values without scaling.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Use values without scaling.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   scale_colour_identity(..., guide = "none")
+ 
+   scale_fill_identity(..., guide = "none")
+ 
+   scale_shape_identity(..., guide = "none")
+ 
+   scale_linetype_identity(..., guide = "none")
+ 
+   scale_alpha_identity(..., guide = "none")
+ 
+   scale_size_identity(..., guide = "none")
+ 
+   scale_color_identity(..., guide = "none")
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Other arguments passed on to
+ <code>discrete_scale</code> or
+ <code>continuous_scale</code></p>
+ </td></tr>
+ <tr valign="top"><td><code>guide</code></td>
+ <td>
+ <p>Guide to use for this scale - defaults to
+ <code>"none"</code>.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ colour &lt;- c("red", "green", "blue", "yellow")
+ qplot(1:4, 1:4, fill = colour, geom = "tile")
+ qplot(1:4, 1:4, fill = colour, geom = "tile") + scale_fill_identity()
+ 
+ # To get a legend guide, you also need to supply labels, and specify
+ # guide = "legend"
+ qplot(1:4, 1:4, fill = colour, geom = "tile") +
+   scale_fill_identity("trt", labels = letters[1:4], breaks = colour,
+    guide = "legend")
+ 
+ # cyl scaled to appropriate size
+ qplot(mpg, wt, data = mtcars, size = cyl)
+ 
+ # cyl used as point size
+ qplot(mpg, wt, data = mtcars, size = cyl) + scale_size_identity()
+ </pre>
+ 
+ 
+ </body></html>

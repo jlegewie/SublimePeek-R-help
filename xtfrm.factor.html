@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Auxiliary Function for Sorting and Ranking</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for xtfrm"><tr><td>xtfrm</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Auxiliary Function for Sorting and Ranking</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>A generic auxiliary function that produces a numeric vector which
+ will sort in the same order as <code>x</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ xtfrm(x)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>an <font face="Courier New,Courier" color="#666666"><b>R</b></font> object.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>This is a special case of ranking, but as a less general function than
+ <code>rank</code> is more suitable to be made generic.  The default
+ method is similar to <code>rank(x, ties.method="min",
+     na.last="keep")</code>, so <code>NA</code> values are given rank <code>NA</code> and all
+ tied values are given equal integer rank.
+ </p>
+ <p>The <code>factor</code> method extracts the codes.  The
+ <code>Surv</code> method sorts first on times and then on
+ status code(s).
+ </p>
+ <p>The default method will unclass the object if
+ <code>is.numeric(x)</code> is true but otherwise make use of
+ <code>==</code> and <code>&gt;</code> methods for the class of <code>x[i]</code> (for
+ integers <code>i</code>), and the <code>is.na</code> method for the class of
+ <code>x</code>, but might be rather slow when doing so.
+ </p>
+ <p>This is an internal generic primitive, so S3 or S4
+ methods can be written for it.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A numeric (usually integer) vector of the same length as <code>x</code>.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>rank</code>, <code>sort</code>, <code>order</code>.
+ </p>
+ 
+ 
+ </body></html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Wrap a 1d ribbon of panels into 2d.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for facet_wrap"><tr><td>facet_wrap</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Wrap a 1d ribbon of panels into 2d.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Wrap a 1d ribbon of panels into 2d.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   facet_wrap(facets, nrow = NULL, ncol = NULL,
+     scales = "fixed", shrink = TRUE, as.table = TRUE,
+     drop = TRUE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>nrow</code></td>
+ <td>
+ <p>number of rows</p>
+ </td></tr>
+ <tr valign="top"><td><code>ncol</code></td>
+ <td>
+ <p>number of columns</p>
+ </td></tr>
+ <tr valign="top"><td><code>facets</code></td>
+ <td>
+ <p>formula specifying variables to facet by</p>
+ </td></tr>
+ <tr valign="top"><td><code>scales</code></td>
+ <td>
+ <p>should scales be fixed (<code>"fixed"</code>, the
+ default), free (<code>"free"</code>), or free in one dimension
+ (<code>"free_x"</code>, <code>"free_y"</code>)</p>
+ </td></tr>
+ <tr valign="top"><td><code>shrink</code></td>
+ <td>
+ <p>If <code>TRUE</code>, will shrink scales to fit
+ output of statistics, not raw data. If <code>FALSE</code>, will
+ be range of raw data before statistical summary.</p>
+ </td></tr>
+ <tr valign="top"><td><code>as.table</code></td>
+ <td>
+ <p>If <code>TRUE</code>, the default, the facets
+ are laid out like a table with highest values at the
+ bottom-right. If <code>FALSE</code>, the facets are laid out
+ like a plot with the highest value at the top-right.</p>
+ </td></tr>
+ <tr valign="top"><td><code>drop</code></td>
+ <td>
+ <p>If <code>TRUE</code>, the default, all factor
+ levels not used in the data will automatically be
+ dropped. If <code>FALSE</code>, all factor levels will be
+ shown, regardless of whether or not they appear in the
+ data.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ d &lt;- ggplot(diamonds, aes(carat, price, fill = ..density..)) +
+   xlim(0, 2) + stat_binhex(na.rm = TRUE) + opts(aspect.ratio = 1)
+ d + facet_wrap(~ color)
+ d + facet_wrap(~ color, ncol = 1)
+ d + facet_wrap(~ color, ncol = 4)
+ d + facet_wrap(~ color, nrow = 1)
+ d + facet_wrap(~ color, nrow = 3)
+ 
+ # Using multiple variables continues to wrap the long ribbon of
+ # plots into 2d - the ribbon just gets longer
+ # d + facet_wrap(~ color + cut)
+ 
+ # To change plot order of facet wrap,
+ # change the order of varible levels with factor()
+ diamonds$color &lt;- factor(diamonds$color, levels = c("G", "J", "D", "E", "I", "F", "H"))
+ # Repeat first example with new order
+ d &lt;- ggplot(diamonds, aes(carat, price, fill = ..density..)) +
+ xlim(0, 2) + stat_binhex(na.rm = TRUE) + opts(aspect.ratio = 1)
+ d + facet_wrap(~ color)
+ 
+ # You can choose to keep the scales constant across all panels
+ # or vary the x scale, the y scale or both:
+ p &lt;- qplot(price, data = diamonds, geom = "histogram", binwidth = 1000)
+ p + facet_wrap(~ color)
+ p + facet_wrap(~ color, scales = "free_y")
+ 
+ p &lt;- qplot(displ, hwy, data = mpg)
+ p + facet_wrap(~ cyl)
+ p + facet_wrap(~ cyl, scales = "free")
+ 
+ # Use as.table to to control direction of horizontal facets, TRUE by default
+ p + facet_wrap(~ cyl, as.table = FALSE)
+ 
+ # Add data that does not contain all levels of the faceting variables
+ cyl6 &lt;- subset(mpg, cyl == 6)
+ p + geom_point(data = cyl6, colour = "red", size = 1) +
+   facet_wrap(~ cyl)
+ p + geom_point(data = transform(cyl6, cyl = 7), colour = "red") +
+   facet_wrap(~ cyl)
+ p + geom_point(data = transform(cyl6, cyl = NULL), colour = "red") +
+   facet_wrap(~ cyl)
+ 
+ </pre>
+ 
+ 
+ </body></html>

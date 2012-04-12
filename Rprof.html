@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Enable Profiling of R's Execution</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for Rprof"><tr><td>Rprof</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Enable Profiling of R's Execution</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Enable or disable profiling of the execution of <font face="Courier New,Courier" color="#666666"><b>R</b></font> expressions.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ Rprof(filename = "Rprof.out", append = FALSE, interval = 0.02,
+        memory.profiling=FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>filename</code></td>
+ <td>
+ 
+ <p>The file to be used for recording the profiling results.
+ Set to <code>NULL</code> or <code>""</code> to disable profiling.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>append</code></td>
+ <td>
+ 
+ <p>logical: should the file be over-written or appended to?
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>interval</code></td>
+ <td>
+ 
+ <p>real: time interval between samples.
+ </p>
+ </td></tr>
+ <tr valign="top"><td><code>memory.profiling</code></td>
+ <td>
+ <p>logical: write memory use information to the file?</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>Enabling profiling automatically disables any existing profiling to
+ another or the same file.
+ </p>
+ <p>Profiling works by writing out the call stack every <code>interval</code>
+ seconds, to the file specified.  Either the <code>summaryRprof</code>
+ function or the wrapper script <CODE>R CMD Rprof</CODE> can be used to
+ process the output file to produce a summary of the usage; use
+ <CODE>R CMD Rprof --help</CODE> for usage information.
+ </p>
+ <p>How time is measured varies by platform: on a Unix-alike it is the CPU
+ time of the <font face="Courier New,Courier" color="#666666"><b>R</b></font> process, so for example excludes time when <font face="Courier New,Courier" color="#666666"><b>R</b></font> is waiting
+ for input or for processes run by <code>system</code> to return.
+ </p>
+ <p>Note that the timing interval cannot usefully be too small: once the
+ timer goes off, the information is not recorded until the next timing
+ click (probably in the range 1&ndash;10msecs).
+ </p>
+ <p>Functions will only be recorded in the profile log if they put a
+ context on the call stack (see <code>sys.calls</code>).  Some
+ primitive functions do not do so: specifically those which are
+ of type <code>"special"</code> (see the &lsquo;R Internals&rsquo; manual
+ for more details).
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>Profiling is not available on all platforms.  By default,
+ support for profiling is compiled in if possible &ndash; configure <font face="Courier New,Courier" color="#666666"><b>R</b></font> with
+ <span class="option">--disable-R-profiling</span> to change this.
+ </p>
+ <p>As <font face="Courier New,Courier" color="#666666"><b>R</b></font> profiling uses the same mechanisms as C profiling, the two
+ cannot be used together, so do not use <code>Rprof</code> in an executable
+ built for C-level profiling.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>The chapter on &ldquo;Tidying and profiling R code&rdquo; in
+ &ldquo;Writing <font face="Courier New,Courier" color="#666666"><b>R</b></font> Extensions&rdquo; (see the &lsquo;<span class="file">doc/manual</span>&rsquo; subdirectory
+ of the <font face="Courier New,Courier" color="#666666"><b>R</b></font> source tree).
+ </p>
+ <p><code>summaryRprof</code>
+ </p>
+ <p><code>tracemem</code>, <code>Rprofmem</code> for other ways to track
+ memory use.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ ## Not run: Rprof()
+ ## some code to be profiled
+ Rprof(NULL)
+ ## some code NOT to be profiled
+ Rprof(append=TRUE)
+ ## some code to be profiled
+ Rprof(NULL)
+ \dots
+ ## Now post-process the output as described in Details
+ 
+ ## End(Not run)</pre>
+ 
+ 
+ </body></html>

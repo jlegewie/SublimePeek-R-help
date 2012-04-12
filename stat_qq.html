@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Calculation for quantile-quantile plot.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for stat_qq"><tr><td>stat_qq</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Calculation for quantile-quantile plot.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Calculation for quantile-quantile plot.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   stat_qq(mapping = NULL, data = NULL, geom = "point",
+     position = "identity", distribution = qnorm,
+     dparams = list(), na.rm = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>distribution</code></td>
+ <td>
+ <p>Distribution function to use, if x
+ not specified</p>
+ </td></tr>
+ <tr valign="top"><td><code>dparams</code></td>
+ <td>
+ <p>Parameters for distribution function</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Other arguments passed to distribution
+ function</p>
+ </td></tr>
+ <tr valign="top"><td><code>na.rm</code></td>
+ <td>
+ <p>If <code>FALSE</code> (the default), removes
+ missing values with a warning.  If <code>TRUE</code> silently
+ removes missing values.</p>
+ </td></tr>
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>geom</code></td>
+ <td>
+ <p>The geometric object to use display the data</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>a data.frame with additional columns:
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>sample</code></td>
+ <td>
+ <p>sample quantiles</p>
+ </td></tr>
+ <tr valign="top"><td><code>theoretical</code></td>
+ <td>
+ <p>theoretical quantiles</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ # From ?qqplot
+ y &lt;- rt(200, df = 5)
+ qplot(sample = y, stat="qq")
+ 
+ # qplot is smart enough to use stat_qq if you use sample
+ qplot(sample = y)
+ qplot(sample = precip)
+ 
+ qplot(sample = y, dist = qt, dparams = list(df = 5))
+ 
+ df &lt;- data.frame(y)
+ ggplot(df, aes(sample = y)) + stat_qq()
+ ggplot(df, aes(sample = y)) + geom_point(stat = "qq")
+ 
+ # Use fitdistr from MASS to estimate distribution params
+ library(MASS)
+ params &lt;- as.list(fitdistr(y, "t")$estimate)
+ ggplot(df, aes(sample = y)) + stat_qq(dist = qt, dparam = params)
+ 
+ # Using to explore the distribution of a variable
+ qplot(sample = mpg, data = mtcars)
+ qplot(sample = mpg, data = mtcars, colour = factor(cyl))
+ 
+ </pre>
+ 
+ 
+ </body></html>

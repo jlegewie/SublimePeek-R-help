@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Evaluate an R Expression Asynchronously in a Separate Process</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for mcparallel"><tr><td>mcparallel</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Evaluate an <font face="Courier New,Courier" color="#666666"><b>R</b></font> Expression Asynchronously in a Separate Process</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>These functions are based on forking and so are not available on Windows.
+ </p>
+ <p><code>mcparallel</code> starts a parallel <font face="Courier New,Courier" color="#666666"><b>R</b></font> process which evaluates the
+ given expression.
+ </p>
+ <p><code>mccollect</code> collects results from one or more parallel processes.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ mcparallel(expr, name, mc.set.seed = TRUE, silent = FALSE)
+ 
+ mccollect(jobs, wait = TRUE, timeout = 0, intermediate = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>expr</code></td>
+ <td>
+ <p>expression to evaluate (do <EM>not</EM> use any on-screen
+ devices or GUI elements in this code).</p>
+ </td></tr>
+ <tr valign="top"><td><code>name</code></td>
+ <td>
+ <p>an optional name (character vector of length one) that can
+ be associated with the job.</p>
+ </td></tr>
+ <tr valign="top"><td><code>mc.set.seed</code></td>
+ <td>
+ <p>logical: see section &lsquo;Random numbers&rsquo;.</p>
+ </td></tr>
+ <tr valign="top"><td><code>silent</code></td>
+ <td>
+ <p>if set to <code>TRUE</code> then all output on stdout will be
+ suppressed (stderr is not affected).</p>
+ </td></tr>
+ <tr valign="top"><td><code>jobs</code></td>
+ <td>
+ <p>list of jobs (or a single job) to collect results
+ for.  Alternatively <code>jobs</code> can also be an integer vector of
+ process IDs.  If omitted <code>collect</code> will wait for all currently
+ existing children.</p>
+ </td></tr>
+ <tr valign="top"><td><code>wait</code></td>
+ <td>
+ <p>if set to <code>FALSE</code> it checks for any results that are
+ available within <code>timeout</code> seconds from now, otherwise it waits
+ for all specified jobs to finish.</p>
+ </td></tr>
+ <tr valign="top"><td><code>timeout</code></td>
+ <td>
+ <p>timeout (in seconds) to check for job results &ndash; applies
+ only if <code>wait</code> is <code>FALSE</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>intermediate</code></td>
+ <td>
+ <p><code>FALSE</code> or a function which will be called while
+ <code>collect</code> waits for results.  The function will be called with one
+ parameter which is the list of results received so far.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>mcparallel</code> evaluates the <code>expr</code> expression in parallel to
+ the current <font face="Courier New,Courier" color="#666666"><b>R</b></font> process.  Everything is shared read-only (or in fact
+ copy-on-write) between the parallel process and the current process,
+ i.e. no side-effects of the expression affect the main process.  The
+ result of the parallel execution can be collected using
+ <code>mccollect</code> function.
+ </p>
+ <p><code>mccollect</code> function collects any available results from parallel
+ jobs (or in fact any child process).  If <code>wait</code> is <code>TRUE</code>
+ then <code>collect</code> waits for all specified jobs to finish before
+ returning a list containing the last reported result for each
+ job.   If <code>wait</code> is <code>FALSE</code> then <code>mccollect</code> merely
+ checks for any results available at the moment and will not wait for
+ jobs to finish.   If <code>jobs</code> is specified, jobs not listed there
+ will not be affected or acted upon.
+ </p>
+ <p>Note: If <code>expr</code> uses low-level multicore functions such
+ as <code>sendMaster</code> a single job can deliver results
+ multiple times and it is the responsibility of the user to interpret
+ them correctly.  <code>mccollect</code> will return <code>NULL</code> for a
+ terminating job that has sent its results already after which the
+ job is no longer available.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p><code>mcparallel</code> returns an object of the class <code>"parallelJob"</code>
+ which inherits from <code>"childProcess"</code> (see the &lsquo;Value&rsquo;
+ section of the help for <code>mcfork</code>).  If argument
+ <code>name</code> was supplied this will have an additional component
+ <code>name</code>.
+ </p>
+ <p><code>mccollect</code> returns any results that are available in a list.  The
+ results will have the same order as the specified jobs.  If there are
+ multiple jobs and a job has a name it will be used to name the
+ result, otherwise its process ID will be used.  If none of the
+ specified children are still running, it returns <code>NULL</code>.
+ </p>
+ 
+ 
+ <h3>Random numbers</h3>
+ 
+ 
+ <p>If <code>mc.set.seed = FALSE</code>, the child process has the same initial
+ random number generator (RNG) state as the current <font face="Courier New,Courier" color="#666666"><b>R</b></font> session.  If the
+ RNG has been used (or <code>.Random.seed</code> was restored from a saved
+ workspace), the child will start drawing random numbers at the same
+ point as the current session.  If the RNG has not yet been used, the
+ child will set a seed based on the time and process ID when it first
+ uses the RNG: this is pretty much guaranteed to give a different
+ random-number stream from the current session and any other child
+ process.
+ </p>
+ <p>The behaviour with <code>mc.set.seed = TRUE</code> is different only if
+ <code>RNGkind("L'Ecuyer-CMRG")</code> has been selected.  Then each
+ time a child is forked it is given the next stream (see
+ <code>nextRNGStream</code>).  So if you select that generator, set a
+ seed and call <code>mc.reset.stream</code> just before the first use
+ of <code>mcparallel</code> the results of simulations will be reproducible
+ provided the same tasks are given to the first, second, ...
+ forked process.
+ </p>
+ 
+ 
+ <h3>Note</h3>
+ 
+ 
+ <p>Package <a href="http://CRAN.R-project.org/package=multicore"><span class="pkg">multicore</span></a> also exported functions <code>collect</code> and
+ <code>parallel</code>.  These names are easily masked (for example package
+ <a href="http://CRAN.R-project.org/package=lattice"><span class="pkg">lattice</span></a> also has a function <code>parallel</code>) and they are not
+ supplied in this package.
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ 
+ <p>Simon Urbanek and R Core.
+ </p>
+ <p>Derived from the <a href="http://CRAN.R-project.org/package=multicore"><span class="pkg">multicore</span></a> package (but with different
+ handling of the RNG stream).
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>pvec</code>, <code>mclapply</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ p &lt;- mcparallel(1:10)
+ q &lt;- mcparallel(1:20)
+ # wait for both jobs to finish and collect all results
+ res &lt;- mccollect(list(p, q))
+ 
+ p &lt;- mcparallel(1:10)
+ mccollect(p, wait=FALSE, 10) # will retrieve the result (since it's fast)
+ mccollect(p, wait=FALSE)     # will signal the job as terminating
+ mccollect(p, wait=FALSE)     # there is no longer such a job
+ 
+ 
+ # a naive parallel lapply can be created using mcparallel alone:
+ jobs &lt;- lapply(1:10, function(x) mcparallel(rnorm(x), name = x))
+ mccollect(jobs)
+ </pre>
+ 
+ 
+ </body></html>

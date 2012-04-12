@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Flipped cartesian coordinates.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for coord_flip"><tr><td>coord_flip</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Flipped cartesian coordinates.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Flipped cartesian coordinates so that horizontal becomes
+ vertical, and vertical, horizontal. This is primarily
+ useful for converting geoms and statistics which display
+ y conditional on x, to x conditional on y.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   coord_flip(...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Other arguments passed onto
+ <code>coord_cartesian</code></p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ 
+ # Very useful for creating boxplots, and other interval
+ # geoms in the horizontal instead of vertical position.
+ qplot(cut, price, data=diamonds, geom="boxplot")
+ last_plot() + coord_flip()
+ 
+ qplot(cut, data=diamonds, geom="bar")
+ last_plot() + coord_flip()
+ 
+ h &lt;- qplot(carat, data=diamonds, geom="histogram")
+ h
+ h + coord_flip()
+ h + coord_flip() + scale_x_reverse()
+ 
+ # You can also use it to flip lines and area plots:
+ qplot(1:5, (1:5)^2, geom="area")
+ last_plot() + coord_flip()
+ 
+ </pre>
+ 
+ 
+ </body></html>

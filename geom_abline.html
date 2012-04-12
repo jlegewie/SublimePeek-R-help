@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Line specified by slope and intercept.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for geom_abline"><tr><td>geom_abline</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Line specified by slope and intercept.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>The abline geom adds a line with specified slope and
+ intercept to the plot.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   geom_abline(mapping = NULL, data = NULL, stat = "abline",
+     position = "identity", show_guide = FALSE, ...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>show_guide</code></td>
+ <td>
+ <p>should a legend be drawn? (defaults to
+ <code>FALSE</code>)</p>
+ </td></tr>
+ <tr valign="top"><td><code>mapping</code></td>
+ <td>
+ <p>The aesthetic mapping, usually constructed
+ with <code>aes</code> or <code>aes_string</code>. Only
+ needs to be set at the layer level if you are overriding
+ the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>data</code></td>
+ <td>
+ <p>A layer specific dataset - only needed if you
+ want to override the plot defaults.</p>
+ </td></tr>
+ <tr valign="top"><td><code>stat</code></td>
+ <td>
+ <p>The statistical transformation to use on the
+ data for this layer.</p>
+ </td></tr>
+ <tr valign="top"><td><code>position</code></td>
+ <td>
+ <p>The position adjustment to use for
+ overlappling points on this layer</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>other arguments passed on to
+ <code>layer</code>. This can include aesthetics whose
+ values you want to set, not map. See <code>layer</code>
+ for more details.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>With its siblings <code>geom_hline</code> and
+ <code>geom_vline</code>, it's useful for annotating plots.  You
+ can supply the parameters for geom_abline, intercept and
+ slope, in two ways: either explicitly as fixed values, or
+ in a data frame.  If you specify the fixed values
+ (<code>geom_abline(intercept=0, slope=1)</code>) then the line
+ will be the same in all panels.  If the intercept and
+ slope are stored in the data, then they can vary from
+ panel to panel.  See the examples for more ideas.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>stat_smooth</code> to add lines derived from the
+ data, <code>geom_hline</code> for horizontal lines,
+ <code>geom_vline</code> for vertical lines
+ <code>geom_segment</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ p &lt;- qplot(wt, mpg, data = mtcars)
+ 
+ # Fixed slopes and intercepts
+ p + geom_abline() # Can't see it - outside the range of the data
+ p + geom_abline(intercept = 20)
+ 
+ # Calculate slope and intercept of line of best fit
+ coef(lm(mpg ~ wt, data = mtcars))
+ p + geom_abline(intercept = 37, slope = -5)
+ p + geom_abline(intercept = 10, colour = "red", size = 2)
+ 
+ # See ?stat_smooth for fitting smooth models to data
+ p + stat_smooth(method="lm", se=FALSE)
+ 
+ # Slopes and intercepts as data
+ p &lt;- ggplot(mtcars, aes(x = wt, y=mpg), . ~ cyl) + geom_point()
+ df &lt;- data.frame(a=rnorm(10, 25), b=rnorm(10, 0))
+ p + geom_abline(aes(intercept=a, slope=b), data=df)
+ 
+ # Slopes and intercepts from linear model
+ library(plyr)
+ coefs &lt;- ddply(mtcars, .(cyl), function(df) {
+   m &lt;- lm(mpg ~ wt, data=df)
+   data.frame(a = coef(m)[1], b = coef(m)[2])
+ })
+ str(coefs)
+ p + geom_abline(data=coefs, aes(intercept=a, slope=b))
+ 
+ # It's actually a bit easier to do this with stat_smooth
+ p + geom_smooth(aes(group=cyl), method="lm")
+ p + geom_smooth(aes(group=cyl), method="lm", fullrange=TRUE)
+ 
+ # With coordinate transforms
+ p + geom_abline(intercept = 37, slope = -5) + coord_flip()
+ p + geom_abline(intercept = 37, slope = -5) + coord_polar()
+ </pre>
+ 
+ 
+ </body></html>

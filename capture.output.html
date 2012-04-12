@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Send Output to a Character String or File</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for capture.output"><tr><td>capture.output</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Send Output to a Character String or File</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Evaluates its arguments with the output being returned as a character
+ string or sent to a file.  Related to <code>sink</code> in the same
+ way that <code>with</code> is related to <code>attach</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ capture.output(..., file = NULL, append = FALSE)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>Expressions to be evaluated.</p>
+ </td></tr>
+ <tr valign="top"><td><code>file</code></td>
+ <td>
+ <p>A file name or a connection, or <code>NULL</code> to return
+ the output as a character vector.  If the connection is not open,
+ it will be opened initially and closed on exit.</p>
+ </td></tr>
+ <tr valign="top"><td><code>append</code></td>
+ <td>
+ <p>logical.  If <code>file</code> a file name or unopened
+ connection, append or overwrite?</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p>An attempt is made to write output as far as possible to <code>file</code>
+ if there is an error in evaluating the expressions, but for
+ <code>file = NULL</code> all output will be lost.
+ </p>
+ 
+ 
+ <h3>Value</h3>
+ 
+ 
+ <p>A character string (if <code>file=NULL</code>), or invisible <code>NULL</code>.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+  <p><code>sink</code>, <code>textConnection</code> </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ require(stats)
+ glmout &lt;- capture.output(example(glm))
+ glmout[1:5]
+ capture.output(1+1, 2+2)
+ capture.output({1+1; 2+2})
+ ## Not run: 
+ ## on Unix with enscript available
+ ps &lt;- pipe("enscript -o tempout.ps","w")
+ capture.output(example(glm), file=ps)
+ close(ps)
+ 
+ ## End(Not run)
+ </pre>
+ 
+ 
+ </body></html>

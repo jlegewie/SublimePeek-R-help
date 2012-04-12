@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Expand the plot limits with data.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for expand_limits"><tr><td>expand_limits</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Expand the plot limits with data.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>panels or all plots.  This function is a thin wrapper
+ around <code>geom_blank</code> that makes it easy to add
+ such values.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   expand_limits(...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>named list of aesthetics specifying the value
+ (or values) that should be included in each scale.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ p &lt;- qplot(mpg, wt, data = mtcars)
+ p + expand_limits(x = 0)
+ p + expand_limits(y = c(1, 9))
+ p + expand_limits(x = 0, y = 0)
+ 
+ qplot(mpg, wt, data = mtcars, colour = cyl) +
+  expand_limits(colour = seq(2, 10, by = 2))
+ qplot(mpg, wt, data = mtcars, colour = factor(cyl)) +
+  expand_limits(colour = factor(seq(2, 10, by = 2)))
+ </pre>
+ 
+ 
+ </body></html>

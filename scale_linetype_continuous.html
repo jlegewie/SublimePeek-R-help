@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Scale for line patterns.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for scale_linetype"><tr><td>scale_linetype</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Scale for line patterns.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Default line types based on a set supplied by Richard
+ Pearson, University of Manchester.  Line types can not be
+ mapped to continuous values.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   scale_linetype(...)
+ 
+   scale_linetype_continuous(...)
+ 
+   scale_linetype_discrete(...)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>common discrete scale parameters: <code>name</code>,
+ <code>breaks</code>, <code>labels</code>, <code>na.value</code>,
+ <code>limits</code> and <code>guide</code>.  See
+ <code>discrete_scale</code> for more details</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ library(reshape2) # for melt
+ library(plyr) # for ddply
+ ecm &lt;- melt(economics, id = "date")
+ rescale01 &lt;- function(x) (x - min(x)) / diff(range(x))
+ ecm &lt;- ddply(ecm, "variable", transform, value = rescale01(value))
+ 
+ qplot(date, value, data=ecm, geom="line", group=variable)
+ qplot(date, value, data=ecm, geom="line", linetype=variable)
+ qplot(date, value, data=ecm, geom="line", colour=variable)
+ 
+ # See scale_manual for more flexibility
+ </pre>
+ 
+ 
+ </body></html>

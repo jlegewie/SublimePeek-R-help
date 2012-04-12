@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Compute Approximate CONDition number and 1-Norm of (Large)...</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for condest"><tr><td>condest</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Compute Approximate CONDition number and 1-Norm of (Large) Matrices</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>&ldquo;Estimate&rdquo;, i.e. compute approximately the CONDition number of
+ a (potentially large, often sparse) matrix <code>A</code>.
+ It works by apply a fast approximation of the 1-norm,
+ <code>norm(A,"1")</code>, through <code>onenormest(.)</code>.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ condest(A, t = min(n, 5), normA = norm(A, "1"),
+         silent = FALSE, quiet = TRUE)
+ 
+ onenormest(A, t = min(n, 5), A.x, At.x, n,
+            silent = FALSE, quiet = silent,
+            iter.max = 10, eps = 4 * .Machine$double.eps)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>A</code></td>
+ <td>
+ <p>a square matrix, optional for <code>onenormest()</code>, where
+ instead of <code>A</code>, <code>A.x</code> and <code>At.x</code> can be specified,
+ see there.</p>
+ </td></tr>
+ <tr valign="top"><td><code>t</code></td>
+ <td>
+ <p>number of columns to use in the iterations.</p>
+ </td></tr>
+ <tr valign="top"><td><code>normA</code></td>
+ <td>
+ <p>number; (an estimate of) the 1-norm of <code>A</code>, by
+ default <code>norm(A, "1")</code>; may be replaced by an estimate.</p>
+ </td></tr>
+ <tr valign="top"><td><code>silent</code></td>
+ <td>
+ <p>logical indicating if warning and (by default)
+ convergence messages should be displayed.</p>
+ </td></tr>
+ <tr valign="top"><td><code>quiet</code></td>
+ <td>
+ <p>logical indicating if convergence messages should be
+ displayed.</p>
+ </td></tr>
+ <tr valign="top"><td><code>A.x, At.x</code></td>
+ <td>
+ <p>when <code>A</code> is missing, these two must be given as
+ functions which compute <code>A %% x</code>, or <code>t(A) %% x</code>,
+ respectively.</p>
+ </td></tr>
+ <tr valign="top"><td><code>n</code></td>
+ <td>
+ <p><code> == nrow(A)</code>, only needed when <code>A</code> is not specified.</p>
+ </td></tr>
+ <tr valign="top"><td><code>iter.max</code></td>
+ <td>
+ <p>maximal number of iterations for the 1-norm estimator.</p>
+ </td></tr>
+ <tr valign="top"><td><code>eps</code></td>
+ <td>
+ <p>the relaive change that is deemed irrelevant.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Value</h3>
+ 
+ <p>Both functions return a <code>list</code>;
+ <code>onenormest()</code> with components,
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>est</code></td>
+ <td>
+ <p>a number <i>&gt; 0</i>, the estimated <code>norm(A, "1")</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>v</code></td>
+ <td>
+ <p>the maximal <i>A X</i> column.</p>
+ </td></tr>
+ </table>
+ <p>The function <code>condest()</code> returns a list with components,
+ </p>
+ <table summary="R valueblock">
+ <tr valign="top"><td><code>est</code></td>
+ <td>
+ <p>a number <i>&gt; 0</i>, the estimated condition number
+ <i>k.</i>; when <i>r :=</i><code>rcond(A)</code>,
+ <i>1/k. ~= r</i>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>v</code></td>
+ <td>
+ <p>integer vector length <code>n</code>, with an <code>1</code> at the index
+ <code>j</code> with maximal column <code>A[,j]</code> in <i>A</i>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>w</code></td>
+ <td>
+ <p>numeric vector, the largest <i>A x</i> found.</p>
+ </td></tr>
+ <tr valign="top"><td><code>iter</code></td>
+ <td>
+ <p>the number of iterations used.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>This is based on octave's <code>condest()</code> and
+ <code>onenormest()</code> implementations with original author
+ Jason Riedy, U Berkeley; translation to <font face="Courier New,Courier" color="#666666"><b>R</b></font> and
+ adaption by Martin Maechler.
+ </p>
+ 
+ 
+ <h3>References</h3>
+ 
+ 
+ 
+ <p>Nicholas J. Higham and Françoise Tisseur (2000).
+ A Block Algorithm for Matrix 1-Norm Estimation, with an Application to 1-Norm
+ Pseudospectra.
+ <EM>SIAM J. Matrix Anal. Appl.</EM> <B>21</B>, 4, 1185&ndash;1201.
+ <a href="http://dx.doi.org/10.1137/S0895479899356080">http://dx.doi.org/10.1137/S0895479899356080</a>
+ 
+ </p>
+ <p>William W. Hager (1984).
+ Condition Estimates.
+ <EM>SIAM J. Sci. Stat. Comput.</EM> <B>5</B>, 311&ndash;316.
+ </p>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>norm</code>, <code>rcond</code>.
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ data(KNex)
+ mtm &lt;- with(KNex, crossprod(mm))
+ system.time(ce &lt;- condest(mtm))
+ ## reciprocal
+ 1 / ce$est
+ system.time(rc &lt;- rcond(mtm)) # takes ca  3 x  longer
+ rc
+ all.equal(rc, 1/ce$est) # TRUE -- the approxmation was good
+ </pre>
+ 
+ 
+ </body></html>

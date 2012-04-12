@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Spell Check Utilities</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for aspell-utils"><tr><td>aspell-utils</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Spell Check Utilities</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Utilities for spell checking packages via Aspell, Hunspell or Ispell.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ aspell_package_Rd_files(dir, drop = c("\\author", "\\references"),
+                         control = list(), program = NULL)
+ aspell_package_vignettes(dir, control = list(), program = NULL)
+ aspell_write_personal_dictionary_file(x, out, language = "en",
+                                       program = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>dir</code></td>
+ <td>
+ <p>a character string specifying the path to a package's root
+ directory.</p>
+ </td></tr>
+ <tr valign="top"><td><code>drop</code></td>
+ <td>
+ <p>a character vector naming additional Rd sections to drop
+ when selecting text via <code>RdTextFilter</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>control</code></td>
+ <td>
+ <p>a list or character vector of control options for
+ the spell checker.</p>
+ </td></tr>
+ <tr valign="top"><td><code>program</code></td>
+ <td>
+ <p>a character string giving the name (if on the system
+ path) or full path of the spell check program to be used, or
+ <code>NULL</code> (default).  By default, the system path is searched for
+ <CODE>aspell</CODE>, <CODE>hunspell</CODE> and <CODE>ispell</CODE> (in that
+ order), and the first one found is used.</p>
+ </td></tr>
+ <tr valign="top"><td><code>x</code></td>
+ <td>
+ <p>a character vector, or the result of a call to
+ <code>aspell()</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>out</code></td>
+ <td>
+ <p>a character string naming the personal dictionary file to
+ write to.</p>
+ </td></tr>
+ <tr valign="top"><td><code>language</code></td>
+ <td>
+ <p>a character string indicating a language as used by
+ Aspell.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>aspell_package_Rd_files</code> and <code>aspell_package_vignettes</code>
+ perform spell checking on the Rd files and vignettes of the package
+ with root directory <code>dir</code>.  They determine the respective files,
+ apply the appropriate filters, and run the spell checker.
+ </p>
+ <p>When using Aspell, the vignette checking skips parameters and/or
+ options of commands </p>
+ <PRE>\Sexpr</PRE>, <PRE>\citep</PRE>, <PRE>\code</PRE>,
+ <PRE>\pkg</PRE>, <PRE>\proglang</PRE> and <PRE>\samp</PRE>.  Further commands can
+ be added by adding <PRE>--add-tex-command</PRE> options to the
+ <code>control</code> argument.  E.g., to skip both option and parameter of
+ <PRE>\mycmd</PRE>, add <PRE>--add-tex-command='mycmd op'</PRE>.
+ Suitable values for <code>control</code>, <code>program</code> and <code>drop</code> and
+ personal dictionaries can also be specified using a package defaults
+ file which should go as &lsquo;<span class="file">defaults.R</span>&rsquo; into the &lsquo;<span class="file">.aspell</span>&rsquo;
+ subdirectory of <code>dir</code>, and provides defaults via assignments of
+ suitable named lists, as e.g. <PRE>  vignettes &lt;- list(control = "--add-tex-command='mycmd op'")</PRE>
+ for vignettes (when using Aspell) and assigning to <code>Rd_files</code> for
+ Rd files defaults, and using elements <code>program</code>, <code>drop</code> and
+ <code>personal</code> for the respective default values.
+ Maintainers of packages using both English and American spelling will
+ find it convenient to pass control options <span class="option">--master=en_US</span> and
+ <span class="option">--add-extra-dicts=en_GB</span> to Aspell and <span class="option">-d en_US,en_GB</span>
+ to Hunspell (provided that the corresponding dictionaries are
+ installed).
+ One can also use personal dictionaries containing additional words to
+ be accepted as spelled correctly.  Via
+ <code>aspell_write_personal_dictionary_file</code>, a personal dictionary
+ file can be created by either giving the words directly as a character
+ vector, or as an object from a call to <code>aspell()</code> (in which case
+ all possibly misspelled words contained in the object are taken).
+ Most conveniently, the file is then moved to the package source
+ &lsquo;<span class="file">.aspell</span>&rsquo; subdirectory (named, e.g., &lsquo;<span class="file">vignettes.pws</span>&rsquo;) and
+ then activated via the defaults file using, e.g., <PRE>  vignettes &lt;- list(control = "--add-tex-command='mycmd op'",
+                     personal = "vignettes.pws")</PRE>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p><code>aspell</code>
+ </p>
+ 
+ 
+ </body></html>

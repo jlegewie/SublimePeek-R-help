@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Jitter points to avoid overplotting.</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for position_jitter"><tr><td>position_jitter</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Jitter points to avoid overplotting.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Jitter points to avoid overplotting.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   position_jitter(width = NULL, height = NULL)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>width</code></td>
+ <td>
+ <p>degree of jitter in x direction. Defaults to
+ 40% of the resolution of the data.</p>
+ </td></tr>
+ <tr valign="top"><td><code>height</code></td>
+ <td>
+ <p>degree of jitter in y direction. Defaults
+ to 40% of the resolution of the data</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Other position adjustments: <code>position_dodge</code>,
+ <code>position_fill</code>,
+ <code>position_identity</code>,
+ <code>position_stack</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ qplot(am, vs, data = mtcars)
+ 
+ # Default amount of jittering will generally be too much for
+ # small datasets:
+ qplot(am, vs, data = mtcars, position = "jitter")
+ # Control the amount as follows
+ qplot(am, vs, data = mtcars, position = position_jitter(w = 0.1, h = 0.1))
+ 
+ # With ggplot
+ ggplot(mtcars, aes(x = am, y = vs)) + geom_point(position = "jitter")
+ ggplot(mtcars, aes(x = am, y = vs)) + geom_point(position = position_jitter(w = 0.1, h = 0.1))
+ 
+ # The default works better for large datasets, where it will
+ # take up as much space as a boxplot or a bar
+ qplot(class, hwy, data = mpg, geom = c("boxplot", "jitter"))
+ </pre>
+ 
+ 
+ </body></html>

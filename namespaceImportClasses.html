@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Namespace Internals</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for ns-internals"><tr><td>ns-internals</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Namespace Internals</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Internal namespace support functions.  Not intended to be called directly.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+ asNamespace(ns, base.OK = TRUE)
+ getNamespaceInfo(ns, which)
+ importIntoEnv(impenv, impnames, expenv, expnames)
+ isBaseNamespace(ns)
+ isNamespace(ns)
+ namespaceExport(ns, vars)
+ namespaceImport(self, ...)
+ namespaceImportFrom(self, ns, vars, generics, packages)
+ namespaceImportClasses(self, ns, vars)
+ namespaceImportMethods(self, ns, vars)
+ packageHasNamespace(package, package.lib)
+ parseNamespaceFile(package, package.lib, mustExist = TRUE)
+ registerS3method(genname, class, method, envir = parent.frame())
+ registerS3methods(info, package, env)
+ setNamespaceInfo(ns, which, val)
+ .mergeExportMethods(new, ns)
+ .mergeImportMethods(impenv, expenv, metaname)
+ .knownS3Generics
+ loadingNamespaceInfo()
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>ns</code></td>
+ <td>
+ <p>string or namespace environment.</p>
+ </td></tr>
+ <tr valign="top"><td><code>base.OK</code></td>
+ <td>
+ <p>logical.</p>
+ </td></tr>
+ <tr valign="top"><td><code>impenv</code></td>
+ <td>
+ <p>environment.</p>
+ </td></tr>
+ <tr valign="top"><td><code>expenv</code></td>
+ <td>
+ <p>namespace environment.</p>
+ </td></tr>
+ <tr valign="top"><td><code>vars</code></td>
+ <td>
+ <p>character vector.</p>
+ </td></tr>
+ <tr valign="top"><td><code>generics</code></td>
+ <td>
+ <p>optional character vector.</p>
+ </td></tr>
+ <tr valign="top"><td><code>self</code></td>
+ <td>
+ <p>namespace environment.</p>
+ </td></tr>
+ <tr valign="top"><td><code>package</code></td>
+ <td>
+ <p>string naming the package/namespace to load.</p>
+ </td></tr>
+ <tr valign="top"><td><code>packages</code></td>
+ <td>
+ <p>vector of package names parallel to <code>generics</code>.</p>
+ </td></tr>
+ <tr valign="top"><td><code>package.lib</code></td>
+ <td>
+ <p>character vector specifying library.</p>
+ </td></tr>
+ <tr valign="top"><td><code>mustExist</code></td>
+ <td>
+ <p>logical.</p>
+ </td></tr>
+ <tr valign="top"><td><code>genname</code></td>
+ <td>
+ <p>character.</p>
+ </td></tr>
+ <tr valign="top"><td><code>class</code></td>
+ <td>
+ <p>character.</p>
+ </td></tr>
+ <tr valign="top"><td><code>envir, env</code></td>
+ <td>
+ <p>environment.</p>
+ </td></tr>
+ <tr valign="top"><td><code>info</code></td>
+ <td>
+ <p>a 3-column character matrix.</p>
+ </td></tr>
+ <tr valign="top"><td><code>which</code></td>
+ <td>
+ <p>character.</p>
+ </td></tr>
+ <tr valign="top"><td><code>val</code></td>
+ <td>
+ <p>any object.</p>
+ </td></tr>
+ <tr valign="top"><td><code>...</code></td>
+ <td>
+ <p>character arguments.</p>
+ </td></tr>
+ <tr valign="top"><td><code>metaname</code></td>
+ <td>
+ <p>the methods table name.</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>Details</h3>
+ 
+ 
+ <p><code>packageHasNamespace</code> does not indicate if the package has a
+ namespace, rather if it has a &lsquo;<span class="file">NAMESPACE</span>&rsquo; file, which <code>base</code>
+ and many older packages do not.  But then you are not intended to be 
+ using it ....
+ </p>
+ 
+ 
+ <h3>Author(s)</h3>
+ 
+ <p>Luke Tierney</p>
+ 
+ 
+ </body></html>

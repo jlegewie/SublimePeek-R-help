@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+ <html><head><title>R: Label facets with their value. This is the default labelling...</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" type="text/css" href="R.css">
+ </head><body>
+ 
+ <table width="100%" summary="page for label_value"><tr><td>label_value</td><td align="right">R Documentation</td></tr></table>
+ 
+ <h2>Label facets with their value.
+ This is the default labelling scheme.</h2>
+ 
+ <h3>Description</h3>
+ 
+ 
+ <p>Label facets with their value. This is the default
+ labelling scheme.
+ </p>
+ 
+ 
+ <h3>Usage</h3>
+ 
+ <pre>
+   label_value(variable, value)
+ </pre>
+ 
+ 
+ <h3>Arguments</h3>
+ 
+ 
+ <table summary="R argblock">
+ <tr valign="top"><td><code>variable</code></td>
+ <td>
+ <p>variable name passed in by facetter</p>
+ </td></tr>
+ <tr valign="top"><td><code>value</code></td>
+ <td>
+ <p>variable value passed in by facetter</p>
+ </td></tr>
+ </table>
+ 
+ 
+ <h3>See Also</h3>
+ 
+ 
+ <p>Other facet labellers: <code>label_both</code>,
+ <code>label_bquote</code>, <code>label_parsed</code>
+ </p>
+ 
+ 
+ <h3>Examples</h3>
+ 
+ <pre>
+ p &lt;- qplot(wt, mpg, data = mtcars)
+ p + facet_grid(. ~ cyl)
+ p + facet_grid(. ~ cyl, labeller = label_value)
+ </pre>
+ 
+ 
+ </body></html>
